@@ -1,0 +1,24 @@
+/* filepath: e:\code\BWD_2025\new-bwd-2025\src\components\Header\Header.module.css */
+.headerTitle {
+    color: blue;
+    font-size: 24px;
+}
+
+.navigationList {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+}
+
+.navItem {
+    list-style: none;
+}
+
+.navLink {
+    color: white;
+    text-decoration: none;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}
