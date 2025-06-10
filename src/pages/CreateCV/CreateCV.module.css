@@ -1,0 +1,1312 @@
+.sectionOne {
+    background-color: var(--last-color);
+}
+
+.sectionOne .headerTitle {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px 0;
+    color: var(--primary-color);
+  }
+  
+  /* Left Side Styling */
+  .sectionOne .sectionOne .leftSide {
+    padding: 20px;
+    padding: 36px 160px;
+    background-color: var(--hover-color);
+    border-radius: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+  .sectionOne .title {
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .sectionOne .letterContent {
+    background-color: white;
+    border-radius: 40px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    line-height: 2;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid var(--primary-color);
+    font-size: 16px;
+    flex: 1;
+    
+  }
+  
+  .sectionOne .btnAdd {
+    margin-top: auto;
+    margin-top: 20px;
+  }
+  
+  .sectionOne .btnAdd button {
+    background-color: white;
+    border-radius: 25px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    width: 100%;
+    border: 5px solid var(--primary-color);
+  }
+  
+  .sectionOne .btnText {
+    margin-left: 8px;
+    font-weight: 550;
+    font-size: 16px;
+  }
+  
+  /* Right Side Styling */
+  .sectionOne .rightSide {
+    padding: 50px 20px;
+    border-radius: 40px;
+    background-color: white;
+    padding-left: 60px;
+  }
+  
+  .sectionOne .rightTitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+  }
+  
+  .sectionOne .rightHeader {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #212529;
+  }
+  
+  .sectionOne .rightDescription {
+    color: #6c757d;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  /* Thêm style cho các điểm bullet */
+  .sectionOne .featureList {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+  
+  .sectionOne .featureItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .sectionOne .featureDot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sectionOne .featureRed {
+    background-color: #ff3b30;
+    color: white;
+  }
+  
+  .sectionOne .featureBlue {
+    background-color: #007aff;
+    color: white;
+  }
+  
+  .sectionOne .featureOrange {
+    background-color: #ff9500;
+    color: white;
+  }
+  
+  .sectionOne .featureText {
+    font-weight: 500;
+  }
+  
+  /* Style cho nút build resume */
+  .sectionOne .buildButton {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 30px;
+    padding: 12px 25px;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .sectionOne .arrowIcon {
+   background-color: #fff;
+   margin-right: 10px;
+   color: var(--primary-color);
+   border-radius: 50%;
+   padding: 3px;
+   justify-content: center;
+   align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    .leftSide, .rightSide {
+      width: 100%;
+    }
+  }
+
+  /* SECTION 2 STYLING */
+.sectionTwo {
+  background-color: #f9f8f3;
+  padding: 60px 0;
+}
+
+.sectionTwo .sectionTwoTitle {
+  font-size: 45px;
+  font-weight: bold;
+  text-align: left;
+  margin: 30px 0;
+  margin-left: 240px;
+}
+
+.sectionTwo .boxList {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  gap: 40px; /* Khoảng cách giữa hai box */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Style cho cả hai box */
+.sectionTwo .boxItemLeft,
+.sectionTwo .boxItemRight {
+  display: flex;
+  flex-direction: row; /* Hiển thị ảnh và nội dung theo chiều ngang */
+  align-items: center;
+  padding: 40px;
+  border-radius: 35px;
+  width: 45%; /* Chiều rộng mỗi box */
+  max-width: 500px;
+}
+
+/* Box bên trái màu đen */
+.sectionTwo .boxItemLeft {
+  background-color: var(--primary-color);
+  color: white;
+  border: 3px solid var(--primary-color);
+}
+
+/* Box bên phải màu trắng với viền */
+.sectionTwo .boxItemRight {
+  background-color: white;
+  color: #333;
+  border: 3px solid var(--primary-color);
+}
+
+/* Container cho ảnh */
+.sectionTwo .boxImg {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0; /* Không co lại khi không đủ không gian */
+  margin-right: 30px; /* Khoảng cách giữa ảnh và nội dung */
+}
+
+.sectionTwo .boxItemLeft img,
+.sectionTwo .boxItemRight img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Container cho nội dung */
+.sectionTwo .boxContent {
+  flex: 1; /* Cho phép nội dung mở rộng để lấp đầy không gian */
+}
+
+/* Tiêu đề trong box */
+.sectionTwo .boxList .boxTitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+/* Mô tả trong box */
+.sectionTwo .boxList .boxDescription {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Điều chỉnh màu text theo box */
+.sectionTwo .boxItemLeft .boxTitle,
+.sectionTwo .boxItemLeft .boxDescription {
+  color: white;
+}
+
+.sectionTwo .boxItemRight .boxTitle {
+  color: #333;
+}
+
+.sectionTwo .boxItemRight .boxDescription {
+  color: #666;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 992px) {
+  .sectionTwo .boxList {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sectionTwo .boxItemLeft,
+  .sectionTwo .boxItemRight {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Responsive cho màn hình rất nhỏ */
+@media (max-width: 576px) {
+  .sectionTwo .boxItemLeft,
+  .sectionTwo .boxItemRight {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .sectionTwo .boxImg {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .sectionTwo .sectionTwoTitle {
+    text-align: center;
+    margin-left: 0;
+  }
+}
+
+  /* END OF SECTION 2  */
+
+/* SECTION 3 STYLING */
+
+/* SECTION 3 STYLING */
+
+/* Section Three - Tab Container */
+.sectionThree {
+  padding: 60px 0;
+  background-color: #f9f8f3;
+}
+
+/* Tab Container Styles */
+.tabContainer {
+  padding: 20px 0;
+}
+
+.tabHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Template Grid */
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Tăng lên 4 cột để các box nhỏ hơn */
+  gap: 20px; /* Giảm khoảng cách */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Template Card với hiệu ứng hover */
+.templateCard {
+  background: white;
+  border-radius: 26px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 420px;
+  cursor: pointer;
+  border: 1px solid var(--primary-color);
+  height: 330px; /* Tăng chiều cao ban đầu để chứa thông tin mới */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hiệu ứng hover - card dài ra */
+.templateCard:hover {
+  height: 380px; /* Tăng chiều cao khi hover để hiện nút */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--primary-color);
+}
+
+/* Giữ nguyên cấu hình ảnh hiện tại */
+.templateImage {
+  width: 100%;
+  height: 200px; /* Giữ nguyên chiều cao */
+  object-fit: contain; /* Giữ nguyên cấu hình */
+  background-color: #f8f9fa;
+  padding: 10px;
+  display: block;
+  flex-shrink: 0; /* Không co lại */
+}
+
+.templateInfo {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px; /* Giảm chiều cao */
+  flex-shrink: 0; /* Không co lại */
+  border-top: 1px solid #f0f0f0;
+}
+
+.templateTitle {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.recommendedBadge {
+  font-size: 10px;
+  color: #666;
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Thêm phần thông tin chi tiết */
+.templateDetails {
+  padding: 8px 16px 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+  height: 60px; /* Chiều cao cố định cho phần details */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.templateCategory {
+  font-size: 12px;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.templateRating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stars {
+  color: #ffc107;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.downloads {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Container cho nút actions - ẩn ban đầu */
+.templateActions {
+  padding: 0 16px 10px 16px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-top: auto; /* Đẩy nút xuống dưới cùng */
+}
+
+/* Hiện nút khi hover với animation mượt */
+.templateCard:hover .templateActions {
+  opacity: 1;
+  transform: translateY(0);
+  height: 50px; /* Chiều cao khi hiện */
+  transition-delay: 0.1s; /* Delay nhẹ để animation mượt hơn */
+}
+
+/* Style cho nút "Dùng mẫu" */
+.useTemplateButton {
+  width: 100%;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #4a3a75) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.useTemplateButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(var(--primary-color-rgb, 76, 58, 117), 0.3);
+}
+
+.menuButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.templateCard:hover .menuButton {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.menuButton:hover {
+  background: #f5f5f5;
+  transform: scale(1.05);
+}
+
+/* Responsive Design - giữ nguyên */
+@media (max-width: 1200px) {
+  .templateGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .templateGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .templateGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .templateCard {
+    max-width: 100%;
+  }
+}
+
+/* Chỉnh style của Ant Design Tabs */
+:global(.ant-tabs-tab) {
+  font-size: 16px !important;
+  padding: 12px 0 !important;
+  color: var(--primary-color) !important; /* Màu cho text tab không active */
+  margin-right: 20px !important; /* Khoảng cách giữa các tab */
+}
+
+/* Màu cho tab đang active */
+:global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: var(--secondary-color) !important; /* Màu xanh dương cho tab đang active */
+  font-weight: bold !important;
+}
+
+/* Màu cho thanh indicator dưới tab đang active */
+:global(.ant-tabs-ink-bar) {
+  background-color: var(--secondary-color) !important; /* Màu xanh dương cho thanh indicator */
+  height: 3px !important;
+}
+
+/* Tùy chỉnh hover effect */
+:global(.ant-tabs-tab:hover) {
+  color: var(--primary-color) !important;
+}
+
+/* Loại bỏ border-bottom mặc định của Ant Design */
+:global(.ant-tabs-nav::before) {
+  border-bottom: none !important;
+}
+
+/* Thêm một border-bottom tùy chỉnh */
+:global(.ant-tabs-nav) {
+  border-bottom: 1px solid #eaeaea !important;
+  margin-bottom: 30px !important;
+}
+
+/* Optional: Điều chỉnh padding cho container */
+.sectionThree .container {
+  padding: 0 20px;
+}
+
+/* Tùy chỉnh Select component của Ant Design */
+:global(.ant-select) {
+  border-radius: 8px !important;
+}
+
+:global(.ant-select .ant-select-selector) {
+  border: 2px solid #d9d9d9 !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  padding: 0 12px !important;
+  background-color: white !important;
+  transition: all 0.3s ease !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+:global(.ant-select:hover .ant-select-selector) {
+  border-color: var(--primary-color) !important;
+}
+
+:global(.ant-select.ant-select-focused .ant-select-selector) {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2) !important;
+}
+
+:global(.ant-select .ant-select-selection-item) {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  font-weight: 500 !important;
+}
+
+/* Tùy chỉnh hình dạng mũi tên (tùy chọn) */
+:global(.ant-select-arrow .anticon) {
+  transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng xoay mũi tên khi mở dropdown */
+:global(.ant-select-open .ant-select-arrow .anticon) {
+  transform: rotate(180deg);
+}
+
+:global(.ant-select-arrow) {
+  color: var(--primary-color) !important;
+  font-size: 12px !important;
+  top: 50% !important; /* Đặt top 50% */
+  margin-top: -6px !important; /* Điều chỉnh margin-top bằng một nửa kích thước âm */
+  right: 11px !important; /* Điều chỉnh khoảng cách từ bên phải */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* height: auto !important; */
+  padding-top: 7px !important; /* Thêm padding-top để căn giữa */
+}
+
+/* Tùy chỉnh dropdown */
+:global(.ant-select-dropdown) {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e6e6e6 !important;
+}
+
+:global(.ant-select-item) {
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+}
+
+:global(.ant-select-item:hover) {
+  background-color: rgba(var(--primary-color), 0.1) !important;
+}
+
+:global(.ant-select-item.ant-select-item-option-selected) {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* Tùy chỉnh dropdown */
+:global(.ant-select-dropdown) {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e6e6e6 !important;
+}
+
+:global(.ant-select-item) {
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+/* Hover cho option chưa được chọn - background nhạt */
+:global(.ant-select-item:hover:not(.ant-select-item-option-selected)) {
+  background-color: rgba(93, 13, 13, 0.08) !important; /* Background nhạt với màu primary */
+  color: var(--primary-color) !important;
+  border-radius: 8px !important;
+}
+
+/* Option đã được chọn */
+:global(.ant-select-item.ant-select-item-option-selected) {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* Hover cho option đã được chọn - giữ nguyên style */
+:global(.ant-select-item.ant-select-item-option-selected:hover) {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Option bình thường (không hover, không selected) */
+:global(.ant-select-item:not(.ant-select-item-option-selected)) {
+  background-color: white !important;
+  color: #333 !important;
+}
+
+/* CSS cho phần tabHeader */
+.tabHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.tabHeader .ant-select {
+  min-width: 180px;
+}
+
+
+/* SECTION THAM KHẢO CÁCH VIẾT CV */
+.reviewWriteCV {
+  background: linear-gradient(135deg, #f1f1ff 0%, #dfdeff 100%);
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Style cho phần bên trái */
+.reviewWriteCV .leftSideContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 40px;
+  width: 65%;
+}
+
+.reviewWriteCV .headerContent {
+  margin-left: auto;
+}
+
+.reviewWriteCV .reviewTitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  margin-left: auto;
+}
+
+.reviewWriteCV .reviewDescription {
+  font-size: 24px;
+  color: var(--primary-color);
+  margin-bottom: 35px;
+  margin-left: auto;
+}
+
+.reviewWriteCV .btnList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+/* Style chung cho tất cả các nút CV */
+.reviewWriteCV .btnCV {
+  padding: 18px 24px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background-color: white;
+  color: var(--primary-color);
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-left: auto;
+}
+
+/* Style cho nút đang active */
+.reviewWriteCV .btnCV.active {
+  background-color: var(--primary-color);
+  color: white;
+  /* transform: translateX(10px); */
+  box-shadow: 0 4px 12px rgba(74, 58, 117, 0.2);
+}
+
+/* Hiệu ứng hover cho các nút */
+.reviewWriteCV .btnCV:hover:not(.active) {
+  background-color: #f8f8f8;
+  transform: translateX(5px);
+}
+
+/* Nút xem tất cả */
+.reviewWriteCV .btnAllCV {
+  margin-top: 10px;
+  margin-left: 80px;
+}
+
+.reviewWriteCV .btnAllCVButton {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 520px;
+  width: 100%;
+}
+
+.reviewWriteCV .btnAllCVButton:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Style cho phần bên phải */
+.reviewWriteCV .rightSideContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35%;
+}
+
+.reviewWriteCV .cvImageContainer {
+  width: 100%;
+  max-width: 450px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); */
+  background-color: white;
+  position: relative;
+  /* padding: 20px; */
+  background-color: transparent;
+}
+
+.reviewWriteCV .cvImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Thay đổi từ cover thành contain */
+  transition: transform 0.6s ease; /* Giảm thời gian transition */
+  background-color: transparent;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animation khi chuyển ảnh */
+.reviewWriteCV .cvImage:hover {
+  transform: scale(1.02);
+}
+
+.reviewWriteCV .cvImage.loaded {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Hiệu ứng hover cho ảnh */
+.reviewWriteCV .cvImage:hover {
+  transform: translateY(-2px) scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Animation keyframes cho fade in */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+/* Class cho animation */
+.reviewWriteCV .cvImage.entering {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.reviewWriteCV .cvImage.exiting {
+  animation: fadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .reviewTitle {
+    font-size: 40px;
+  }
+  
+  .reviewDescription {
+    font-size: 20px;
+  }
+  
+  .cvImageContainer {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewWriteCV .container {
+    flex-direction: column;
+  }
+  
+  .leftSideContent, 
+  .rightSideContent {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  
+  .leftSideContent {
+    margin-bottom: 40px;
+  }
+  
+  .btnCV, .btnAllCVButton {
+    max-width: 100%;
+  }
+  
+  .cvImageContainer {
+    max-width: 100%;
+    height: 450px;
+  }
+}
+/* END OF SECTION THAM KHẢO CÁCH VIẾT CV */
+
+/* END OF SECTION 3 STYLING  */
+
+/* SECTION 4 STYLING  */
+
+/* SECTION FOUR - More CV Templates */
+.sectionFour {
+  background-color: #ffffff;
+  padding: 80px 0;
+  border-top: 1px solid #eaeaea;
+}
+
+.sectionFour .sectionFourHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.sectionFour .sectionFourTitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.sectionFour .sectionFourSubtitle {
+  font-size: 20px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Responsive cho Section Four */
+@media (max-width: 992px) {
+  .sectionFour {
+    padding: 60px 0;
+  }
+  
+  .sectionFourTitle {
+    font-size: 36px;
+  }
+  
+  .sectionFourSubtitle {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionFour {
+    padding: 40px 0;
+  }
+  
+  .sectionFourTitle {
+    font-size: 28px;
+  }
+  
+  .sectionFourSubtitle {
+    font-size: 16px;
+    padding: 0 20px;
+  }
+}
+
+
+/* END OF SECTION 4 STYLING  */
+
+/* SECTION FIVE - CV Swiper */
+.sectionFive {
+  /* Tạm thời dùng gradient nếu không có ảnh */
+  /* background: linear-gradient(135deg, #f1f1ff 0%, #dfdeff 100%); */
+  /* Uncomment dòng dưới khi có file ảnh */
+  background-image: url("/assets/img/creatCV/bg_HHTS_full.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 60px 0;
+}
+
+.sectionFive .menuSection {
+  padding: 20px 0 22px 0;
+}
+
+.sectionFive .menuHeader {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.sectionFive .title {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 44px;
+  padding: 0 0 0 60px;
+}
+
+.sectionFive .subtitle {
+  padding: 0 0 0 70px;
+  margin: 0 0 24px;
+  color: #000000;
+  font-size: 20px;
+}
+
+.sectionFive .swiperContainer {
+  max-width: 1100px;
+  height: 420px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.sectionFive .swiperWrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  height: 390px;
+  /* Thêm momentum scrolling cho iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Thêm perspective để tạo hiệu ứng 3D nhẹ */
+  perspective: 1000px;
+}
+
+.sectionFive .swiperWrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.sectionFive .swiperSlide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+  min-width: 250px;
+  flex-shrink: 0;
+  /* Thêm transition để smooth khi scroll */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+/* Hiệu ứng parallax nhẹ cho các slide */
+.sectionFive .swiperSlide:nth-child(odd) {
+  animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: calc(var(--slide-index, 0) * 0.1s);
+}
+
+.sectionFive .swiperSlide:nth-child(even) {
+  animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: calc(var(--slide-index, 0) * 0.1s);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.sectionFive .cvFigure {
+  display: inline-block;
+  width: 250px;
+  height: 320px;
+  text-align: center;
+  margin: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.sectionFive .cvFigure:hover {
+  transform: scale(1.05) translateY(-10px);
+  filter: brightness(1.05);
+}
+
+.sectionFive .cvFigure img {
+  display: block;
+  width: 95%;
+  border-radius: 12px;
+  height: 95%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+.sectionFive .cvFigure:hover img {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.sectionFive .tagItem {
+  background-color: rgba(139, 139, 139, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 8px 14px;
+  margin: 12px auto 0;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  transition: all 0.3s ease;
+  transform: translateY(5px);
+  opacity: 0.9;
+}
+
+.sectionFive .cvFigure:hover .tagItem {
+  transform: translateY(0);
+  opacity: 1;
+  /* background-color: rgba(74, 58, 117, 0.9); */
+  background-color: var(--primary-color, #4a3a75);
+}
+
+.sectionFive .swiperButtonPrev,
+.sectionFive .swiperButtonNext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--font-color, #333);
+  background-color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border: 2px solid transparent;
+  backdrop-filter: blur(10px);
+  /* Thêm user-select để tránh selection text */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.sectionFive .swiperButtonPrev::after,
+.sectionFive .swiperButtonNext::after {
+  content: '';
+  width: 0;
+  height: 0;
+  transition: all 0.2s ease;
+}
+
+.sectionFive .swiperButtonPrev::after {
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid var(--font-color, #333);
+  margin-left: -2px;
+}
+
+.swiperButtonNext::after {
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid var(--font-color, #333);
+  margin-right: -2px;
+}
+
+.sectionFive .swiperButtonPrev {
+  left: 20px;
+}
+
+.sectionFive .swiperButtonNext {
+  right: 20px;
+}
+
+/* Hiệu ứng hover cho navigation buttons */
+.sectionFive .swiperButtonPrev:hover,
+.sectionFive .swiperButtonNext:hover {
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--primary-color, #4a3a75);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Hiệu ứng click */
+.sectionFive .swiperButtonPrev:active,
+.sectionFive .swiperButtonNext:active {
+  transform: translateY(-50%) scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Hiệu ứng ripple khi click */
+.sectionFive .swiperButtonPrev:active::before,
+.sectionFive .swiperButtonNext:active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(var(--primary-color-rgb, 74, 58, 117), 0.3);
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}
+
+/* Responsive cho Section Five */
+@media (max-width: 992px) {
+  .sectionFive .title {
+    font-size: 36px;
+    padding: 0 0 0 40px;
+  }
+  
+  .sectionFive .subtitle {
+    font-size: 18px;
+    padding: 0 0 0 50px;
+  }
+  
+  .swiperContainer {
+    height: 380px;
+  }
+    .cvFigure {
+    width: 200px;
+    height: 270px;
+  }
+  
+  .cvFigure img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionFive .title {
+    font-size: 28px;
+    padding: 0 0 0 20px;
+  }
+  
+  .sectionFive .subtitle {
+    font-size: 16px;
+    padding: 0 0 0 30px;
+  }
+  
+  .swiperContainer {
+    height: 340px;
+    margin: 0 10px;
+  }
+  
+  .cvFigure {
+    width: 160px;
+    height: 220px;
+  }
+  
+  .cvFigure img {
+    height: 200px;
+  }
+  
+  .swiperButtonPrev,
+  .swiperButtonNext {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .swiperButtonPrev {
+    left: 10px;
+  }
+  
+  .swiperButtonNext {
+    right: 10px;
+  }
+}
+/* END OF SECTION FIVE */
+
