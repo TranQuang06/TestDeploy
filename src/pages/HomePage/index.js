@@ -4,6 +4,8 @@ import Footer from "../../components/Footer";
 import SearchSection from "../../components/SearchSection/SearchSection";
 import JobsSection from "../../components/JobsSection/JobsSection";
 import FashionSection from "../../components/FashionSection/FashionSection";
+import ImpressiveNumbersSection from '../../components/ImpressiveNumbersSection/ImpressiveNumbersSection';
+import SphereSection from "../../components/SphereSection/SphereSection";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
@@ -134,6 +136,7 @@ function HomePage() {
         </div>
       </section>
       {/* End Experience with Number */}
+      
 
       {/* SearchSection */}
       <SearchSection />
@@ -146,6 +149,14 @@ function HomePage() {
       {/* FashionSection */}
       <FashionSection />
       {/* End FashionSection */}
+
+      {/* ImpressiveNumbersSection */}
+      <ImpressiveNumbersSection />
+      {/* end ImpressiveNumbersSection */}
+
+      {/* 3D rotating sphere */}
+      <SphereSection />
+      {/* End 3D rotating sphere */}
 
       <Footer />
     </>
