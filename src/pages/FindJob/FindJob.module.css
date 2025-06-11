@@ -1,0 +1,473 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.sectionBanner {
+    background-color: var(--primary-color);
+    padding: 80px 0 60px;
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.sectionBanner .bannerContent {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.sectionBanner .bannerContent h1 {
+    color: white;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Search Bar - nằm giữa banner và content */
+.sectionBanner .searchBar {
+    position: absolute;
+    bottom: -30px; /* Đẩy search bar xuống để 1 nửa nằm dưới banner */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    
+}
+
+.sectionBanner .searchForm {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.sectionBanner .inputGroup {
+    position: relative;
+    flex: 1;
+}
+
+.sectionBanner .searchInput,
+.sectionBanner .locationInput {
+    width: 100%;
+    padding: 24px 20px 12px 20px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    height: 55px;
+}
+
+/* Floating Label Styles */
+.sectionBanner .inputLabel {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    background-color: transparent;
+    padding: 0 4px;
+    z-index: 1;
+}
+
+/* Label khi input có focus hoặc có value */
+.sectionBanner .searchInput:focus + .inputLabel,
+.sectionBanner .locationInput:focus + .inputLabel,
+.sectionBanner .searchInput:not(:placeholder-shown) + .inputLabel,
+.sectionBanner .locationInput:not(:placeholder-shown) + .inputLabel {
+    top: 8px;
+    transform: translateY(0);
+    font-size: 12px;
+    color: var(--primary-color);
+    font-weight: 600;
+    background-color: white;
+}
+
+/* Đảm bảo placeholder ẩn khi có floating label */
+.sectionBanner .searchInput::placeholder,
+.sectionBanner .locationInput::placeholder {
+    color: transparent;
+}
+
+.sectionBanner .searchIcon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 18px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.sectionBanner .searchButton {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 35px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.sectionBanner .searchButton:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #ed9f51) 50%, var(--accent-color, #f0a645) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.sectionBanner .searchButton:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+
+@media (max-width: 992px) {
+    .sectionBanner .bannerContent h1 {
+        font-size: 2.8rem;
+    }
+    
+    .searchForm {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+    }
+    
+    .inputGroup {
+        width: 100%;
+    }
+    
+    .searchButton {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sectionBanner {
+        padding: 60px 0 50px;
+    }
+    
+    .sectionBanner .bannerContent h1 {
+        font-size: 2.2rem;
+    }
+    
+    .searchBar {
+        bottom: -35px;
+        left: 20px;
+        right: 20px;
+    }
+    
+    .searchForm {
+        padding: 15px;
+    }
+}
+
+/* Section Search  */
+
+/* Section Find Jobs */
+.sectionFind {
+    padding: 60px 0 40px 0;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.totalJobs {
+    /* text-align: center; */
+    font-size: 24px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 20px;
+    margin-left: auto;
+}
+
+/* Loading animation cho số việc làm */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Counter animation effects */
+.jobCount {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 28px;
+    display: inline-block;
+    transition: transform 0.1s ease;
+}
+
+/* Thêm hiệu ứng nhảy khi số đang thay đổi */
+.jobCount.counting {
+    animation: numberJump 0.1s ease;
+}
+
+@keyframes numberJump {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.05) translateY(-2px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+/* Hiệu ứng glow khi hoàn thành */
+.jobCount.completed {
+    animation: completedGlow 0.5s ease;
+}
+
+@keyframes completedGlow {
+    0% { 
+        text-shadow: 0 0 5px rgba(var(--primary-color-rgb, 74, 58, 117), 0.5);
+    }
+    50% { 
+        text-shadow: 0 0 20px rgba(var(--primary-color-rgb, 74, 58, 117), 0.8);
+        transform: scale(1.1);
+    }
+    100% { 
+        text-shadow: none;
+        transform: scale(1);
+    }
+}
+
+/* Responsive cho section find */
+@media (max-width: 768px) {
+    .sectionFind {
+        padding: 40px 0 30px 0;
+    }
+    
+    .totalJobs {
+        font-size: 20px;
+        padding: 0 20px;
+    }
+    
+    .jobCount {
+        font-size: 24px;
+    }
+}
+
+/* Content Wrapper */
+.contentWrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Left Side - Filters */
+.leftSide {
+    width: 280px;
+    background: transparent;
+    border-radius: 12px;
+    padding: 0;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+    margin-left: 0;
+}
+
+.filterSection {
+    padding: 0;
+}
+
+.filterHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 16px 20px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.filterHeader h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.clearAll {
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.clearAll:hover {
+    text-decoration: underline;
+}
+
+.filterGroup {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0;
+}
+
+.filterTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 12px 20px;
+}
+
+.filterTitle h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.clearFilter {
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.clearFilter:hover {
+    text-decoration: underline;
+}
+
+.filterOptions {
+    padding: 0 20px 16px 20px;
+}
+
+.filterOption {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.filterOption:hover {
+    background-color: #f8f9fa;
+}
+
+.optionName {
+    font-size: 14px;
+    color: #333;
+    flex: 1;
+}
+
+/* Highlighted option cho mục All hoặc selected */
+.filterOption.selected {
+    background-color: #f0f4ff;
+    border-radius: 6px;
+}
+
+.filterOption.selected .optionName {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.showMore {
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.showMore:hover {
+    text-decoration: underline;
+}
+
+/* Center and Right Side */
+.center {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    min-height: 400px;
+}
+
+.rightSide {
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    min-height: 400px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .contentWrapper {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .leftSide,
+    .rightSide {
+        width: 100%;
+        position: static;
+    }
+    
+    .leftSide {
+        order: 2;
+    }
+    
+    .center {
+        order: 1;
+    }
+    
+    .rightSide {
+        order: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .contentWrapper {
+        padding: 0 10px;
+        gap: 15px;
+    }
+    
+    .sectionFind {
+        padding: 40px 0 30px 0;
+    }
+    
+    .totalJobs {
+        font-size: 20px;
+        padding: 0 20px;
+    }
+    
+    .jobCount {
+        font-size: 24px;
+    }
+}
+
+.jobType {
+    color: var(--secondary-color, #ed9f51);
+    font-weight: 600;
+}
+
