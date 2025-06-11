@@ -1,78 +1,128 @@
+/* Header.module.css */
+
+/* HEADER chính: vị trí fixed, canh giữa, glass effect */
 .header {
-    background-color: #201514
+  position: fixed;
+  top: 16px; /* hoặc 0 nếu bạn muốn sát cạnh trên màn hình */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding: 8px; /* Padding để nội dung không sát cạnh */
 
-;    /* hoặc màu nền tùy bạn */
-    padding: 12px 0px;
-    height: 135px;
+  max-width: 1200px;
+  z-index: 1000;
+
+  /* Glassmorphism nền bán trong suốt */
+  background: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); /* Màu nền hơi tối trong suốt, điều chỉnh alpha tuỳ ý */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Bo góc và shadow nhẹ */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.212);
+
+  /* Chuyển đổi mềm mại khi scroll đổi background */
+  transition: background 0.3s ease, top 0.3s ease;
 }
 
+/* Khi scroll xuống, bật nền đục hơn để nội dung dễ đọc */
+.headerScrolled {
+  background: rgba(197, 197, 197, 0.39);
+}
+
+/* Nếu bạn muốn header sát cạnh trên, dùng top: 0 và adjust padding cho container */
+.headerTop {
+  top: 0;
+}
+
+/* CONTAINER bên trong header: flex layout */
 .headerContainer {
-    position: fixed;
-    top: 0;               /* luôn nằm trên cùng */
-    left: 50%;            /* tịnh tiến từ điểm 50% bên phải cửa sổ */
-    transform: translateX(-50%); /* kéo trở lại nửa chiều rộng của chính nó */
-    
-    width: 100%;          /* để chiếm không gian bố cục */
-    max-width: 1200px;    /* giới hạn độ rộng */
-    height: 100px;
-    padding: 0 38px;
-    margin-top: 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background-color: #f3f3f3;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 1000; 
+  width: 100%;
+  padding: 12px 24px; /* Thay vì height cố định, dùng padding để nội dung cân đối */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.headerContainer .logo img {
-    width: 125px;
-    height: 100%;
-    object-fit: cover;
+/* Logo */
+.logo img {
+  height: 40px; /* điều chỉnh theo đúng tỉ lệ logo */
+  width: auto;
+  object-fit: contain;
 }
 
-
-
-.headerContainer .navigationList {
-    display: flex;
-    list-style: none;
-    gap: 42px;
-    margin: 0;
-    padding: 0;
+/* Navigation */
+.navigationList {
+  display: flex;
+  gap: 32px; /* Khoảng cách giữa các mục */
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.headerContainer .navItem {
-    font-size: 14px;
-    color: var(--primary-color);    
-    text-decoration: none;
-    transition: color 0.2s;
-    padding: 8px;
-    transition: text-shadow 0.3s;
+.navItem {
+  /* Chỉ dùng cho <li>, style chính apply trên .navLink */
 }
 
-.headerContainer .navItem:hover {
-    text-shadow: 1px 0 2px rgb(255, 183, 94);
+.navLink {
+  font-size: 16px;
+  color: #fff; /* Mặc định trắng để nổi trên nền glass tối phía sau */
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease, text-shadow 0.3s ease;
 }
 
-.headerContainer .cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 12px 32px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 2px solid var(--primary-color);
-    border-radius: 50px;
-    text-decoration: none;
-    color: var(--primary-color);
-    transition: background-color 0.2s, color 0.2s;
-    background: transparent;
+/* Hover effect: đổi màu hoặc shadow */
+.navLink:hover {
+  color: #ffc46c; /* Màu nhấn, ví dụ vàng nhạt */
+  /* hoặc thêm text-shadow nhẹ */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.headerContainer .cta:hover {
-    background-color: #3a1a00;
-    color: #fdf7e3;
+/* Khi header đã scroll và nền sáng hơn, đổi màu link cho phù hợp */
+.headerScrolled .navLink {
+  color: #201514; /* Màu tối khi nền sáng */
+}
+.headerScrolled .navLink:hover {
+  color: #e74c3c;
+}
+
+/* CTA button */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffc46c; /* primary color */
+  background: transparent;
+  border: 2px solid #ffc46c;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cta:hover {
+  background: #ffc46c;
+  color: #201514;
+}
+
+/* Khi header scrolled, có thể đổi style CTA nếu cần */
+/* .headerScrolled .cta { border-color: #201514; color: #201514; }
+   .headerScrolled .cta:hover { background: #201514; color: #fff; } */
+
+/* Responsive: ví dụ ẩn menu trên mobile, thêm hamburger nếu cần */
+@media (max-width: 768px) {
+  .navigationList {
+    display: none;
+  }
+  /* Bạn có thể add class/mobile-menu ở đây */
 }

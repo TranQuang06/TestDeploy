@@ -1,82 +1,99 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './ImpressiveNumbersSection.module.css';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./ImpressiveNumbersSection.module.css";
 
-// Inline count-up logic triggered by scroll into view
-function useCountUp(end, duration = 1500, start = true) {
-  const [value, setValue] = useState(0);
-  useEffect(() => {
-    if (!start) {
-      setValue(0);
-      return;
-    }
-    let frameId;
-    const startTime = performance.now();
-    const animate = now => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      setValue(Math.floor(end * progress));
-      if (progress < 1) frameId = requestAnimationFrame(animate);
-    };
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, [end, duration, start]);
-  return value;
-}
-
-const STATS = [
-  { end: 540000,  label: 'Nhà tuyển dụng uy tín',  text: 'Các nhà tuyển dụng đến từ tất cả các ngành nghề và được xác thực bởi TopCV' },
-  { end: 200000,  label: 'Doanh nghiệp hàng đầu',  text: 'TopCV được nhiều doanh nghiệp hàng đầu tin tưởng và đồng hành như Samsung, Viettel, …' },
-  { end: 2000000, label: 'Việc làm đã được kết nối', text: 'TopCV đồng hành và kết nối hàng nghìn ứng viên với cơ hội việc làm hấp dẫn.' },
-  { end: 1200000, label: 'Lượt tải ứng dụng',     text: 'Hàng triệu ứng viên sử dụng TopCV, trong đó 60% có kinh nghiệm từ 3 năm trở lên.' },
-];
+const data = {
+  title: "Con số ấn tượng",
+  subtitles: [
+    `Superstars là nền tảng công nghệ nhân sự (HR Tech) tiên phong tại Việt Nam, đặt mục tiêu mở ra cơ hội việc làm bình đẳng cho người khuyết tật. Với năng lực lõi về công nghệ và trí tuệ nhân tạo (AI), Superstars sứ mệnh tái định hình thị trường tuyển dụng — giúp kết nối nhanh chóng, hiệu quả giữa Nhà tuyển dụng và ứng viên khuyết tật. Bằng các công cụ tạo CV thông minh, phát triển kỹ năng cá nhân và xây dựng hồ sơ chuyên nghiệp, chúng tôi cam kết trao cho mỗi người lao động khuyết tật cơ hội việc làm phù hợp, nâng cao giá trị bản thân và tự tin khẳng định chỗ đứng trên thị trường lao động.`,
+    `Superstars – với hơn 9 triệu người dùng và hơn 200.000 doanh nghiệp hàng đầu tin tưởng – khao khát kiến tạo một cầu nối bền vững giữa ứng viên khuyết tật và nhà tuyển dụng: đúng người, đúng thời điểm, đúng cơ hội. Thông qua các giải pháp công nghệ tiên tiến, chúng tôi tiếp thêm lợi thế cho cả ứng viên và doanh nghiệp, hướng đến sự đồng hành lâu dài của người lao động khuyết tật và sự phát triển bền vững của tổ chức.`,
+  ],
+  numbers: [
+    {
+      value: "540.000+",
+      title: "Nhà tuyển dụng uy tín",
+      desc: "Các nhà tuyển dụng đến từ tất cả các ngành nghề và được xác thực bởi SuperStars",
+      theme: "green",
+    },
+    {
+      value: "200.000+",
+      title: "Doanh nghiệp hàng đầu",
+      desc: "SuperStars được nhiều doanh nghiệp hàng đầu tin tưởng và đồng hành, trong đó có các thương hiệu nổi bật như Samsung, Viettel, Vingroup, FPT, Techcombank,...",
+      theme: "blue",
+    },
+    {
+      value: "2.000.000+",
+      title: "Việc làm đã được kết nối",
+      desc: "SuperStars đồng hành và kết nối hàng ngàn ứng viên với những cơ hội việc làm hấp dẫn từ các doanh nghiệp uy tín.",
+      theme: "green",
+    },
+    {
+      value: "1.200.000+",
+      title: "Lượt tải ứng dụng",
+      desc: "Hàng triệu ứng viên sử dụng ứng dụng SuperStars để tìm kiếm việc làm, trong đó có 80% là ứng viên có kinh nghiệm từ 3 năm trở lên.",
+      theme: "blue",
+    },
+  ],
+  logoSrc: "/assets/img/huyhieu_ss.png", // chỉnh lại đường dẫn nếu cần
+  logoAlt: "SuperStars Logo",
+};
 
 export default function ImpressiveNumbersSection() {
-  const [hasAnimated, setHasAnimated] = useState(false);
+  // Thêm animate-section khi scroll vào vùng này (tùy chọn)
   const sectionRef = useRef(null);
+  const [animate, setAnimate] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setHasAnimated(true);
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.3 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimate(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <div
+      ref={sectionRef}
+      className={`${styles["section-15"]} ${
+        animate ? styles["animate-section"] : ""
+      }`}
+    >
       <div className={styles.container}>
-        <h2 className={styles.title}>Con số ấn tượng</h2>
-        <p className={styles.description}>
-          TopCV là công ty công nghệ nhân sự (HR Tech) hàng đầu Việt Nam. Với năng lực lõi là
-          công nghệ, đặc biệt là trí tuệ nhân tạo (AI), sứ mệnh của TopCV đặt ra cho mình là thay đổi
-          thị trường tuyển dụng – nhân sự ngày một hiệu quả hơn.
-        </p>
+        <h2 className={styles.title}>{data.title}</h2>
+        {data.subtitles.map((text, idx) => (
+          <div key={idx} className={styles["sub-title"]}>
+            {text}
+          </div>
+        ))}
 
-        <div className={styles.statsGrid}>
-          {STATS.map((stat, idx) => {
-            const count = useCountUp(stat.end, 1500, hasAnimated);
-            const formatted = count.toLocaleString('vi-VN') + '+';
-            return (
-              <div key={idx} className={styles.card}>
-                <div className={styles.divider} />
-                <h3 className={styles.number}>{formatted}</h3>
-                <p className={styles.label}>{stat.label}</p>
-                <p className={styles.text}>{stat.text}</p>
-              </div>
-            );
-          })}
-          <div className={styles.logoWrapper}>
-            <img src="/topcv-chip.svg" alt="TopCV" />
+        <div className={styles["number-impress"]}>
+          {data.numbers.map((item, idx) => (
+            <div
+              key={idx}
+              className={`${styles["number-item"]} ${
+                styles[`${item.theme}-gradient`]
+              }`}
+            >
+              <div className={styles.number}>{item.value}</div>
+              <div className={styles["number-title"]}>{item.title}</div>
+              <div className={styles["number-desc"]}>{item.desc}</div>
+            </div>
+          ))}
+
+          <div className={styles["center-logo"]}>
+            <img
+              src={data.logoSrc}
+              alt={data.logoAlt}
+              className={styles["center-logo-img"]}
+            />
           </div>
         </div>
       </div>
-    </section>
-    
+    </div>
   );
 }
