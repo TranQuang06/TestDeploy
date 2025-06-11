@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import SearchSection from "../../components/SearchSection/SearchSection";
+import JobsSection from "../../components/JobsSection/JobsSection";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from 'react-icons/fa';
 import { FiArrowUpRight } from 'react-icons/fi';
@@ -9,6 +11,7 @@ function HomePage() {
   return (
     <>
       <Header />
+      {/* Hero */}
       <section className={styles.hero}>
         {/* LEFT */}
         <div className={styles.left}>
@@ -69,6 +72,57 @@ function HomePage() {
           <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png" alt="Zoom" />
         </div>
       </section>
+      {/* End hero */}
+
+      {/* Experience with Number */}
+      <section className={styles.statsSection}>
+        <div className={styles.statsContainer}>
+          {/* Text bên trái */}
+          <div className={styles.statsText}>
+            <p className={styles.statsSubtitle}>Join Connect Today</p>
+            <h2 className={styles.statsTitle}>Experience with Number</h2>
+          </div>
+
+          {/* 3 cards bên phải */}
+          <div className={styles.statsCards}>
+            <div className={styles.statsCard}>
+              <h3 className={styles.statsNumber}>
+                92<span className={styles.statsPercent}>%</span>
+              </h3>
+              <p className={styles.statsDesc}>
+                Many users find relevant jobs according to skills
+              </p>
+            </div>
+
+            <div className={styles.statsCard}>
+              <h3 className={styles.statsNumber}>
+                90<span className={styles.statsPercent}>%</span>
+              </h3>
+              <p className={styles.statsDesc}>
+                Data filtering from companies doesn't take long
+              </p>
+            </div>
+
+            <div className={styles.statsCard}>
+              <h3 className={styles.statsNumber}>
+                89<span className={styles.statsPercent}>%</span>
+              </h3>
+              <p className={styles.statsDesc}>
+                Many top employers can connect with Many users
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* End Experience with Number */}
+
+      {/* SearchSection */}
+      <SearchSection />
+      {/* End SearchSection */}
+
+      {/* JobsSection */}
+      <JobsSection />
+      {/* End JobsSection */}
       <Footer />
     </>  
   );
