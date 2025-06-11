@@ -73,7 +73,7 @@ html, body {
     font-size: 16px;
     outline: none;
     transition: all 0.3s ease;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     height: 55px;
 }
 
@@ -195,6 +195,7 @@ html, body {
 .sectionFind {
     padding: 60px 0 40px 0;
     background-color: #f8f9fa;
+    /* background-color: white; */
     overflow-x: hidden;
     width: 100%;
 }
@@ -205,7 +206,7 @@ html, body {
     color: #333;
     font-weight: 500;
     margin-bottom: 20px;
-    margin-left: auto;
+    margin-left: 30px; 
 }
 
 /* Loading animation cho số việc làm */
@@ -273,25 +274,79 @@ html, body {
 /* Content Wrapper */
 .contentWrapper {
     display: flex;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    gap: 30px;
+    gap: 24px;
     padding: 0 20px;
     box-sizing: border-box;
     width: 100%;
     overflow-x: hidden;
 }
 
+/* Layout Override - 25%-50%-25% */
+.contentWrapper {
+    display: flex;
+    max-width: 100vw !important;
+    margin: 0;
+    gap: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.center {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    background: transparent;
+    border-radius: 0;
+    min-height: 400px;
+    padding: 0 20px;
+}
+
+/* Responsive cho layout mới */
+@media (max-width: 992px) {
+    .contentWrapper {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .leftSide,
+    .center,
+    .rightSide {
+        width: 100% !important;
+        flex: none !important;
+        position: static;
+        max-width: none;
+    }
+    
+    .leftSide {
+        order: 2;
+    }
+    
+    .center {
+        order: 1;
+        padding: 0;
+    }
+    
+    .rightSide {
+        order: 3;
+    }
+}
+
 /* Left Side - Filters */
 .leftSide {
-    width: 280px;
+    flex: 0 0 25% !important;
+    width: 25% !important;
     background: transparent;
-    border-radius: 12px;
+    border-radius: 0;
+    box-shadow: none;
+    border-right: 1px solid #e8e8e8;
     padding: 0;
     height: fit-content;
     position: sticky;
     top: 20px;
-    margin-left: 0;
 }
 
 .filterSection {
@@ -401,32 +456,43 @@ html, body {
     transform: translateX(4px);
 }
 
-/* Mặc định chọn option "All" */
+/* Option "All" - không có background mặc định */
 .filterOption:first-child {
-    background-color: #f0f4ff;
     border-radius: 6px;
 }
 
 .filterOption:first-child .optionName {
+    color: #333;
+    font-weight: 400;
+}
+
+/* All option khi được selected (không có filter nào được chọn) */
+.filterOption:first-child.selected .optionName {
     color: var(--primary-color);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .optionName {
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
     flex: 1;
 }
 
-/* Highlighted option cho mục All hoặc selected */
+/* Selected filter option */
 .filterOption.selected {
-    background-color: var(--last-color);
-    border-radius: 12px;
+    /* background-color: #f0f4ff !important; */
+    /* border: 1px solid var(--primary-color); */
+    border-radius: 6px;
 }
 
 .filterOption.selected .optionName {
-    color: var(--primary-color);
-    font-weight: 500;
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+.filterOption.selected:hover {
+    background-color: var(--last-color) !important;
+    transform: translateX(2px);
 }
 
 .showMore {
@@ -449,17 +515,26 @@ html, body {
 
 /* Center and Right Side */
 .center {
-    flex: 1;
-    background: white;
+    flex: 0 0 50%;
+    width: 50%;
+    background: transparent;
     border-radius: 12px;
     min-height: 400px;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 180px)
 }
 
 .rightSide {
-    width: 300px;
-    background: white;
-    border-radius: 12px;
+    flex: 0 0 25% !important;
+    width: 25% !important;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    border-left: 1px solid #e8e8e8;
     min-height: 400px;
+    padding: 20px;
 }
 
 /* Responsive */
@@ -507,10 +582,697 @@ html, body {
     .jobCount {
         font-size: 24px;
     }
+    
+    .center {
+        padding: 0 10px;
+    }
+    
+    .resultsHeader {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .jobCard {
+        padding: 20px;
+    }
+    
+    .jobHeader {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .jobMeta {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .jobFooter {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .jobActions {
+        width: 100%;
+    }
+    
+    .applyBtn,
+    .detailsBtn {
+        flex: 1;
+        text-align: center;
+    }
 }
 
-.jobType {
-    color: var(--secondary-color, #ed9f51);
+/* Center Section - Job Listings */
+.center {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    background: transparent;
+    border-radius: 0;
+    min-height: 400px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 180px);
+}
+
+.jobsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow jobsContainer to fill .center if .center has a defined height */
+    min-height: 0;
+}
+
+/* Search Results Header */
+.resultsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 20px;
+    flex-shrink: 0
+}
+
+.resultsInfo {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.resultsCount {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+.sortBy {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sortBy label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.sortSelect {
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+/* Job Listings */
+.jobsList {
+    overflow-y: auto; /* Enable vertical scroll */
+    flex-grow: 1; /* Allow jobsList to take available space in jobsContainer */
+    min-height: calc(190vh - 180px); /* Trải dài hết phần center, dài tới phần salary */
+    max-height: calc(190vh - 180px); /* Giới hạn chiều cao để tạo scroll khi cần */
+}
+
+.loadingJobs {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+/* Job Card */
+.jobCard {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.jobCard:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    /* border-color: #d1d5db; */
+    border: 2px solid var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Job Header */
+.jobHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.companyInfo {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.companyLogo {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.companyLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.companyInitial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
     font-weight: 600;
+    color: #6b7280;
+    background: #f3f4f6;
+}
+
+.jobDetails {
+    flex: 1;
+}
+
+.jobDetails h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
+}
+
+.companyName {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+}
+
+.saveJob {
+    background: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+.saveJob:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: #f8f9ff;
+}
+
+/* Job Meta */
+.jobMeta {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.metaItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metaLabel {
+    font-size: 12px;
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metaValue {
+    font-size: 15px;
+    color: #374151;
+    font-weight: 500;
+}
+
+/* Job Footer */
+.jobFooter {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.postDate {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.pageBtn {
+    background: none;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.pageBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pageNumbers {
+    display: flex;
+    gap: 5px;
+}
+
+.pageNumber {
+    background: none;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 40px;
+}
+
+.pageNumber:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.pageNumber.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* Pagination Container */
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+/* wrapper để căn giữa hoặc padding nếu cần */
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 0 0;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0;
+    flex-shrink: 0; /* Không co lại */
+}
+  
+  /* Tất cả các rule sau sẽ apply lên các class của Ant Design
+     nhờ cú pháp :global(...) trong CSS Module */
+  
+  /* 1. Reset margin của root pagination */
+  .customPagination :global(.ant-pagination) {
+    margin: 0;
+  }
+    /* 2. Style cho từng page item */
+  .customPagination :global(.ant-pagination-item),
+  .customPagination :global(.ant-pagination-item:focus),
+  .customPagination :global(.ant-pagination-item:focus-within) {
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 6px !important;
+    margin: 0 4px !important;
+    background-color: white !important;
+  }
+  .customPagination :global(.ant-pagination-item a),
+  .customPagination :global(.ant-pagination-item:focus a),
+  .customPagination :global(.ant-pagination-item:focus-within a) {
+    color: #666 !important;
+  }
+  
+  /* 3. Hover states */
+  .customPagination :global(.ant-pagination-item:hover),
+  .customPagination :global(.ant-pagination-item:hover:focus) {
+    border-color: var(--primary-color) !important;
+    background-color: white !important;
+  }
+  .customPagination :global(.ant-pagination-item:hover a),
+  .customPagination :global(.ant-pagination-item:hover:focus a) {
+    color: var(--primary-color) !important;
+  }
+  
+  /* 4. Active page */
+  .customPagination :global(.ant-pagination-item-active),
+  .customPagination :global(.ant-pagination-item-active:focus),
+  .customPagination :global(.ant-pagination-item-active:hover) {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+  .customPagination :global(.ant-pagination-item-active a),
+  .customPagination :global(.ant-pagination-item-active:focus a),
+  .customPagination :global(.ant-pagination-item-active:hover a) {
+    color: white !important;
+  }
+  
+  /* 5. Prev / Next buttons */
+  .customPagination :global(.ant-pagination-prev),
+  .customPagination :global(.ant-pagination-next),
+  .customPagination :global(.ant-pagination-prev:focus),
+  .customPagination :global(.ant-pagination-next:focus) {
+    border-radius: 6px !important;
+    margin: 0 8px !important;
+    background-color: transparent !important;
+  }
+  .customPagination :global(.ant-pagination-prev a),
+  .customPagination :global(.ant-pagination-next a),
+  .customPagination :global(.ant-pagination-prev:focus a),
+  .customPagination :global(.ant-pagination-next:focus a) {
+    color: #666 !important;
+  }
+  .customPagination :global(.ant-pagination-prev:hover),
+  .customPagination :global(.ant-pagination-next:hover) {
+    background-color: transparent !important;
+  }
+  .customPagination :global(.ant-pagination-prev:hover a),
+  .customPagination :global(.ant-pagination-next:hover a) {
+    color: var(--primary-color) !important;
+  }
+  
+  /* 6. Disabled states */
+  .customPagination :global(.ant-pagination-disabled),
+  .customPagination :global(.ant-pagination-disabled:hover),
+  .customPagination :global(.ant-pagination-disabled:focus) {
+    border-color: #f0f0f0 !important;
+    background-color: #f5f5f5 !important;
+  }
+  .customPagination :global(.ant-pagination-disabled a),
+  .customPagination :global(.ant-pagination-disabled:hover a),
+  .customPagination :global(.ant-pagination-disabled:focus a) {
+    color: #ccc !important;
+  }
+  
+  /* 7. Tổng số items text */
+  .customPagination :global(.ant-pagination-total-text) {
+    color: #666 !important;
+    font-size: 14px !important;
+    margin-right: 16px !important;
+  }
+  
+/* Responsive cho center section */
+@media (max-width: 768px) {
+    .center {
+        padding: 0 10px;
+    }
+    
+    .resultsHeader {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .jobCard {
+        padding: 20px;
+    }
+    
+    .jobHeader {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .jobMeta {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .jobFooter {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .jobActions {
+        width: 100%;
+    }
+    
+    .applyBtn,
+    .detailsBtn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/* Right Side Components */
+.subscriptionWidget {
+    /* background: white; */
+    background: transparent;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.subscriptionWidget h3 {
+    font-size: 25px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+}
+
+.locationHighlight {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.emailInput {
+    margin-bottom: 16px;
+}
+
+.emailField {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    
+}
+
+.emailField:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.subscribeBtn {
+    width: 100%;
+    background: transparent;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+    border: 3px solid var(--primary-color);
+}
+
+.subscribeBtn:hover {
+    background: var(--hover-color);
+    transform: translateY(-1px);
+}
+
+.notInterested {
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+    margin: 0;
+}
+
+.notInterested span {
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Popular Companies */
+.popularCompanies {
+    /* background: white; */
+    background: transparent;
+    border-radius: 12px;
+    padding: 24px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.popularCompanies h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+}
+
+.companiesList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.companyItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.companyItem:hover {
+    background-color: var(--last-color);
+    border: 2px solid var(--primary-color);
+}
+
+.companyItem .companyLogo {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.companyItem .companyInitial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f3f4f6;
+}
+
+.companyItem .companyInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.companyItem .companyInfo h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+}
+
+.companyItem .companyInfo p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.seeAllJobs {
+    width: 100%;
+    background: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.seeAllJobs:hover {
+    border-color: var(--primary-color);
+    background: #f8f9ff;
+}
+
+/* Salary Range Inputs */
+.salaryInputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 12px;
+}
+
+.salaryInputs .inputGroup {
+    flex: 1;
+}
+
+.salaryInput {
+    width: 100% !important;
+    height: 40px !important;
+    border-radius: 6px !important;
+    border: 1px solid #d1d5db !important;
+    font-size: 14px !important;
+}
+
+.salaryInput:hover {
+    border-color: var(--primary-color) !important;
+}
+
+.salaryInput:focus,
+.salaryInput.ant-input-number-focused {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+}
+
+.separator {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 16px;
 }
 
