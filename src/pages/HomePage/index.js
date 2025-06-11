@@ -3,8 +3,12 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SearchSection from "../../components/SearchSection/SearchSection";
 import JobsSection from "../../components/JobsSection/JobsSection";
+import FashionSection from "../../components/FashionSection/FashionSection";
+import ImpressiveNumbersSection from '../../components/ImpressiveNumbersSection/ImpressiveNumbersSection';
+import SphereSection from "../../components/SphereSection/SphereSection";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from "react-icons/fa";
+import { FiArrowUpRight } from "react-icons/fi";
 
 function HomePage() {
   return (
@@ -47,7 +51,7 @@ function HomePage() {
             <img
               src="https://images.unsplash.com/photo-1747106649672-c17636e6c6a6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Happy user"
-            />{" "}
+            />
             <div className={styles.uptimeCard}>
               <div className={styles.upHeader}>
                 <span>Uptime Guarantee</span>
@@ -132,6 +136,7 @@ function HomePage() {
         </div>
       </section>
       {/* End Experience with Number */}
+      
 
       {/* SearchSection */}
       <SearchSection />
@@ -140,6 +145,19 @@ function HomePage() {
       {/* JobsSection */}
       <JobsSection />
       {/* End JobsSection */}
+
+      {/* FashionSection */}
+      <FashionSection />
+      {/* End FashionSection */}
+
+      {/* ImpressiveNumbersSection */}
+      <ImpressiveNumbersSection />
+      {/* end ImpressiveNumbersSection */}
+
+      {/* 3D rotating sphere */}
+      <SphereSection />
+      {/* End 3D rotating sphere */}
+
       <Footer />
     </>
   );

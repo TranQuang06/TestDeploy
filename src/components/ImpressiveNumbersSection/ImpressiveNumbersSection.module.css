@@ -1,0 +1,152 @@
+.section {
+    background-color: var(--last-color);
+    padding: 80px 0 100px;
+    color: #130f0f;
+  }
+  
+  .container {
+    max-width: 1050px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+
+  }
+  
+  .title {
+    display: inline-block;
+    position: relative;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .title::before,
+  .title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 2px;
+    background-color: #121312;
+  }
+  .title::before { left: -80px; }
+  .title::after  { right: -80px; }
+  
+  .description {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #0f0d0d;
+  }
+  
+  .statsGrid {
+    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 80px;
+    row-gap: 80px;
+    position: relative;
+  }
+  
+  /* ----------------------------------
+     CARD CHÍNH VỚI SHIMMER TRÊN/HUỐNG
+  ---------------------------------- */
+  .card {
+    /* biến lưu góc xoay */
+    --angle: 0deg;
+  
+    position: relative;
+    overflow: hidden;
+    padding: 32px;
+    background: var(--hover-color);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease, transform 0.3s ease;
+  
+    /* shape hexagon */
+    clip-path: polygon(
+      30px 0,
+      calc(100% - 30px) 0,
+      100% 50%,
+      calc(100% - 30px) 100%,
+      30px 100%,
+      0 50%
+    );
+  
+   
+  }
+  
+  /* reset hover cũ nếu có */
+.card:hover {
+    animation: none;
+  }
+  
+  /* pseudo‐element làm glow */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid #0b0b0b;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 20px rgba(25, 26, 25, 0.7);
+  }
+  
+  .card:hover::after {
+    opacity: 1;
+    animation: glowPulse 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes glowPulse {
+    0%,100% { box-shadow: 0 0 8px rgba(13, 14, 13, 0.5); }
+    50%     { box-shadow: 0 0 20px rgba(16, 17, 16, 0.8); }
+  }
+  
+  
+  
+  /* ----------------------------------
+     NỘI DUNG TRONG CARD
+  ---------------------------------- */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255,255,255,0.3);
+    margin-bottom: 16px;
+  }
+  
+  .number {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    line-height: 1.2;
+  }
+  
+  .label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111312;
+    margin: 0 0 8px;
+  }
+  
+  .text {
+    font-size: 14px;
+    color: rgba(12, 10, 10, 0.9);
+    margin: 0;
+  }
+  
+  /* ----------------------------------
+     LOGO CHIP Ở GIỮA
+  ---------------------------------- */
+  .logoWrapper {
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-self: center;
+    margin-top: -40px;
+    position: relative;
+    z-index: 1;
+  }
+  .logoWrapper img {
+    width: 160px;
+  }
+  

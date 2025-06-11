@@ -1,0 +1,200 @@
+/* Container chính */
+.container {
+  width: 100%;
+  padding: 20px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.mainLayout {
+  display: flex;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* CV Card - cột trái */
+.cvCard {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(44,62,80,0.09);
+  padding: 28px 32px 24px 32px;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #e6e6e6;
+  flex-shrink: 0;
+}
+
+.fullname {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #212f3f;
+}
+
+.position {
+  color: #2d9c46;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.summary {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Grid 2 cột trong CV */
+.gridTwoCol {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+/* Các block trong CV */
+.cvBlock {
+  margin-bottom: 24px;
+}
+
+.blockTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #212f3f;
+  border-bottom: 2px solid #00b14f;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.blockTime {
+  color: #2d9c46;
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.boldText {
+  font-weight: 600;
+  color: #212f3f;
+  margin-top: 4px;
+}
+
+.blockList {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 0 0;
+}
+
+.blockList li {
+  margin-bottom: 4px;
+  padding-left: 16px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.blockList li:before {
+  content: "•";
+  color: #00b14f;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* Sidebar bên phải của CV */
+.sideBlock {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.sideBlockTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #212f3f;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.sideBlock div {
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Cột phải - Create Box */
+.rightCol {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.createBox {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+  padding: 24px 20px;
+  font-size: 15px;
+}
+
+.createBoxTitle {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 18px;
+  color: #212f3f;
+}
+
+.radioGroup {
+  margin-bottom: 20px;
+}
+
+.radioGroup .ant-radio-wrapper {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.btnBack {
+  margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mainLayout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .rightCol {
+    width: 100%;
+  }
+
+  .gridTwoCol {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .profileHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}

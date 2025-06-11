@@ -756,7 +756,8 @@ function FindJob() {
 
   return (
     <>
-      {/* <Header /> */}{" "}
+      {/* <Header /> */}
+      {" "}
       <div className={styles.sectionBanner}>
         <div className="container">
           <div className={styles.bannerContent}>

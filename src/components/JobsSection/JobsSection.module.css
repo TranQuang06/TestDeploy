@@ -60,6 +60,9 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* thêm dòng này để mỗi row đều cao bằng nhau */
+  grid-auto-rows: 1fr;
+
   gap: 24px;
   transition: opacity 0.25s;
   opacity: 1;
@@ -78,18 +81,21 @@
 
 /* Single card */
 .card {
-  display: flex;
+  display: flex; /* khôi phục flex */
   flex-direction: column;
   justify-content: space-between;
+
+  height: 280px; /* cố định height (tùy chỉnh nếu cần) */
+  overflow: hidden; /* ẩn phần tràn */
+
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Card header: logo, date, bookmark */
@@ -102,8 +108,9 @@
 
 .logo {
   width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
-
 .posted {
   font-size: 12px;
   color: #888;
@@ -120,21 +127,30 @@
   font-size: 15px;
   color: #6c00ff;
   margin: 0 0 4px 0;
-}
 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* Job title */
 .title {
   font-size: 18px;
   font-weight: bold;
   margin: 0 0 8px 0;
   color: #222;
-}
 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* Tags container */
 .tags {
   display: flex;
   gap: 8px;
   margin-bottom: 8px;
+
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Individual tag */
@@ -144,6 +160,12 @@
   border-radius: 12px;
   padding: 2px 10px;
   font-size: 12px;
+
+  display: inline-block;
+  max-width: 100px; /* hoặc chỉnh theo ý bạn */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Card footer: salary/location and button */
