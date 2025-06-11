@@ -5,7 +5,7 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import styles from "../../pages/CreateCV/CreateCV.module.css";
 
 // Component hiển thị một mẫu CV
-const ResumeCard = ({ template }) => {
+const ResumeCard = ({ template, onUseTemplate }) => {
   const menuItems = [
     { key: "view", label: "View Details" },
     { key: "use", label: "Use This Template" },
@@ -39,7 +39,10 @@ const ResumeCard = ({ template }) => {
       
       {/* Thêm nút "Dùng mẫu" */}
       <div className={styles.templateActions}>
-        <button className={styles.useTemplateButton}>
+        <button
+          className={styles.useTemplateButton}
+          onClick={() => onUseTemplate && onUseTemplate(template)}
+        >
           Dùng mẫu
         </button>
       </div>
@@ -58,7 +61,7 @@ const ResumeCard = ({ template }) => {
 };
 
 // Component cho nội dung tab Resume Templates
-const ResumeTemplatesTab = () => {
+const ResumeTemplatesTab = ({ onUseTemplate }) => {
     const [category, setCategory] = useState("all");
   
     // Dữ liệu mẫu với ảnh có sẵn
@@ -155,7 +158,7 @@ const ResumeTemplatesTab = () => {
 
       <div className={styles.templateGrid}>
         {filteredTemplates.map((template) => (
-          <ResumeCard key={template.id} template={template} />
+          <ResumeCard key={template.id} template={template} onUseTemplate={onUseTemplate} />
         ))}
       </div>
     </div>

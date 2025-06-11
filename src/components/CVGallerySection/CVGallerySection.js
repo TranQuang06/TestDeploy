@@ -5,7 +5,7 @@ import styles from "../../pages/CreateCV/CreateCV.module.css";
 
 
 // Component hiển thị một mẫu CV trong gallery
-const CVGalleryCard = ({ template }) => {
+const CVGalleryCard = ({ template, onUseTemplate }) => {
   const menuItems = [
     { key: "preview", label: "Xem trước" },
     { key: "download", label: "Tải xuống" },
@@ -35,7 +35,12 @@ const CVGalleryCard = ({ template }) => {
       </div>
 
       <div className={styles.templateActions}>
-        <button className={styles.useTemplateButton}>Sử dụng ngay</button>
+        <button
+          className={styles.useTemplateButton}
+          onClick={() => onUseTemplate && onUseTemplate(template)}
+        >
+          Sử dụng ngay
+        </button>
       </div>
 
       <Dropdown
@@ -52,7 +57,7 @@ const CVGalleryCard = ({ template }) => {
 };
 
 // Component chính cho CV Gallery
-const CVGallerySection = () => {
+const CVGallerySection = ({ onUseTemplate }) => {
   const [selectedIndustry, setSelectedIndustry] = useState("all");
 
   // Dữ liệu CV mới - khác với section 3
@@ -194,7 +199,7 @@ const CVGallerySection = () => {
       {/* Grid hiển thị CV */}
       <div className={styles.templateGrid}>
         {filteredTemplates.map((template) => (
-          <CVGalleryCard key={template.id} template={template} />
+          <CVGalleryCard key={template.id} template={template} onUseTemplate={onUseTemplate} />
         ))}
       </div>
     </div>
