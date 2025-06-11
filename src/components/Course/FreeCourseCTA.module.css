@@ -1,0 +1,60 @@
+.ctaSection {
+    padding: 80px 32px;
+    background-color: white;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .textWrapper {
+    flex: 1;
+  }
+  .textWrapper h2 {
+    font-size: 1.75rem;
+    margin: 0 0 16px;
+  }
+  .textWrapper p {
+    font-size: 1rem;
+    margin: 0 0 24px;
+  }
+  .ctaButton {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 16px;
+  }
+  .ctaButton:hover {
+    opacity: 0.9;
+  }
+  .downloadLink {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  .downloadLink:hover {
+    opacity: 0.8;
+  }
+  .imageWrapper {
+    flex: 1;
+  }
+  .imageWrapper img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+    .textWrapper {
+      margin-top: 24px;
+    }
+  }
+  
