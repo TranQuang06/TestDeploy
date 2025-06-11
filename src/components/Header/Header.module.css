@@ -34,8 +34,19 @@
     object-fit: cover;
 }
 
-.navLink {
-    color: white;
+
+
+.headerContainer .navigationList {
+    display: flex;
+    list-style: none;
+    gap: 42px;
+    margin: 0;
+    padding: 0;
+}
+
+.headerContainer .navItem {
+    font-size: 14px;
+    color: var(--primary-color);    
     text-decoration: none;
     transition: color 0.2s;
     padding: 8px;
