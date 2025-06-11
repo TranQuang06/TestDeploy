@@ -1,0 +1,162 @@
+/* Hero.module.css */
+
+.heroSection {
+  position: relative;
+  width: 100%;
+  /* Gradient nền: thay mã màu cho trùng thiết kế gốc */
+  background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 50%, #6A82FB 100%);
+  /* Nếu bạn đã bo container bên ngoài, có thể bỏ border-radius ở đây; nếu thẳng Hero thì thêm: */
+  overflow: hidden;
+  color: white;
+  /* Padding để nội dung xuống dưới nav nếu có nav chồng lên, hoặc chỉ căn chính giữa */
+  padding: 100px 16px 60px; /* top 100px, hai bên 16px, bottom 60px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /* Nếu muốn làm tối gradient: */
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.content {
+  position: relative; /* để nằm trên overlay */
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.title {
+  font-size: 2rem;
+  line-height: 1.3;
+  margin-bottom: 32px;
+  font-weight: 600;
+}
+
+.highlight {
+  color: #fff;
+  /* Hoặc nếu muốn nhấn mạnh hơn, thêm text-shadow nhẹ */
+  /* text-shadow: 0 1px 2px rgba(0,0,0,0.3); */
+}
+
+.searchForm {
+  margin-bottom: 40px;
+}
+
+.searchWrapper {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  overflow: hidden;
+  /* Tạo bóng nhẹ */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: white;
+  padding: 12px 16px;
+  font-size: 1rem;
+  outline: none;
+  /* Bo góc trái */
+  border-radius: 999px 0 0 999px;
+}
+
+.searchInput::placeholder {
+  color: #666;
+}
+
+.searchButton {
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  /* Bo góc phải */
+  border-radius: 0 999px 999px 0;
+  transition: background-color 0.3s;
+}
+
+.searchButton:hover {
+  background-color: #333;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  max-width: 240px;
+  text-align: left;
+}
+
+.iconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.featureIcon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.featureText {}
+
+.featureTitle {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
+}
+
+.featureDesc {
+  font-size: 0.9rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  .searchWrapper {
+    flex-direction: column;
+  }
+  .searchInput,
+  .searchButton {
+    border-radius: 999px;
+    width: 100%;
+  }
+  .searchInput {
+    margin-bottom: 8px;
+  }
+  .features {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .featureItem {
+    justify-content: center;
+  }
+}
