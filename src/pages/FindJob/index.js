@@ -14,7 +14,19 @@ function FindJob() {
     locations: [],
     companies: [],
   });
-  // Hàm xử lý dữ liệu và tạo filters
+  const [showMore, setShowMore] = useState({
+    locations: false,
+    companies: false,
+  });
+  const [displayCount, setDisplayCount] = useState({
+    locations: 8,
+    companies: 10,
+  });
+  const [allFilters, setAllFilters] = useState({
+    jobTypes: [],
+    locations: [],
+    companies: [],
+  }); // Hàm xử lý dữ liệu và tạo filters
   const processFiltersData = (jobs) => {
     const jobTypeCounts = {};
     const locationCounts = {};
@@ -39,27 +51,77 @@ function FindJob() {
       }
     });
 
-    // Sắp xếp theo số lượng giảm dần và lấy top items
+    // Sắp xếp theo số lượng giảm dần
     const sortedJobTypes = Object.entries(jobTypeCounts)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 6)
       .map(([type, count]) => ({ name: type, count }));
 
     const sortedLocations = Object.entries(locationCounts)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 8)
       .map(([location, count]) => ({ name: location, count }));
 
     const sortedCompanies = Object.entries(companyCounts)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 10)
       .map(([company, count]) => ({ name: company, count }));
 
-    setFilters({
+    // Lưu tất cả filters
+    setAllFilters({
       jobTypes: sortedJobTypes,
       locations: sortedLocations,
       companies: sortedCompanies,
     });
+
+    // Hiển thị limited items ban đầu
+    setFilters({
+      jobTypes: sortedJobTypes.slice(0, 6),
+      locations: sortedLocations.slice(0, 8),
+      companies: sortedCompanies.slice(0, 10),
+    });
+  };
+  // Hàm xử lý khi click More
+  const handleShowMore = (filterType) => {
+    setShowMore((prev) => ({
+      ...prev,
+      [filterType]: !prev[filterType],
+    }));
+
+    if (!showMore[filterType]) {
+      // Hiển thị thêm 10 items
+      const currentCount = displayCount[filterType];
+      const newCount = Math.min(
+        currentCount + 10,
+        allFilters[filterType].length
+      );
+
+      setDisplayCount((prev) => ({
+        ...prev,
+        [filterType]: newCount,
+      }));
+
+      setFilters((prev) => ({
+        ...prev,
+        [filterType]: allFilters[filterType].slice(0, newCount),
+      }));
+    } else {
+      // Ẩn bớt, trở về số lượng ban đầu
+      const initialLimits = {
+        locations: 8,
+        companies: 10,
+      };
+
+      setDisplayCount((prev) => ({
+        ...prev,
+        [filterType]: initialLimits[filterType],
+      }));
+
+      setFilters((prev) => ({
+        ...prev,
+        [filterType]: allFilters[filterType].slice(
+          0,
+          initialLimits[filterType]
+        ),
+      }));
+    }
   };
 
   // Hàm tạo hiệu ứng counter animation
@@ -138,8 +200,7 @@ function FindJob() {
   }, []);
   return (
     <>
-      {/* <Header /> */}
-      {" "}
+      {/* <Header /> */}{" "}
       <div className={styles.sectionBanner}>
         <div className="container">
           <div className={styles.bannerContent}>
@@ -197,7 +258,6 @@ function FindJob() {
                 <h3>Filters</h3>
                 <button className={styles.clearAll}>Clear All</button>
               </div>
-
               {/* Job Type Filter */}
               <div className={styles.filterGroup}>
                 <div className={styles.filterTitle}>
@@ -216,8 +276,7 @@ function FindJob() {
                     </div>
                   ))}
                 </div>
-              </div>
-
+              </div>{" "}
               {/* Location Filter */}
               <div className={styles.filterGroup}>
                 <div className={styles.filterTitle}>
@@ -225,6 +284,9 @@ function FindJob() {
                   <button className={styles.clearFilter}>Clear</button>
                 </div>
                 <div className={styles.filterOptions}>
+                  <div className={styles.filterOption}>
+                    <span className={styles.optionName}>All ({totalJobs})</span>
+                  </div>{" "}
                   {filters.locations.map((location, index) => (
                     <div key={index} className={styles.filterOption}>
                       <span className={styles.optionName}>
@@ -232,10 +294,14 @@ function FindJob() {
                       </span>
                     </div>
                   ))}
-                  <button className={styles.showMore}>More +</button>
+                  <button
+                    className={styles.showMore}
+                    onClick={() => handleShowMore("locations")}
+                  >
+                    {showMore.locations ? "Less -" : "More"}
+                  </button>
                 </div>
               </div>
-
               {/* Company Filter */}
               <div className={styles.filterGroup}>
                 <div className={styles.filterTitle}>
@@ -245,7 +311,7 @@ function FindJob() {
                 <div className={styles.filterOptions}>
                   <div className={styles.filterOption}>
                     <span className={styles.optionName}>All ({totalJobs})</span>
-                  </div>
+                  </div>{" "}
                   {filters.companies.map((company, index) => (
                     <div key={index} className={styles.filterOption}>
                       <span className={styles.optionName}>
@@ -253,7 +319,12 @@ function FindJob() {
                       </span>
                     </div>
                   ))}
-                  <button className={styles.showMore}>More +</button>
+                  <button
+                    className={styles.showMore}
+                    onClick={() => handleShowMore("companies")}
+                  >
+                    {showMore.companies ? "Less -" : "More +"}
+                  </button>
                 </div>
               </div>
             </div>

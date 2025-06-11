@@ -7,6 +7,7 @@ import FashionSection from "../../components/FashionSection/FashionSection";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
+
 function HomePage() {
   return (
     <>
@@ -52,7 +53,7 @@ function HomePage() {
             <div className={styles.uptimeCard}>
               <div className={styles.upHeader}>
                 <span>Uptime Guarantee</span>
-                <FiArrowUpRight />
+                <FaStar />
               </div>
               <div className={styles.percent}>99.99%</div>
               <div className={styles.barBg}>
