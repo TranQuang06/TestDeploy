@@ -1,4 +1,4 @@
-
+/* Hero - section 1 */
 .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -142,3 +142,77 @@
 .hero .partners img:hover {
     opacity: 1;
 }
+/*End hero (end section 1) */
+
+/* Section 2 - Experience with Number */
+.statsSection {
+    background-color: #F7F6FF;
+    padding: 60px 20px;
+}
+
+.statsSection .statsContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* ---- Phần text bên trái ---- */
+.statsSection .statsText {
+    flex: 1 1 300px;
+}
+
+.statsSection .statsSubtitle {
+    font-size: 16px;
+    color: #7A7A7A;
+    margin: 0 0 8px;
+}
+
+.statsSection .statsTitle {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 0;
+    color: #000;
+}
+
+/* ---- Các thống kê bên phải ---- */
+.statsSection .statsCards {
+    display: flex;
+    flex: 2 1 600px;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.statsSection .statsCard {
+    text-align: left;
+    flex: 1 1 150px;
+    /* border phân tách giữa các card */
+    border-right: 1px solid #DDD;
+    padding-right: 24px;
+}
+
+/* Bỏ border của card cuối cùng */
+.statsSection .statsCard:last-child {
+    border-right: none;
+}
+
+.statsSection .statsNumber {
+    font-size: 36px;
+    margin: 0;
+    color: #6C00FF;
+}
+
+.statsSection .statsPercent {
+    font-size: 32px;
+}
+
+.statsSection .statsDesc {
+    font-size: 14px;
+    color: #7A7A7A;
+    line-height: 1.4;
+    margin-top: 8px;
+}
+/* End section 2 */
