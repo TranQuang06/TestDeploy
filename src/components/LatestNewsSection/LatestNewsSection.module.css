@@ -1,0 +1,156 @@
+.section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* container 2 cột: 3fr | 1fr */
+.content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 32px;
+}
+
+/* --------- Latest News List --------- */
+.newsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newsCard {
+  display: flex;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.thumbnail {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.newsInfo {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.newsTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #111;
+}
+
+.newsDesc {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.newsMeta {
+  font-size: 0.75rem;
+  color: #888;
+  display: flex;
+  gap: 12px;
+}
+
+.category {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.date {
+}
+
+/* nút View All */
+.viewAll {
+  margin-top: 8px;
+  align-self: start;
+  background: none;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.viewAll:hover {
+  background: #e53e3e;
+  color: #fff;
+}
+
+/* --------- Trending News --------- */
+.trending {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.trendHeading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.trendList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trendItem {
+  display: flex;
+  gap: 12px;
+}
+
+.bullet {
+  width: 6px;
+  height: 6px;
+  background: #e53e3e;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.trendTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.trendMeta {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .newsList {
+    gap: 12px;
+  }
+}
