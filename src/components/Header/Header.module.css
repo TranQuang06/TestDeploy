@@ -34,10 +34,6 @@
     object-fit: cover;
 }
 
-<<<<<<< HEAD
-.navLink {
-    color: white;
-=======
 .headerContainer .navigationList {
     display: flex;
     list-style: none;
@@ -48,8 +44,7 @@
 
 .headerContainer .navItem {
     font-size: 14px;
-    color: var(--primary-color);
->>>>>>> b5478be34af56683d406db65cc4adb6710741fcd
+    color: var(--primary-color);    
     text-decoration: none;
     transition: color 0.2s;
     padding: 8px;
