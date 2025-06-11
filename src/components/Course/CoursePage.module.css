@@ -1,0 +1,30 @@
+/* src/components/Social/SocialPage.module.css */
+.container {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  
+  /* Chỉnh tỉ lệ cột: ví dụ cột trái rộng hơn cột phải */
+  .leftColumn {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .rightColumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  /* Responsive: khi màn nhỏ, stack dọc */
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+    }
+  }
+  

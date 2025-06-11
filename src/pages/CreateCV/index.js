@@ -1,7 +1,7 @@
 import styles from "../CreateCV/CreateCV.module.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { useState } from "react"; // Thêm import useState
+import { useState, useEffect } from "react"; // Thêm import useState và useEffect
 import { Row, Col, Tabs } from "antd";
 import {
   PlusCircleOutlined,
@@ -10,33 +10,105 @@ import {
 } from "@ant-design/icons";
 import ResumeTemplatesTab from "../../components/CreatCV/ResumeTemplatesTab";
 import CVGallerySection from "../../components/CVGallerySection/CVGallerySection";
+import CVTemplateDetailed from "../../components/CVTemplateDetail";
+import { getCVDataByTemplate } from "../../data/cvTemplatesData";
 
 const onChange = (key) => {
   console.log(key);
 };
 
-const items = [
-  {
-    key: "1",
-    label: "Resume Templates",
-    children: <ResumeTemplatesTab />,
-  },
-  {
-    key: "2",
-    label: "Cover Letter Templates",
-    children: "Content of Tab Pane 2",
-  },
-];
+// Di chuyển items vào trong component để có thể truyền props
 
 function CreateCV() {
   const [activeCV, setActiveCV] = useState("kinhdoanh");
   const [imageLoading, setImageLoading] = useState(false);
+  const [showCVDetail, setShowCVDetail] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [scrollPosition, setScrollPosition] = useState(0); // Lưu vị trí scroll
 
   const cvImages = {
     kinhdoanh: "/assets/img/creatCV/ct_cv1.png",
     laptrinh: "/assets/img/creatCV/ct_cv2.png",
     ketoan: "/assets/img/creatCV/ct_cv3.png",
   };
+
+  // State để lưu dữ liệu CV hiện tại
+  const [currentCVData, setCurrentCVData] = useState(null);
+
+  // Handler khi nhấn nút "Dùng mẫu"
+  const handleUseTemplate = (template) => {
+    console.log('Selected template:', template); // Debug log
+
+    // Lưu vị trí scroll hiện tại trước khi chuyển trang
+    const currentScrollY = window.scrollY || window.pageYOffset;
+    setScrollPosition(currentScrollY);
+    console.log('Saved scroll position:', currentScrollY); // Debug log
+
+    // Lấy dữ liệu CV tương ứng với template
+    const cvData = getCVDataByTemplate(template.id);
+    console.log('CV Data:', cvData); // Debug log
+
+    setSelectedTemplate(template);
+    setCurrentCVData(cvData);
+    setShowCVDetail(true);
+
+    // Scroll lên đầu trang với animation mượt
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // Handler quay lại danh sách
+  const handleBackToList = () => {
+    setShowCVDetail(false);
+    setSelectedTemplate(null);
+    setCurrentCVData(null);
+
+    // Delay nhỏ để đảm bảo component đã render xong trước khi scroll
+    setTimeout(() => {
+      console.log('Restoring scroll position:', scrollPosition); // Debug log
+
+      // Scroll về vị trí đã lưu với animation mượt
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
+    }, 100);
+  };
+
+  // useEffect để scroll lên đầu khi showCVDetail thay đổi
+  useEffect(() => {
+    if (showCVDetail) {
+      // Delay nhỏ để đảm bảo component đã render xong
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+  }, [showCVDetail]);
+
+  // useEffect để reset scroll position khi component mount
+  useEffect(() => {
+    // Reset scroll position về 0 khi component được load lần đầu
+    setScrollPosition(0);
+  }, []);
+
+  // Items cho Tabs với props
+  const items = [
+    {
+      key: "1",
+      label: "Resume Templates",
+      children: <ResumeTemplatesTab onUseTemplate={handleUseTemplate} />,
+    },
+    {
+      key: "2",
+      label: "Cover Letter Templates",
+      children: "Content of Tab Pane 2",
+    },
+  ];
 
   // Hàm xử lý chuyển đổi ảnh với animation
   const handleCVChange = (cvType) => {
@@ -102,6 +174,17 @@ function CreateCV() {
 
     requestAnimationFrame(animateScroll);
   };
+
+  // Nếu đang hiển thị CV detail, render CVTemplateDetailed
+  if (showCVDetail && currentCVData) {
+    return (
+      <>
+        <Header />
+        <CVTemplateDetailed data={currentCVData} onBackList={handleBackToList} />
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -302,7 +385,7 @@ function CreateCV() {
               Khám phá hàng trăm mẫu CV được thiết kế riêng cho từng ngành nghề
             </p>
           </div>
-          <CVGallerySection />
+          <CVGallerySection onUseTemplate={handleUseTemplate} />
         </div>
       </div>{" "}
       {/* END OF SECTION FOUR */}
