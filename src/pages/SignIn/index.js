@@ -20,7 +20,7 @@ function SignIn() {
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
-  
+
   useLayoutEffect(() => {
     const tl = gsap.timeline({ defaults: { duration: 1, ease: "power2.out" } });
 
@@ -50,15 +50,15 @@ function SignIn() {
   useEffect(() => {
     const btn = btnRef.current;
     if (!btn) return; //  tránh lỗi nếu chưa mount
-  
+
     gsap.set(btn, { scale: 1 });
-  
+
     const handleEnter = () => gsap.to(btn, { scale: 1.05, duration: 0.2 });
     const handleLeave = () => gsap.to(btn, { scale: 1, duration: 0.2 });
-  
+
     btn.addEventListener("mouseenter", handleEnter);
     btn.addEventListener("mouseleave", handleLeave);
-  
+
     return () => {
       btn.removeEventListener("mouseenter", handleEnter);
       btn.removeEventListener("mouseleave", handleLeave);
@@ -67,7 +67,6 @@ function SignIn() {
 
   return (
     <>
-      
       <div className={styles.signinWrapper}>
         <div className={styles.signinLeft} ref={leftRef}>
           <div className={styles.brand}>
@@ -88,7 +87,7 @@ function SignIn() {
                 className={styles.passwordInput}
               />
               <span onClick={togglePassword} className={styles.eyeIcon}>
-                {showPassword ?  <FaEye /> : <FaEyeSlash />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
             <div className={styles.signinOptions}>
@@ -106,8 +105,12 @@ function SignIn() {
             </button>
             <div className={styles.signinBottom}>
               <p>
-                Don’t have an account? <a href="#">Sign up</a>
+                Don’t have an account?{" "}
+                <Link href="/Register" className={styles.link}>
+                  Register
+                </Link>
               </p>
+
               <div className={styles.signinSocials}>
                 <div className={styles.socialIcon}>
                   <FcGoogle />

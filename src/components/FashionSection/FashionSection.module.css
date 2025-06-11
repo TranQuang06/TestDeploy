@@ -1,0 +1,215 @@
+.section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch; /* <-- từ start -> stretch */
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==== LEFT ==== */
+.left {
+  position: relative; /* để chứa overlay pseudo */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch; /* vẫn full height parent */
+  padding: 40px; /* tạo khoảng cách quanh nội dung */
+  min-height: 500px; /* đảm bảo chiều cao tối thiểu */
+
+  background-image: url("https://images.unsplash.com/photo-1749315099905-9cf6cabd9126?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; /* tránh layout tràn ra */
+  color: #fff; /* đặt màu chữ sáng */
+  border-radius: 8px; /* bo góc nhẹ */
+}
+
+/* Gradient overlay để chữ nổi bật hơn */
+.left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.2)
+  );
+  pointer-events: none;
+}
+
+/* Đặt luôn nội dung lên trước overlay */
+.left > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tiêu đề lớn, đậm, màu trắng */
+.title {
+  font-size: 3rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+/* Phụ đề nhỏ hơn, hơi mờ để tăng layer */
+.subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 24px;
+}
+
+/* Button bo tròn, viền trắng, hover chuyển nền trắng chữ đen */
+.ctaBtn {
+  display: inline-block;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ctaBtn:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ==== RIGHT (collage) ==== */
+/* ==== RIGHT (mosaic collage) ==== */
+.collage {
+  display: grid;
+
+  /* 2 cột đều nhau */
+  grid-template-columns: 1fr 1fr;
+
+  /* 2 hàng: hàng 1 cao tự động, hàng 2 chiếm phần còn lại */
+  grid-template-rows: auto 1fr;
+
+  gap: 16px;
+
+  grid-template-areas:
+    "smallCard smallImage"
+    "largeImage overlayCard";
+}
+
+/* Ánh xạ các khu vực */
+.smallCard {
+  grid-area: smallCard;
+}
+.smallImage {
+  grid-area: smallImage;
+}
+.largeImage {
+  grid-area: largeImage;
+}
+.overlayCard {
+  grid-area: overlayCard;
+}
+
+/* Đều bo góc và ẩn tràn */
+.collage > * {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Nội dung card nhỏ (text) */
+.smallCard {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.smallCard h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+}
+.smallCard p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.smallCard span {
+  color: #fff;
+}
+
+/* Top-right: ảnh nhỏ */
+.smallImage {
+  width: 100%;
+  /* để row 1 tự động lấy height content của .smallCard */
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bottom-left: ảnh to */
+.largeImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bottom-right: overlay card to */
+.overlayCard {
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Ví dụ về typography bên trong overlay */
+.overlayCard h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.overlayCard p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.overlayBtn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.overlayBtn:hover {
+  opacity: 0.8;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 900px) {
+  .section {
+    grid-template-columns: 1fr;
+  }
+  .collage {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "smallCard"
+      "smallImage"
+      "largeImage"
+      "overlay";
+  }
+}

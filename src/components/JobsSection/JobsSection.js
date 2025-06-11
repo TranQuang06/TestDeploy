@@ -1,12 +1,12 @@
 // src/components/JobsSection/JobsSection.js
 
-import React, { useEffect, useState } from 'react';
-import styles from './JobsSection.module.css';
+import React, { useEffect, useState } from "react";
+import styles from "./JobsSection.module.css";
 
 export default function JobsSection() {
   const [jobs, setJobs] = useState([]);
   const [jobTypes, setJobTypes] = useState([]);
-  const [activeType, setActiveType] = useState('All');
+  const [activeType, setActiveType] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,24 +17,32 @@ export default function JobsSection() {
 
   // Mảng màu nền xoay vòng cho từng card
   const bgColors = [
-    '#F5ECFF', '#FFEFF5', '#EFFFEE',
-    '#E8F0FF', '#FFFBEB', '#F0FFF4',
-    '#FFF0F0', '#F7F5FF', '#EFFCF6'
+    "#F5ECFF",
+    "#FFEFF5",
+    "#EFFFEE",
+    "#E8F0FF",
+    "#FFFBEB",
+    "#F0FFF4",
+    "#FFF0F0",
+    "#F7F5FF",
+    "#EFFCF6",
   ];
 
   useEffect(() => {
-    fetch('https://remotive.com/api/remote-jobs')
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
+    fetch("https://remotive.com/api/remote-jobs")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setJobs(data.jobs || []);
         // Lấy các kiểu công việc duy nhất và thêm 'All' ở đầu
-        const types = Array.from(new Set((data.jobs || []).map(j => j.job_type)));
-        setJobTypes(['All', ...types]);
+        const types = Array.from(
+          new Set((data.jobs || []).map((j) => j.job_type))
+        );
+        setJobTypes(["All", ...types]);
       })
-      .catch(err => setError(err.message))
+      .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
@@ -45,9 +53,7 @@ export default function JobsSection() {
 
   // Lọc jobs theo tab đang chọn
   const filteredJobs =
-    activeType === 'All'
-      ? jobs
-      : jobs.filter(j => j.job_type === activeType);
+    activeType === "All" ? jobs : jobs.filter((j) => j.job_type === activeType);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredJobs.length / cardsPerPage);
@@ -80,10 +86,12 @@ export default function JobsSection() {
 
       {/* Tabs */}
       <div className={styles.tabs}>
-        {jobTypes.map(type => (
+        {jobTypes.map((type) => (
           <button
             key={type}
-            className={`${styles.tabButton} ${activeType === type ? styles.active : ''}`}
+            className={`${styles.tabButton} ${
+              activeType === type ? styles.active : ""
+            }`}
             onClick={() => setActiveType(type)}
           >
             {type}
@@ -92,12 +100,16 @@ export default function JobsSection() {
       </div>
 
       {/* Grid cards */}
-      <div className={`${styles.grid} ${fade ? styles.fadeOut : styles.fadeIn}`}>
+      <div
+        className={`${styles.grid} ${fade ? styles.fadeOut : styles.fadeIn}`}
+      >
         {jobsToShow.map((job, idx) => (
           <div
             key={job.id}
             className={styles.card}
-            style={{ backgroundColor: bgColors[(startIdx + idx) % bgColors.length] }}
+            style={{
+              backgroundColor: bgColors[(startIdx + idx) % bgColors.length],
+            }}
           >
             {/* Header */}
             <div className={styles.cardHeader}>
@@ -123,15 +135,15 @@ export default function JobsSection() {
             {/* Footer */}
             <div className={styles.cardFooter}>
               <div>
-                <span className={styles.salary}>{job.salary || 'N/A'}</span>
+                <span className={styles.salary}>{job.salary || "N/A"}</span>
                 <span className={styles.location}>
-                  {' '}
+                  {" "}
                   · {job.candidate_required_location}
                 </span>
               </div>
               <button
                 className={styles.detailsBtn}
-                onClick={() => window.open(job.url, '_blank')}
+                onClick={() => window.open(job.url, "_blank")}
               >
                 Details
               </button>
@@ -153,7 +165,9 @@ export default function JobsSection() {
           Page {currentPage} / {totalPages}
         </span>
         <button
-          onClick={() => handleChangePage(Math.min(totalPages, currentPage + 1))}
+          onClick={() =>
+            handleChangePage(Math.min(totalPages, currentPage + 1))
+          }
           disabled={currentPage === totalPages}
           className={styles.pageBtn}
         >
