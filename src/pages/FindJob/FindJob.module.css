@@ -1,17 +1,22 @@
-* {
-    box-sizing: border-box;
-}
-
+/* Global styles reset */
 html, body {
     overflow-x: hidden;
     max-width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+/* Universal box-sizing */
+.contentWrapper *,
+.contentWrapper *::before, 
+.contentWrapper *::after {
+    box-sizing: border-box;
 }
 
 .sectionBanner {
     background-color: var(--primary-color);
     padding: 80px 0 60px;
     position: relative;
-    overflow-x: hidden;
     width: 100%;
 }
 
@@ -308,10 +313,10 @@ html, body {
     margin: 0;
 }
 
-.clearAll {
+.contentWrapper .clearAll {
     background: none;
     border: none;
-    color: #6366f1;
+    color: var(--primary-color);
     font-size: 14px;
     cursor: pointer;
     font-weight: 500;
@@ -345,7 +350,7 @@ html, body {
 .clearFilter {
     background: none;
     border: none;
-    color: #6366f1;
+    color: var(--primary-color);
     font-size: 12px;
     cursor: pointer;
     font-weight: 500;
@@ -362,15 +367,49 @@ html, body {
 .filterOption {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 8px 10px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 8px;
     margin-bottom: 4px;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInUp 0.3s ease;
 }
 
-.filterOption:hover {
-    background-color: #f8f9fa;
+/* Animation cho filter options */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effect cho tất cả options (trừ first-child) */
+.filterOption:not(:first-child):hover {
+    background-color: var(--last-color);
+    transform: translateX(4px);
+}
+
+/* Hover effect cho first-child (All option) */
+.filterOption:first-child:hover {
+    background-color: #e8f2ff;
+    transform: translateX(4px);
+}
+
+/* Mặc định chọn option "All" */
+.filterOption:first-child {
+    background-color: #f0f4ff;
+    border-radius: 6px;
+}
+
+.filterOption:first-child .optionName {
+    color: var(--primary-color);
+    font-weight: 500;
 }
 
 .optionName {
@@ -381,8 +420,8 @@ html, body {
 
 /* Highlighted option cho mục All hoặc selected */
 .filterOption.selected {
-    background-color: #f0f4ff;
-    border-radius: 6px;
+    background-color: var(--last-color);
+    border-radius: 12px;
 }
 
 .filterOption.selected .optionName {
@@ -393,15 +432,19 @@ html, body {
 .showMore {
     background: none;
     border: none;
-    color: #6366f1;
+    color: var(--primary-color);
     font-size: 14px;
     cursor: pointer;
     margin-top: 8px;
     font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 6px 12px;
+    border-radius: 6px;
 }
 
 .showMore:hover {
-    text-decoration: underline;
+    background-color: #f0f4ff;
+    transform: translateY(-1px);
 }
 
 /* Center and Right Side */
