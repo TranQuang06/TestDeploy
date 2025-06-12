@@ -1,0 +1,128 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  overflow: hidden; /* Ngăn scroll ngang */
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: calc(100vh - 80px); /* Chiều cao cố định để tránh scroll kép */
+}
+
+.leftPane {
+  flex: 0 0 35%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  overflow: hidden; /* Ẩn overflow, chỉ cho phép scroll trong jobList */
+  height: 100%; /* Chiều cao 100% của container */
+}
+
+.rightPane {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: 100%; /* Chiều cao 100% của container */
+  overflow: hidden; /* Ẩn overflow, chỉ cho phép scroll trong nội dung */
+}
+
+.noJobSelected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #666;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px; /* Giảm margin-top */
+  gap: 8px; /* Giảm khoảng cách */
+  padding-bottom: 0;
+}
+
+.pageButton {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 6px 12px; /* Giảm padding */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px; /* Giảm font size */
+  transition: all 0.2s;
+}
+
+.pageButton:hover:not(.disabled) {
+  background-color: #f0f0f0;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 4px; /* Giảm khoảng cách */
+}
+
+.pageNumber {
+  width: 32px; /* Giảm kích thước */
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px; /* Giảm font size */
+}
+
+.pageNumber:hover:not(.activePage) {
+  background-color: #f0f0f0;
+}
+
+.activePage {
+  background-color: #6c00ff;
+  color: white;
+  border-color: #6c00ff;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 16px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .leftPane,
+  .rightPane {
+    width: 100%;
+    max-width: none;
+    height: auto;
+  }
+
+  .leftPane {
+    margin-bottom: 16px;
+  }
+}

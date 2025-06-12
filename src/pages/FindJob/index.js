@@ -4,8 +4,10 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { Pagination, Slider, InputNumber } from "antd";
 import styles from "../FindJob/FindJob.module.css";
+import { useRouter } from "next/router"; // Sử dụng useRouter từ Next.js
 
 function FindJob() {
+  const router = useRouter(); // Sử dụng router thay vì navigate
   const [totalJobs, setTotalJobs] = useState(0);
   const [displayJobs, setDisplayJobs] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -17,33 +19,33 @@ function FindJob() {
     jobTypes: [],
     locations: [],
     companies: [],
-    categories: [], // Thêm categories cho professions
+    categories: [],
   });
   const [showMore, setShowMore] = useState({
     locations: false,
     companies: false,
-    categories: false, // Thêm state cho categories
-    popularCompanies: false, // Thêm state cho popular companies
+    categories: false,
+    popularCompanies: false,
   });
   const [displayCount, setDisplayCount] = useState({
     locations: 8,
     companies: 10,
-    categories: 8, // Thêm display count cho categories
-    popularCompanies: 8, // Số lượng popular companies hiển thị ban đầu
+    categories: 8,
+    popularCompanies: 8,
   });
   const [allFilters, setAllFilters] = useState({
     jobTypes: [],
     locations: [],
     companies: [],
-    categories: [], // Thêm categories
+    categories: [],
   });
   // State để track các filter đã chọn
   const [selectedFilters, setSelectedFilters] = useState({
     jobTypes: [],
     locations: [],
     companies: [],
-    categories: [], // Thêm categories filter
-    salaryRange: [null, null], // Thay đổi thành null để không điền sẵn giá trị
+    categories: [],
+    salaryRange: [null, null],
   });
   // State cho sorting
   const [sortBy, setSortBy] = useState("date"); // "date" hoặc "salary"
@@ -514,7 +516,7 @@ function FindJob() {
       jobTypes: [],
       locations: [],
       companies: [],
-      categories: [], // Thêm categories
+      categories: [],
       salaryRange: [null, null], // Reset salary range về null
     });
     setCurrentPage(1);
@@ -1048,6 +1050,16 @@ function FindJob() {
     return Array.from(suggestions).slice(0, 5); // Max 5 suggestions
   };
 
+  // Thêm hàm xử lý khi click vào job
+  const handleJobClick = (job) => {
+    // Chuyển hướng đến JobsPage với thông tin job được chọn
+    router.push(
+      `/jobs?jobId=${job.id}&location=${encodeURIComponent(
+        job.candidate_required_location || "Remote"
+      )}`
+    );
+  };
+
   return (
     <>
       {/* <Header /> */}{" "}
@@ -1431,7 +1443,12 @@ function FindJob() {
                   </div>
                 ) : (
                   sortJobs(getCurrentPageJobs()).map((job, index) => (
-                    <div key={job.id || index} className={styles.jobCard}>
+                    <div
+                      key={job.id || index}
+                      className={styles.jobCard}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleJobClick(job)}
+                    >
                       <div className={styles.jobHeader}>
                         <div className={styles.companyInfo}>
                           {" "}
