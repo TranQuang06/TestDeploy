@@ -1,0 +1,312 @@
+/* Container sidebar */
+.sidebar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Header pill */
+.headerPill {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0; /* Ngăn header co lại */
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.count {
+  font-weight: 500;
+  font-size: 14px;
+  color: #6c00ff;
+  background-color: rgba(108, 0, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.pageInfo {
+  font-size: 12px;
+  color: #777;
+  flex-basis: 100%;
+  margin-top: 4px;
+}
+
+/* Loading state */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  color: #666;
+  flex: 1;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(108, 0, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: #6c00ff;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 10px;
+  flex: 1;
+}
+
+/* Job list */
+.jobList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Giảm khoảng cách giữa các job card */
+  overflow-y: auto;
+  flex: 1; /* Chiếm hết không gian còn lại */
+  padding-right: 6px; /* Tạo khoảng cách cho scrollbar */
+  height: 0; /* Quan trọng: cho phép flex-grow hoạt động đúng */
+}
+
+/* Job card */
+.jobCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 14px; /* Giảm padding để card nhỏ hơn */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #eee;
+}
+
+.jobCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.selectedJob {
+  border: 2px solid #6c00ff;
+  box-shadow: 0 4px 12px rgba(108, 0, 255, 0.15);
+}
+
+/* Card header */
+.cardHeader {
+  display: flex;
+  gap: 10px; /* Giảm khoảng cách */
+  margin-bottom: 10px; /* Giảm margin */
+  position: relative;
+}
+
+.logoWrapper {
+  width: 45px; /* Giảm kích thước logo */
+  height: 45px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.companyLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.defaultLogoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #6c00ff;
+  font-size: 24px;
+}
+
+.jobInfo {
+  flex: 1;
+}
+
+.companyName {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 4px;
+}
+
+.positionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.location {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bookmarkBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #6c00ff;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+}
+
+/* Tags */
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px; /* Giảm khoảng cách */
+  margin-bottom: 10px; /* Giảm margin */
+}
+
+.tag {
+  background-color: #f0f0f0;
+  color: #555;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+/* Description */
+.description {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 10px; /* Giảm margin */
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer */
+.footerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px; /* Thêm margin-top nhỏ hơn */
+}
+
+.leftFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paymentVerified {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #28a745;
+}
+
+.verifiedIcon {
+  font-size: 12px;
+}
+
+.timeAgo {
+  font-size: 12px;
+  color: #888;
+}
+
+.viewDetailsBtn {
+  background-color: transparent;
+  color: #6c00ff;
+  border: 1px solid #6c00ff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.viewDetailsBtn:hover {
+  background-color: #6c00ff;
+  color: white;
+}
+
+.arrowIcon {
+  font-size: 12px;
+}
+
+/* Scrollbar styling */
+.jobList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.jobList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.jobList::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.jobList::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+@media (max-width: 768px) {
+  .jobList {
+    max-height: 400px; /* Giới hạn chiều cao trên mobile */
+  }
+}
+
+.locationFilter {
+  font-size: 12px;
+  color: #6c00ff;
+  background-color: rgba(108, 0, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 4px;
+  flex-basis: 100%;
+  text-align: center;
+}

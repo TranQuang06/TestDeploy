@@ -23,7 +23,7 @@
   -webkit-backdrop-filter: blur(10px);
 
   /* Bo góc và shadow nhẹ */
-  border-radius: 8px;
+  border-radius: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.212);
 
@@ -72,7 +72,9 @@
 
 .navLink {
   font-size: 16px;
-  color: #fff; /* Mặc định trắng để nổi trên nền glass tối phía sau */
+  color: var(
+    --primary-color
+  ); /* Mặc định trắng để nổi trên nền glass tối phía sau */
   text-decoration: none;
   padding: 8px;
   border-radius: 4px;
@@ -102,16 +104,16 @@
   padding: 8px 20px;
   font-size: 14px;
   font-weight: 500;
-  color: #ffc46c; /* primary color */
+  color: var(--secondary-color); /* primary color */
   background: transparent;
-  border: 2px solid #ffc46c;
+  border: 2px solid var(--primary-color);
   border-radius: 50px;
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .cta:hover {
-  background: #ffc46c;
+  background: var(--hover-color);
   color: #201514;
 }
 

@@ -4,8 +4,10 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { Pagination, Slider, InputNumber } from "antd";
 import styles from "../FindJob/FindJob.module.css";
+import { useRouter } from "next/router"; // Sử dụng useRouter từ Next.js
 
 function FindJob() {
+  const router = useRouter(); // Sử dụng router thay vì navigate
   const [totalJobs, setTotalJobs] = useState(0);
   const [displayJobs, setDisplayJobs] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -17,28 +19,49 @@ function FindJob() {
     jobTypes: [],
     locations: [],
     companies: [],
+    categories: [],
   });
   const [showMore, setShowMore] = useState({
     locations: false,
     companies: false,
-    popularCompanies: false, // Thêm state cho popular companies
+    categories: false,
+    popularCompanies: false,
   });
   const [displayCount, setDisplayCount] = useState({
     locations: 8,
     companies: 10,
-    popularCompanies: 8, // Số lượng popular companies hiển thị ban đầu
+    categories: 8,
+    popularCompanies: 8,
   });
   const [allFilters, setAllFilters] = useState({
     jobTypes: [],
     locations: [],
     companies: [],
-  }); // State để track các filter đã chọn
+    categories: [],
+  });
+  // State để track các filter đã chọn
   const [selectedFilters, setSelectedFilters] = useState({
     jobTypes: [],
     locations: [],
     companies: [],
-    salaryRange: [null, null], // Thay đổi thành null để không điền sẵn giá trị
-  }); // Function để tính toán dynamic filters dựa trên selected filters
+    categories: [],
+    salaryRange: [null, null],
+  });
+  // State cho sorting
+  const [sortBy, setSortBy] = useState("date"); // "date" hoặc "salary"
+  // State cho search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
+
+  // State cho autocomplete
+  const [showSuggestions, setShowSuggestions] = useState({
+    search: false,
+    location: false,
+  });
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [locationSuggestions, setLocationSuggestions] = useState([]);
+
+  // Function để tính toán dynamic filters dựa trên selected filters
   const calculateDynamicFilters = () => {
     console.log("=== CALCULATING DYNAMIC FILTERS ===");
     console.log("Current selected filters:", selectedFilters);
@@ -59,10 +82,18 @@ function FindJob() {
           selectedFilters.locations.includes(job.candidate_required_location)
         );
       }
-
       if (excludeType !== "companies" && selectedFilters.companies.length > 0) {
         jobs = jobs.filter((job) =>
           selectedFilters.companies.includes(job.company_name)
+        );
+      }
+
+      if (
+        excludeType !== "categories" &&
+        selectedFilters.categories.length > 0
+      ) {
+        jobs = jobs.filter((job) =>
+          selectedFilters.categories.includes(job.category)
         );
       }
 
@@ -86,15 +117,22 @@ function FindJob() {
         locationCounts[job.candidate_required_location] =
           (locationCounts[job.candidate_required_location] || 0) + 1;
       }
-    });
-
-    // Tính counts cho companies (exclude companies filter)
+    }); // Tính counts cho companies (exclude companies filter)
     const companyFilteredJobs = getFilteredJobsForType("companies");
     const companyCounts = {};
     companyFilteredJobs.forEach((job) => {
       if (job.company_name) {
         companyCounts[job.company_name] =
           (companyCounts[job.company_name] || 0) + 1;
+      }
+    });
+
+    // Tính counts cho categories (exclude categories filter)
+    const categoryFilteredJobs = getFilteredJobsForType("categories");
+    const categoryCounts = {};
+    categoryFilteredJobs.forEach((job) => {
+      if (job.category) {
+        categoryCounts[job.category] = (categoryCounts[job.category] || 0) + 1;
       }
     });
 
@@ -114,10 +152,13 @@ function FindJob() {
     const sortedLocations = Object.entries(locationCounts)
       .sort(([, a], [, b]) => b - a)
       .map(([location, count]) => ({ name: location, count }));
-
     const sortedCompanies = Object.entries(companyCounts)
       .sort(([, a], [, b]) => b - a)
       .map(([company, count]) => ({ name: company, count }));
+
+    const sortedCategories = Object.entries(categoryCounts)
+      .sort(([, a], [, b]) => b - a)
+      .map(([category, count]) => ({ name: category, count }));
 
     console.log("New sorted locations:", sortedLocations.slice(0, 5));
 
@@ -126,6 +167,7 @@ function FindJob() {
       jobTypes: sortedJobTypes,
       locations: sortedLocations,
       companies: sortedCompanies,
+      categories: sortedCategories,
     });
 
     // Hiển thị limited items với counts mới
@@ -142,6 +184,12 @@ function FindJob() {
         showMore.companies
           ? Math.min(displayCount.companies, sortedCompanies.length)
           : 10
+      ),
+      categories: sortedCategories.slice(
+        0,
+        showMore.categories
+          ? Math.min(displayCount.categories, sortedCategories.length)
+          : 8
       ),
     });
 
@@ -176,6 +224,7 @@ function FindJob() {
       const initialLimits = {
         locations: 8,
         companies: 10,
+        categories: 8,
       };
 
       setDisplayCount((prev) => ({
@@ -467,6 +516,7 @@ function FindJob() {
       jobTypes: [],
       locations: [],
       companies: [],
+      categories: [],
       salaryRange: [null, null], // Reset salary range về null
     });
     setCurrentPage(1);
@@ -479,15 +529,29 @@ function FindJob() {
       [filterType]: [],
     }));
     setCurrentPage(1);
-  };
-  // Function để filter jobs dựa trên selected filters
+  }; // Function để filter jobs dựa trên selected filters và search
   const applyFilters = () => {
     let filtered = jobsData;
 
     console.log("=== DEBUG FILTERING ===");
     console.log("Selected filters:", selectedFilters);
+    console.log("Search terms:", { searchTerm, searchLocation });
     console.log("Total jobs before filtering:", jobsData.length);
 
+    // 1. Apply search filters FIRST
+    // Search by job title, keywords, company
+    if (searchTerm && searchTerm.trim() !== "") {
+      filtered = searchJobs(filtered, searchTerm);
+      console.log("Jobs after search filter:", filtered.length);
+    }
+
+    // Search by location
+    if (searchLocation && searchLocation.trim() !== "") {
+      filtered = searchByLocation(filtered, searchLocation);
+      console.log("Jobs after location search:", filtered.length);
+    }
+
+    // 2. Apply other filters
     // Filter by job types
     if (selectedFilters.jobTypes.length > 0) {
       console.log("Filtering by job types:", selectedFilters.jobTypes);
@@ -497,26 +561,32 @@ function FindJob() {
       console.log("Jobs after job type filter:", filtered.length);
     }
 
-    // Filter by locations
+    // Filter by locations (sidebar filter)
     if (selectedFilters.locations.length > 0) {
       console.log("Filtering by locations:", selectedFilters.locations);
-      console.log(
-        "Sample job locations:",
-        jobsData.slice(0, 5).map((job) => job.candidate_required_location)
-      );
-
       filtered = filtered.filter((job) =>
         selectedFilters.locations.includes(job.candidate_required_location)
       );
       console.log("Jobs after location filter:", filtered.length);
-    } // Filter by companies
+    } // Filter by companies (sidebar filter)
     if (selectedFilters.companies.length > 0) {
       console.log("Filtering by companies:", selectedFilters.companies);
       filtered = filtered.filter((job) =>
         selectedFilters.companies.includes(job.company_name)
       );
       console.log("Jobs after company filter:", filtered.length);
-    } // Filter by salary range
+    }
+
+    // Filter by categories (sidebar filter)
+    if (selectedFilters.categories.length > 0) {
+      console.log("Filtering by categories:", selectedFilters.categories);
+      filtered = filtered.filter((job) =>
+        selectedFilters.categories.includes(job.category)
+      );
+      console.log("Jobs after category filter:", filtered.length);
+    }
+
+    // Filter by salary range
     const [minSalary, maxSalary] = selectedFilters.salaryRange;
     if (minSalary !== null || maxSalary !== null) {
       console.log("Filtering by salary range:", selectedFilters.salaryRange);
@@ -575,23 +645,6 @@ function FindJob() {
           passesFilter = passesFilter && jobMinSalary <= maxSalary;
         }
 
-        // Debug for testing với nhiều jobs
-        if (
-          job.title &&
-          (job.title.includes("iOS Developer") ||
-            job.title.includes("Sales Development") ||
-            job.title.includes("Strategic"))
-        ) {
-          console.log("DEBUG Job Filter:", {
-            title: job.title,
-            salary: job.salary,
-            jobMinSalary,
-            jobMaxSalary,
-            filterSet: { minSalary, maxSalary },
-            passesFilter,
-          });
-        }
-
         return passesFilter;
       });
       console.log("Jobs after salary range filter:", filtered.length);
@@ -601,20 +654,19 @@ function FindJob() {
     console.log("=== END DEBUG ===");
 
     setFilteredJobs(filtered);
-  };
-  // UseEffect để apply filters khi selectedFilters thay đổi
+  }; // UseEffect để apply filters khi selectedFilters hoặc search terms thay đổi
   useEffect(() => {
     if (jobsData.length > 0) {
       applyFilters();
       calculateDynamicFilters(); // Cập nhật filter counts
     }
-  }, [selectedFilters, jobsData]);
-
+  }, [selectedFilters, jobsData, searchTerm, searchLocation]);
   // Hàm xử lý dữ liệu và tạo filters ban đầu
   const processFiltersData = (jobs) => {
     const jobTypeCounts = {};
     const locationCounts = {};
     const companyCounts = {};
+    const categoryCounts = {};
 
     jobs.forEach((job) => {
       // Job Types
@@ -633,21 +685,20 @@ function FindJob() {
         companyCounts[job.company_name] =
           (companyCounts[job.company_name] || 0) + 1;
       }
+
+      // Categories (Professions)
+      if (job.category) {
+        categoryCounts[job.category] = (categoryCounts[job.category] || 0) + 1;
+      }
     });
 
     // Debug: Log unique values
     console.log("=== FILTER PROCESSING DEBUG ===");
     console.log("Unique job types:", Object.keys(jobTypeCounts));
     console.log("Unique locations:", Object.keys(locationCounts));
+    console.log("Unique categories:", Object.keys(categoryCounts));
     console.log("Location counts:", locationCounts);
-    console.log(
-      "Jobs with 'Europe' in location:",
-      jobs.filter(
-        (job) =>
-          job.candidate_required_location &&
-          job.candidate_required_location.includes("Europe")
-      ).length
-    );
+    console.log("Category counts:", categoryCounts);
     console.log("=== END FILTER DEBUG ===");
 
     // Sắp xếp theo số lượng giảm dần
@@ -663,11 +714,16 @@ function FindJob() {
       .sort(([, a], [, b]) => b - a)
       .map(([company, count]) => ({ name: company, count }));
 
+    const sortedCategories = Object.entries(categoryCounts)
+      .sort(([, a], [, b]) => b - a)
+      .map(([category, count]) => ({ name: category, count }));
+
     // Lưu tất cả filters
     setAllFilters({
       jobTypes: sortedJobTypes,
       locations: sortedLocations,
       companies: sortedCompanies,
+      categories: sortedCategories,
     });
 
     // Hiển thị limited items ban đầu
@@ -675,6 +731,7 @@ function FindJob() {
       jobTypes: sortedJobTypes.slice(0, 6),
       locations: sortedLocations.slice(0, 8),
       companies: sortedCompanies.slice(0, 10),
+      categories: sortedCategories.slice(0, 8),
     });
   }; // Function để lấy popular companies toàn cầu (khi chọn All)
   const getGlobalPopularCompanies = () => {
@@ -744,7 +801,6 @@ function FindJob() {
     }));
     setCurrentPage(1);
   };
-
   // Function để clear salary filter
   const clearSalaryFilter = () => {
     setSelectedFilters((prev) => ({
@@ -754,10 +810,259 @@ function FindJob() {
     setCurrentPage(1);
   };
 
+  // Function để sort jobs theo tiêu chí được chọn
+  const sortJobs = (jobs) => {
+    if (!jobs || jobs.length === 0) return [];
+
+    const sortedJobs = [...jobs];
+
+    switch (sortBy) {
+      case "date":
+        // Sort theo ngày post (mới nhất trước)
+        return sortedJobs.sort((a, b) => {
+          const dateA = new Date(a.publication_date || 0);
+          const dateB = new Date(b.publication_date || 0);
+          return dateB - dateA; // Descending order (newest first)
+        });
+
+      case "salary":
+        // Sort theo salary (cao nhất trước)
+        return sortedJobs.sort((a, b) => {
+          // Parse salary từ string format
+          const getSalaryValue = (job) => {
+            if (job.salary && typeof job.salary === "string") {
+              const salaryStr = job.salary.toLowerCase();
+
+              // Handle "$60k-$130k" format
+              if (salaryStr.includes("k")) {
+                const kNumbers = salaryStr.match(/(\d+)k/g);
+                if (kNumbers && kNumbers.length >= 1) {
+                  return parseInt(kNumbers[0].replace("k", "")) * 1000;
+                }
+              }
+
+              // Handle "$243,865 - $286,900" format
+              const numbers = salaryStr.match(/\$?([\d,]+)/g);
+              if (numbers && numbers.length >= 1) {
+                return parseInt(numbers[0].replace(/[\$,]/g, ""));
+              }
+            }
+
+            // Fallback to numeric fields
+            return job.salary_min || job.salary_max || 0;
+          };
+
+          const salaryA = getSalaryValue(a);
+          const salaryB = getSalaryValue(b);
+
+          return salaryB - salaryA; // Descending order (highest first)
+        });
+
+      default:
+        return sortedJobs;
+    }
+  };
+  // Function để handle sort change
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+    console.log("Sort changed to:", event.target.value);
+  };
+  // Function để handle search input change
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset về trang 1 khi search
+
+    // Generate suggestions
+    if (value.length >= 2) {
+      const suggestions = generateSearchSuggestions(value);
+      setSearchSuggestions(suggestions);
+      setShowSuggestions((prev) => ({
+        ...prev,
+        search: suggestions.length > 0,
+      }));
+    } else {
+      setSearchSuggestions([]);
+      setShowSuggestions((prev) => ({ ...prev, search: false }));
+    }
+  };
+
+  // Function để handle location search change
+  const handleLocationSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchLocation(value);
+    setCurrentPage(1); // Reset về trang 1 khi search
+
+    // Generate location suggestions
+    if (value.length >= 2) {
+      const suggestions = generateLocationSuggestions(value);
+      setLocationSuggestions(suggestions);
+      setShowSuggestions((prev) => ({
+        ...prev,
+        location: suggestions.length > 0,
+      }));
+    } else {
+      setLocationSuggestions([]);
+      setShowSuggestions((prev) => ({ ...prev, location: false }));
+    }
+  };
+
+  // Function để handle khi click vào suggestion
+  const handleSuggestionClick = (suggestion, type) => {
+    if (type === "search") {
+      setSearchTerm(suggestion);
+      setShowSuggestions((prev) => ({ ...prev, search: false }));
+      setSearchSuggestions([]);
+    } else if (type === "location") {
+      setSearchLocation(suggestion);
+      setShowSuggestions((prev) => ({ ...prev, location: false }));
+      setLocationSuggestions([]);
+    }
+    setCurrentPage(1);
+  };
+
+  // Function để handle blur/focus
+  const handleInputFocus = (type) => {
+    if (type === "search" && searchSuggestions.length > 0) {
+      setShowSuggestions((prev) => ({ ...prev, search: true }));
+    } else if (type === "location" && locationSuggestions.length > 0) {
+      setShowSuggestions((prev) => ({ ...prev, location: true }));
+    }
+  };
+
+  const handleInputBlur = (type) => {
+    // Delay để cho phép click vào suggestion
+    setTimeout(() => {
+      setShowSuggestions((prev) => ({ ...prev, [type]: false }));
+    }, 200);
+  };
+
+  // Function để search jobs theo nhiều tiêu chí
+  const searchJobs = (jobs, searchTerm) => {
+    if (!searchTerm || searchTerm.trim() === "") {
+      return jobs; // Không có search term thì return tất cả
+    }
+
+    const term = searchTerm.toLowerCase().trim();
+
+    return jobs.filter((job) => {
+      // 1. Tìm theo Job Title
+      const matchesTitle = job.title && job.title.toLowerCase().includes(term);
+
+      // 2. Tìm theo Keywords/Tags
+      const matchesTags =
+        job.tags && job.tags.some((tag) => tag.toLowerCase().includes(term));
+
+      // 3. Tìm theo Company Name
+      const matchesCompany =
+        job.company_name && job.company_name.toLowerCase().includes(term);
+
+      // 4. Tìm theo Job Description (nếu có)
+      const matchesDescription =
+        job.description && job.description.toLowerCase().includes(term);
+
+      // 5. Tìm theo Job Category
+      const matchesCategory =
+        job.category && job.category.toLowerCase().includes(term);
+
+      // Return true nếu match bất kỳ tiêu chí nào
+      return (
+        matchesTitle ||
+        matchesTags ||
+        matchesCompany ||
+        matchesDescription ||
+        matchesCategory
+      );
+    });
+  };
+  // Function để search theo location
+  const searchByLocation = (jobs, locationTerm) => {
+    if (!locationTerm || locationTerm.trim() === "") {
+      return jobs;
+    }
+
+    const term = locationTerm.toLowerCase().trim();
+
+    return jobs.filter((job) => {
+      return (
+        job.candidate_required_location &&
+        job.candidate_required_location.toLowerCase().includes(term)
+      );
+    });
+  };
+
+  // Function để tạo search suggestions
+  const generateSearchSuggestions = (term) => {
+    if (!term || term.length < 2 || !jobsData.length) return [];
+
+    const normalizedTerm = term.toLowerCase();
+    const suggestions = new Set();
+
+    jobsData.forEach((job) => {
+      // Job titles (rút gọn)
+      if (job.title && job.title.toLowerCase().includes(normalizedTerm)) {
+        const words = job.title.split(" ").slice(0, 3).join(" "); // Max 3 từ
+        if (words.length <= 30) suggestions.add(words);
+      }
+
+      // Company names (rút gọn)
+      if (
+        job.company_name &&
+        job.company_name.toLowerCase().includes(normalizedTerm)
+      ) {
+        if (job.company_name.length <= 25) suggestions.add(job.company_name);
+      }
+
+      // Tags (individual tags)
+      if (job.tags) {
+        job.tags.forEach((tag) => {
+          if (tag.toLowerCase().includes(normalizedTerm) && tag.length <= 20) {
+            suggestions.add(tag);
+          }
+        });
+      }
+    });
+
+    return Array.from(suggestions).slice(0, 5); // Max 5 suggestions
+  };
+
+  // Function để tạo location suggestions
+  const generateLocationSuggestions = (term) => {
+    if (!term || term.length < 2 || !jobsData.length) return [];
+
+    const normalizedTerm = term.toLowerCase();
+    const suggestions = new Set();
+
+    jobsData.forEach((job) => {
+      if (
+        job.candidate_required_location &&
+        job.candidate_required_location.toLowerCase().includes(normalizedTerm)
+      ) {
+        // Rút gọn location (lấy từ đầu tiên hoặc 2 từ đầu)
+        const location = job.candidate_required_location;
+        const shortLocation = location.split(",")[0].trim(); // Lấy phần trước dấu phẩy
+        if (shortLocation.length <= 25) {
+          suggestions.add(shortLocation);
+        }
+      }
+    });
+
+    return Array.from(suggestions).slice(0, 5); // Max 5 suggestions
+  };
+
+  // Thêm hàm xử lý khi click vào job
+  const handleJobClick = (job) => {
+    // Chuyển hướng đến JobsPage với thông tin job được chọn
+    router.push(
+      `/jobs?jobId=${job.id}&location=${encodeURIComponent(
+        job.candidate_required_location || "Remote"
+      )}`
+    );
+  };
+
   return (
     <>
-      {/* <Header /> */}
-      {" "}
+      {/* <Header /> */}{" "}
       <div className={styles.sectionBanner}>
         <div className="container">
           <div className={styles.bannerContent}>
@@ -768,17 +1073,42 @@ function FindJob() {
           <div className="container">
             {" "}
             <div className={styles.searchForm}>
+              {" "}
               <div className={styles.inputGroup}>
                 <input
                   type="text"
                   id="searchInput"
                   className={styles.searchInput}
                   placeholder=" "
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  onFocus={() => handleInputFocus("search")}
+                  onBlur={() => handleInputBlur("search")}
                 />
                 <label htmlFor="searchInput" className={styles.inputLabel}>
                   Search job title, keywords or company
                 </label>
                 <SearchOutlined className={styles.searchIcon} />
+
+                {/* Search Suggestions */}
+                {showSuggestions.search && searchSuggestions.length > 0 && (
+                  <div className={styles.suggestions}>
+                    {searchSuggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className={styles.suggestionItem}
+                        onClick={() =>
+                          handleSuggestionClick(suggestion, "search")
+                        }
+                      >
+                        <SearchOutlined className={styles.suggestionIcon} />
+                        <span className={styles.suggestionText}>
+                          {suggestion}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <input
@@ -786,12 +1116,44 @@ function FindJob() {
                   id="locationInput"
                   className={styles.locationInput}
                   placeholder=" "
+                  value={searchLocation}
+                  onChange={handleLocationSearchChange}
+                  onFocus={() => handleInputFocus("location")}
+                  onBlur={() => handleInputBlur("location")}
                 />
                 <label htmlFor="locationInput" className={styles.inputLabel}>
                   Location
                 </label>
+
+                {/* Location Suggestions */}
+                {showSuggestions.location && locationSuggestions.length > 0 && (
+                  <div className={styles.suggestions}>
+                    {locationSuggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className={styles.suggestionItem}
+                        onClick={() =>
+                          handleSuggestionClick(suggestion, "location")
+                        }
+                      >
+                        <span className={styles.suggestionIcon}>📍</span>
+                        <span className={styles.suggestionText}>
+                          {suggestion}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <button className={styles.searchButton}>Search</button>
+              <button
+                className={styles.searchButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  applyFilters(); // Trigger search manually khi click button
+                }}
+              >
+                Search
+              </button>
             </div>
           </div>
         </div>{" "}
@@ -949,6 +1311,53 @@ function FindJob() {
                     {showMore.companies ? "Less" : "More"}
                   </button>
                 </div>
+              </div>{" "}
+              {/* Categories Filter */}
+              <div className={styles.filterGroup}>
+                <div className={styles.filterTitle}>
+                  <h4>PROFESSION</h4>
+                  <button
+                    className={styles.clearFilter}
+                    onClick={() => clearFilterType("categories")}
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div className={styles.filterOptions}>
+                  <div
+                    className={`${styles.filterOption} ${
+                      selectedFilters.categories.length === 0
+                        ? styles.selected
+                        : ""
+                    }`}
+                    onClick={() => handleFilterSelection("categories", "All")}
+                  >
+                    <span className={styles.optionName}>All ({totalJobs})</span>
+                  </div>
+                  {(filters.categories || []).map((category, index) => (
+                    <div
+                      key={index}
+                      className={`${styles.filterOption} ${
+                        selectedFilters.categories.includes(category.name)
+                          ? styles.selected
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleFilterSelection("categories", category.name)
+                      }
+                    >
+                      <span className={styles.optionName}>
+                        {category.name} ({category.count})
+                      </span>
+                    </div>
+                  ))}
+                  <button
+                    className={styles.showMore}
+                    onClick={() => handleShowMore("categories")}
+                  >
+                    {showMore.categories ? "Less" : "More"}
+                  </button>
+                </div>
               </div>
               {/* Salary Range Filter */}
               <div className={styles.filterGroup}>
@@ -1012,25 +1421,34 @@ function FindJob() {
                 <div className={styles.resultsInfo}>
                   <span className={styles.resultsCount}>
                     {filteredJobs.length} results found
-                  </span>
+                  </span>{" "}
                   <div className={styles.sortBy}>
                     <label>Sort By:</label>
-                    <select className={styles.sortSelect}>
+                    <select
+                      className={styles.sortSelect}
+                      value={sortBy}
+                      onChange={handleSortChange}
+                    >
                       <option value="date">Date Posted</option>
                       <option value="salary">Salary</option>
                     </select>
                   </div>
                 </div>
               </div>
-              {/* Job Listings */}
+              {/* Job Listings */}{" "}
               <div className={styles.jobsList}>
                 {loading ? (
                   <div className={styles.loadingJobs}>
                     <p>Loading jobs...</p>
                   </div>
                 ) : (
-                  getCurrentPageJobs().map((job, index) => (
-                    <div key={job.id || index} className={styles.jobCard}>
+                  sortJobs(getCurrentPageJobs()).map((job, index) => (
+                    <div
+                      key={job.id || index}
+                      className={styles.jobCard}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleJobClick(job)}
+                    >
                       <div className={styles.jobHeader}>
                         <div className={styles.companyInfo}>
                           {" "}
