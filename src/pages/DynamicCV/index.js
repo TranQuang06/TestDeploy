@@ -12,10 +12,10 @@ export default function DynamicCV() {
   
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {/* Thêm CVTemplateDetailed vào giữa Header và Footer */}
       <CVTemplateDetailed data={data} />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
