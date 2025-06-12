@@ -9,21 +9,23 @@ import LogosCarousel from './LogosCarousel';
 import NextStepsSection from './NextStepsSection';
 import FreeCourseCTA from './FreeCourseCTA';
 import Header from "../Header";
+import Footer from '../Footer';
+import CourseDetailPage from './CourseDetailPage';
 
 export default function SocialPage() {
   return (
-    <div>
-        <Header />
-        <Hero />
-        <WhySection />
-        <TopicsSection />
-      
-      
-        <TestimonialSection />
-        <LogosCarousel />
-        <NextStepsSection />
-        <FreeCourseCTA />
-      
+    <div style={{ background: "#fafcff", minHeight: "100vh" }}>
+      <Header />
+      <Hero />
+      <WhySection />
+      <TopicsSection />
+      <TestimonialSection />
+      <LogosCarousel />
+      <NextStepsSection />
+      <FreeCourseCTA />
+      <CourseDetailPage courseId="python" />
+      <Footer />
     </div>
+    
   );
 }

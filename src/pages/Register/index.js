@@ -1,14 +1,11 @@
 import styles from "../../pages/Register/Register.module.css";
 import Link from "next/link";
 
-
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
-
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁 icons
 
 import gsap from "gsap";
-
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,10 +14,6 @@ function Register() {
   const rightRef = useRef(null);
   const btnRef = useRef(null);
 
-
-  // useEffect(() => {
-  //   AOS.init({ duration: 800, once: true });
-  // }, []);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -55,21 +48,20 @@ function Register() {
   useEffect(() => {
     const btn = btnRef.current;
     if (!btn) return; //  tránh lỗi nếu chưa mount
-  
+
     gsap.set(btn, { scale: 1 });
-  
+
     const handleEnter = () => gsap.to(btn, { scale: 1.05, duration: 0.2 });
     const handleLeave = () => gsap.to(btn, { scale: 1, duration: 0.2 });
-  
+
     btn.addEventListener("mouseenter", handleEnter);
     btn.addEventListener("mouseleave", handleLeave);
-  
+
     return () => {
       btn.removeEventListener("mouseenter", handleEnter);
       btn.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
-  
 
   return (
     <>
@@ -88,7 +80,7 @@ function Register() {
             <input type="text" placeholder=" Nguyen " />
             <label>Email Address</label>
             <input type="email" placeholder="johndoe@gmail.com" />
-            
+
             <label>Password</label>
             <div className={styles.passwordWrapper}>
               <input
