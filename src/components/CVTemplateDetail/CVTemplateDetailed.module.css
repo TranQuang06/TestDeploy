@@ -25,11 +25,12 @@
   border-radius: 10px;
   box-shadow: 0 2px 12px rgba(44,62,80,0.09);
   padding: 28px 32px 24px 32px;
-  min-height: 800px;
+  min-height: 600px;
   position: relative;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.4;
   color: #333;
+  max-width: 780px;
 }
 .cvCard.pdf-export-mode{ width:720px!important; }
 .cvCard.pdf-export-mode .gridTwoCol{
@@ -41,13 +42,50 @@
 
 .avatar {
   width: 145px;
-  /* height: 145px; */
+  height: 145px;
   object-fit: cover;
   border-radius: 50%;
   border: 5px solid #e6e6e6;
   flex-shrink: 0;
   margin: auto;
+  transition: all 0.3s ease;
+}
 
+.avatar:hover {
+  transform: scale(1.02);
+}
+
+/* Cải thiện hiển thị nút upload */
+.avatarContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.avatarUpload {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Đảm bảo nút luôn hiển thị trên cùng */
+  opacity: 1 !important; /* Luôn hiển thị */
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Upload ảnh hover effect - đảm bảo luôn hiển thị */
+.upload-overlay {
+  opacity: 0.8 !important;
+  transition: opacity 0.3s ease;
+}
+
+.avatar:hover + .upload-overlay,
+.upload-overlay:hover {
+  opacity: 1 !important;
 }
 
 .fullname {
@@ -69,6 +107,7 @@
   color: #666;
   font-size: 14px;
   line-height: 1.4;
+  max-width: 800px;
 }
 
 /* Grid 2 cột trong CV */
@@ -334,12 +373,17 @@
   opacity: 1 !important;
   position: relative !important;
   overflow: visible !important;
-  width: 760px   !important;      /* 760 px / 3.7795 ≈ 201 mm   */
+  width: 760px !important;
   max-width: 760px !important;
   min-width: 760px !important;
-  font-size: 16.5px !important;   /* chữ to hơn bản cũ một nấc */
+  font-size: 16.5px !important;
+  /* Không giới hạn chiều cao để nội dung có thể kéo dài */
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
 }
 
+/* Đảm bảo tất cả các phần tử trong PDF có word-wrap */
 .cvCard.pdf-export-mode * {
   box-sizing: border-box !important;
   -webkit-print-color-adjust: exact !important;
@@ -347,39 +391,30 @@
   color: inherit !important;
   visibility: visible !important;
   opacity: 1 !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  white-space: normal !important;
 }
 
-.cvCard.pdf-export-mode .editButton {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-.cvCard.pdf-export-mode .upload-overlay {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* Đảm bảo text hiển thị trong PDF */
-.cvCard.pdf-export-mode h1,
-.cvCard.pdf-export-mode h2,
-.cvCard.pdf-export-mode h3,
-.cvCard.pdf-export-mode h4,
-.cvCard.pdf-export-mode h5,
-.cvCard.pdf-export-mode h6,
+/* Đảm bảo các mô tả dài tự động xuống dòng */
 .cvCard.pdf-export-mode p,
 .cvCard.pdf-export-mode span,
 .cvCard.pdf-export-mode div,
 .cvCard.pdf-export-mode li {
-  color: #333 !important;
-  font-family: 'Arial', 'Helvetica', sans-serif !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  max-width: 100% !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
 }
 
 /* Đảm bảo layout grid hiển thị đúng */
 .cvCard.pdf-export-mode .gridTwoCol{
   grid-template-columns: 250px calc(760px - 250px - 24px) !important;
   gap: 24px !important;
+  display: grid !important; /* Đảm bảo grid layout được duy trì */
 }
 
 /* Đảm bảo ảnh hiển thị */
@@ -400,5 +435,4 @@
   grid-template-columns: 250px 1fr !important;
   gap: 20px !important;
 }
-
 

@@ -30,8 +30,13 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
-
+.newsCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
 .thumbnail {
   width: 180px;
   height: 120px;
@@ -153,4 +158,37 @@
   .newsList {
     gap: 12px;
   }
+}
+
+.trendLink {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.trendTitle {
+  font-weight: 600;
+  margin: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.trendMeta {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 4px 0 0;
+  transition: color 0.3s ease;
+}
+
+.trendItem:hover .trendTitle {
+  color: #10b981; /* xanh lá mượt */
+  transform: translateX(5px);
+}
+
+.trendItem:hover .trendMeta {
+  color: #333;
+}
+
+.trendItem:hover .trendLink {
+  text-decoration: none;
 }

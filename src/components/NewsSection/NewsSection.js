@@ -1,41 +1,126 @@
+// src/components/NewsSection/NewsSection.jsx
+import React, { useState, useEffect } from "react";
 import styles from "./NewsSection.module.css";
 
 export default function NewsSection() {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch("/api/news");
+        const data = await res.json();
+        
+        // Kiểm tra cấu trúc dữ liệu từ API
+        console.log("API response:", data);
+        
+        // Xác định mảng articles từ response
+        let newsArticles = [];
+        if (data.articles && Array.isArray(data.articles)) {
+          // GNews API format
+          newsArticles = data.articles;
+        } else if (Array.isArray(data)) {
+          // Mảng trực tiếp
+          newsArticles = data;
+        } else if (data.data && Array.isArray(data.data)) {
+          // Format khác
+          newsArticles = data.data;
+        }
+        
+        // Đảm bảo có ít nhất 3 bài viết
+        if (newsArticles.length > 0) {
+          setArticles(newsArticles.slice(0, 3));
+        } else {
+          console.error("Không có bài viết nào từ API");
+        }
+      } catch (err) {
+        console.error("Lỗi khi fetch API:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNews();
+  }, []);
+
   return (
     <section className={styles.section}>
       <h1 className={styles.title}>NEWS 24</h1>
 
-      <div className={styles.grid}>
-        {/* ô lớn bên trái */}
-        <div className={styles.mainCard}>
-          <span className={`${styles.tag} ${styles.economy}`}>Economy</span>
-          <div className={styles.overlay}>
-            <h3 className={styles.cardTitle}>
-              Exploring the Intricacies of Markets, Money and Global Economies
-            </h3>
-          </div>
-        </div>
+      {loading ? (
+        <div className={styles.loading}>Đang tải...</div>
+      ) : articles.length > 0 ? (
+        <div className={styles.grid}>
+          {/* Ô lớn bên trái */}
+          {articles[0] && (
+            <a 
+              href={articles[0].url || "#"} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={styles.cardLink}
+            >
+              <div className={`${styles.mainCard} ${styles.fadeIn}`}>
+                {articles[0].image || articles[0].imageUrl ? (
+                  <img 
+                    src={articles[0].image || articles[0].imageUrl} 
+                    alt={articles[0].title}
+                    className={styles.cardImage}
+                  />
+                ) : null}
+                <div className={styles.cardContent}>
+                  <span
+                    className={`${styles.tag} ${
+                      articles[0].category ? styles[articles[0].category.toLowerCase()] || styles.economy : styles.economy
+                    }`}
+                  >
+                    {articles[0].category || 'ECONOMY'}
+                  </span>
+                  <h3 className={styles.mainCardTitle}>{articles[0].title}</h3>
+                  <p className={styles.mainCardDesc}>
+                    {articles[0].description ? articles[0].description.substring(0, 100) + '...' : ''}
+                  </p>
+                </div>
+              </div>
+            </a>
+          )}
 
-        {/* ô nhỏ bên trên phải */}
-        <div className={styles.sideCard}>
-          <span className={`${styles.tag} ${styles.style}`}>Style</span>
-          <div className={styles.overlay}>
-            <h4 className={styles.cardTitle}>
-              A Journey Through Colors, Textures, and Trends
-            </h4>
+          {/* Hai ô nhỏ bên phải - stack dọc */}
+          <div className={styles.sideContainer}>
+            {articles.slice(1, 3).map((article, index) => (
+              <a
+                key={index}
+                href={article.url || "#"}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={styles.cardLink}
+              >
+                <div className={`${styles.sideCard} ${styles.fadeIn}`}>
+                  {article.image || article.imageUrl ? (
+                    <img 
+                      src={article.image || article.imageUrl} 
+                      alt={article.title}
+                      className={styles.cardImage}
+                    />
+                  ) : null}
+                  <div className={styles.cardContent}>
+                    <span
+                      className={`${styles.tag} ${
+                        index === 0 ? styles.style : styles.art
+                      }`}
+                    >
+                      {index === 0 ? 'STYLE' : 'ART'}
+                    </span>
+                    <h4 className={styles.sideCardTitle}>{article.title}</h4>
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
-
-        {/* ô nhỏ bên dưới phải */}
-        <div className={styles.sideCard}>
-          <span className={`${styles.tag} ${styles.art}`}>Art</span>
-          <div className={styles.overlay}>
-            <h4 className={styles.cardTitle}>
-              Inspiring Creativity and Fostering Artistic Expression
-            </h4>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <div className={styles.error}>Không có tin tức nào</div>
+      )}
     </section>
   );
 }

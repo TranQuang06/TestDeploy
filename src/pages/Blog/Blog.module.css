@@ -1,0 +1,50 @@
+/* Blog page container */
+.pageContainer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  margin-top: 50px;
+}
+
+/* Shared section styles */
+.section {
+  /* padding: 80px 0; */
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Container chung cho các section */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .section {
+    padding: 50px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .section {
+    padding: 30px 0;
+  }
+}

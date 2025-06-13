@@ -246,9 +246,9 @@ const getPDFPreset = (name = 'standard') => ({
     }
   };
 
-  // Handler xuất PDF với layout tối ưu cho A4
+  // Handler xuất PDF với hỗ trợ nhiều trang A4
 const handleExportPDF = async () => {
-  const preset = getPDFPreset('office');          // chọn cấu hình
+  const preset = getPDFPreset('office');
   if (!cvContentRef.current) {
     message.error('Không tìm thấy nội dung CV!');
     return;
@@ -263,11 +263,30 @@ const handleExportPDF = async () => {
     document.querySelector(`.${styles.rightCol}`)
   ].filter(Boolean);
   const cache = hiddenEls.map(el => ({ el, ds: el.style.display, vs: el.style.visibility }));
-  // hiddenEls.forEach(el => { el.style.display = 'none'; el.style.visibility = 'hidden'; });
+  hiddenEls.forEach(el => { el.style.display = 'none'; el.style.visibility = 'hidden'; });
 
   const oldWidth = cvElement.style.width;
   cvElement.classList.add('pdf-export-mode');
-  cvElement.style.width = '794px';                // đúng bề ngang A4 96 dpi
+  
+  // Đảm bảo chiều rộng cố định cho A4
+  cvElement.style.width = '794px';
+  
+  // Đảm bảo tất cả các phần tử có word-wrap
+  const allTextElements = cvElement.querySelectorAll('p, span, div, li');
+  const textStyles = Array.from(allTextElements).map(el => ({
+    el,
+    oldWordWrap: el.style.wordWrap,
+    oldOverflowWrap: el.style.overflowWrap,
+    oldWordBreak: el.style.wordBreak,
+    oldWhiteSpace: el.style.whiteSpace
+  }));
+  
+  allTextElements.forEach(el => {
+    el.style.wordWrap = 'break-word';
+    el.style.overflowWrap = 'break-word';
+    el.style.wordBreak = 'break-word';
+    el.style.whiteSpace = 'normal';
+  });
 
   await new Promise(r => setTimeout(r, 500));     // chờ layout
 
@@ -275,28 +294,82 @@ const handleExportPDF = async () => {
   const canvas = await html2canvas(cvElement, {
     scale: preset.canvas.scale,
     backgroundColor: preset.canvas.backgroundColor,
-    useCORS: true
+    useCORS: true,
+    logging: false,
+    allowTaint: true,
+    letterRendering: true,
+    windowWidth: 794,
+    windowHeight: cvElement.scrollHeight
   });
 
   /* --------------- Quy đổi kích thước --------------- */
-  const imgWidthMM  = canvas.width  / PX_PER_MM / preset.canvas.scale;
+  const imgWidthMM = canvas.width / PX_PER_MM / preset.canvas.scale;
   const imgHeightMM = canvas.height / PX_PER_MM / preset.canvas.scale;
 
   /* --------------- Tạo PDF --------------- */
-  const pdf = new jsPDF({ unit: 'mm', format: 'a4', compress: preset.pdf.compress });
+  const pdf = new jsPDF({ 
+    unit: 'mm', 
+    format: 'a4', 
+    compress: preset.pdf.compress,
+    orientation: 'portrait'
+  });
+  
   const availW = 210 - preset.pdf.marginLeft - preset.pdf.marginRight;
-  // sau khi có canvas và imgWidthMM/imgHeightMM
-
-// *** chỉ fit theo chiều RỘNG ***
-  const fitScale = availW / imgWidthMM;     // bỏ min()
-  const finalW   = imgWidthMM  * fitScale;
-  const finalH   = imgHeightMM * fitScale;
   const availH = 297 - preset.pdf.marginTop - preset.pdf.marginBottom;
-  const x = preset.pdf.marginLeft + (availW - finalW) / 2;
-  const y = preset.pdf.marginTop  + (availH - finalH) / 2;
-
-  pdf.addImage(canvas.toDataURL('image/png', preset.canvas.quality),
-               'PNG', x, y, finalW, finalH, '', 'FAST');
+  
+  // Chỉ fit theo chiều RỘNG
+  const fitScale = availW / imgWidthMM;
+  const finalW = imgWidthMM * fitScale;
+  const finalH = imgHeightMM * fitScale;
+  
+  // Tính toán số trang cần thiết
+  const totalPages = Math.ceil(finalH / availH);
+  
+  // Xử lý nhiều trang
+  for (let page = 0; page < totalPages; page++) {
+    // Thêm trang mới nếu không phải trang đầu tiên
+    if (page > 0) {
+      pdf.addPage();
+    }
+    
+    const x = preset.pdf.marginLeft;
+    const y = preset.pdf.marginTop;
+    
+    // Tính toán vị trí cắt ảnh cho từng trang
+    const sourceY = (page * availH / finalH) * canvas.height;
+    const sourceHeight = Math.min(
+      (availH / finalH) * canvas.height,
+      canvas.height - sourceY
+    );
+    
+    // Tạo canvas tạm thời cho phần cần hiển thị
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = sourceHeight;
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    // Vẽ phần tương ứng của canvas gốc lên canvas tạm
+    tempCtx.drawImage(
+      canvas,
+      0, sourceY, canvas.width, sourceHeight,
+      0, 0, canvas.width, sourceHeight
+    );
+    
+    // Tính chiều cao thực tế cho phần này
+    const partHeight = (sourceHeight / canvas.height) * finalH;
+    
+    // Thêm phần ảnh vào PDF
+    pdf.addImage(
+      tempCanvas.toDataURL('image/png', preset.canvas.quality),
+      'PNG',
+      x,
+      y,
+      finalW,
+      partHeight,
+      '',
+      'FAST'
+    );
+  }
 
   const fileName = `CV_${(cvData.fullname || 'CV').replace(/\W+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`;
   pdf.save(fileName);
@@ -304,9 +377,23 @@ const handleExportPDF = async () => {
   /* --------------- Khôi phục giao diện --------------- */
   cvElement.style.width = oldWidth;
   cvElement.classList.remove('pdf-export-mode');
-  cache.forEach(({ el, ds, vs }) => { el.style.display = ds; el.style.visibility = vs; });
+  
+  // Khôi phục các phần tử ẩn
+  cache.forEach(({ el, ds, vs }) => { 
+    el.style.display = ds; 
+    el.style.visibility = vs; 
+  });
+  
+  // Khôi phục style cho các phần tử text
+  textStyles.forEach(({ el, oldWordWrap, oldOverflowWrap, oldWordBreak, oldWhiteSpace }) => {
+    el.style.wordWrap = oldWordWrap;
+    el.style.overflowWrap = oldOverflowWrap;
+    el.style.wordBreak = oldWordBreak;
+    el.style.whiteSpace = oldWhiteSpace;
+  });
+  
   setIsGeneratingPDF(false);
-  message.success('✅ Xuất PDF thành công!');
+  message.success(`✅ Xuất PDF thành công (${totalPages} trang)!`);
 };
 
 
@@ -382,7 +469,7 @@ const EditableText = ({
           <div className={styles.gridTwoCol}>
             <div>
               {/* Avatar với upload */}
-              <div style={{ position: 'relative', display: 'inline-block' }}>
+              <div style={{ position: 'relative', display: 'inline-block' }} className={styles.avatarContainer}>
                 <img
                   className={styles.avatar}
                   src={cvData.photo || '/assets/img/creatCV/cv/avatar.png'}
@@ -394,7 +481,7 @@ const EditableText = ({
                 />
                 {isEditing && (
                   <>
-                    {/* Nút upload chính */}
+                    {/* Nút upload chính - đảm bảo luôn hiển thị */}
                     <Upload
                       beforeUpload={handleImageUpload}
                       showUploadList={false}
@@ -403,7 +490,7 @@ const EditableText = ({
                       <Button
                         icon={<UploadOutlined />}
                         size="small"
-                        className={styles.editButton}
+                        className={styles.avatarUpload}
                         style={{
                           position: 'absolute',
                           bottom: 0,
@@ -414,7 +501,11 @@ const EditableText = ({
                           background: '#1890ff',
                           borderColor: '#1890ff',
                           color: 'white',
-                          boxShadow: '0 2px 8px rgba(24, 144, 255, 0.3)'
+                          boxShadow: '0 2px 8px rgba(24, 144, 255, 0.3)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          zIndex: 10
                         }}
                       />
                     </Upload>
@@ -431,9 +522,10 @@ const EditableText = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      opacity: 0,
+                      opacity: 0.8,
                       transition: 'opacity 0.3s ease',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      zIndex: 5
                     }}
                     className="upload-overlay"
                     >
@@ -913,7 +1005,7 @@ const EditableText = ({
               </div>
             </div>
 
-           
+
 
             {/* Nút tạo CV (xuất PDF) */}
             <Button

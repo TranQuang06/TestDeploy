@@ -70,13 +70,18 @@ export default function LatestNewsSection() {
         </div>
 
         {/* Right: Trending News */}
-        <aside className={styles.trending}>
+         <aside className={styles.trending}>
           <h3 className={styles.trendHeading}>Trending News</h3>
           <ul className={styles.trendList}>
             {trending.map((item) => (
               <li key={item.url} className={styles.trendItem}>
                 <span className={styles.bullet} />
-                <div>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.trendLink}
+                >
                   <p className={styles.trendTitle}>{item.title}</p>
                   <p className={styles.trendMeta}>
                     {new Date(item.publishedAt).toLocaleDateString("en-US", {
@@ -86,7 +91,7 @@ export default function LatestNewsSection() {
                     })}{" "}
                     • {item.author || item.source?.name || "Unknown"}
                   </p>
-                </div>
+                </a>
               </li>
             ))}
           </ul>
