@@ -1,11 +1,13 @@
 // src/components/LatestNewsSection/LatestNewsSection.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./LatestNewsSection.module.css";
+import { gsap } from 'gsap';
 
 export default function LatestNewsSection() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     fetch("/api/news")
@@ -21,6 +23,65 @@ export default function LatestNewsSection() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    // Add animation effect
+    if (loading || error || !sectionRef.current) return;
+    
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      // Safely access DOM elements with optional chaining
+      const latestItems = sectionRef.current?.querySelectorAll(`.${styles.latestItem}`);
+      const trendingItems = sectionRef.current?.querySelectorAll(`.${styles.trendingItem}`);
+      
+      // Check if elements exist before animating
+      if (latestItems && latestItems.length > 0) {
+        // Set initial state (invisible)
+        gsap.set(latestItems, { opacity: 0, x: -30 });
+        
+        gsap.to(
+          latestItems,
+          { 
+            opacity: 1, 
+            x: 0, 
+            stagger: 0.15, 
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",     // Start when 80% of section is in view
+              end: "top 40%",       // End when 40% of section is in view
+              toggleActions: "play none none reverse", // Play on enter, reverse on leave
+              markers: false        // Set to true for debugging
+            }
+          }
+        );
+      }
+      
+      if (trendingItems && trendingItems.length > 0) {
+        // Set initial state (invisible)
+        gsap.set(trendingItems, { opacity: 0, x: 30 });
+        
+        gsap.to(
+          trendingItems,
+          { 
+            opacity: 1, 
+            x: 0, 
+            stagger: 0.1, 
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",     // Start when 75% of section is in view
+              end: "top 35%",       // End when 35% of section is in view
+              toggleActions: "play none none reverse", // Play on enter, reverse on leave
+              markers: false        // Set to true for debugging
+            }
+          }
+        );
+      }
+    }, 0);
+  }, [loading, error, articles]); // Add articles as dependency
+
   if (loading) {
     return <p className={styles.loading}>Đang tải tin tức…</p>;
   }
@@ -33,14 +94,14 @@ export default function LatestNewsSection() {
   const trending = articles.slice(4, 9);
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={sectionRef}>
       <h2 className={styles.heading}>Latest News</h2>
 
       <div className={styles.content}>
         {/* Left: danh sách tin mới */}
         <div className={styles.newsList}>
           {latest.map((item) => (
-            <div key={item.url} className={styles.newsCard}>
+            <div key={item.url} className={`${styles.newsCard} ${styles.latestItem}`}>
               {item.image && (
                 <img
                   src={item.image}
@@ -74,7 +135,7 @@ export default function LatestNewsSection() {
           <h3 className={styles.trendHeading}>Trending News</h3>
           <ul className={styles.trendList}>
             {trending.map((item) => (
-              <li key={item.url} className={styles.trendItem}>
+              <li key={item.url} className={`${styles.trendItem} ${styles.trendingItem}`}>
                 <span className={styles.bullet} />
                 <a
                   href={item.url}

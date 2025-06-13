@@ -20,13 +20,12 @@ function HomePage() {
         {/* LEFT */}
         <div className={styles.left}>
           <h1>
-            Cloud Hosting Built for
+            Tìm việc làm phù hợp
             <br />
-            Speed, Scale & Simplicity.
-          </h1>
+            dễ dàng và nhanh chóng          </h1>
           <p>
-            Deploy websites and apps on blazing-fast infrastructure — with
-            global servers, built-in security, and developer-friendly tools.
+           Khám phá hàng nghìn cơ hội việc làm được cập nhật mỗi ngày từ các công ty hàng đầu. Tạo CV, ứng tuyển và theo dõi công việc mơ ước của bạn ngay hôm nay.
+
           </p>
 
           <div className={styles.searchBar}>
@@ -38,10 +37,13 @@ function HomePage() {
 
           <div className={styles.ratings}>
             <div className={styles.rating}>
-              <span>Google</span>
+              <span>Google.com</span>
             </div>
             <div className={styles.rating}>
-              <span>Trustpilot</span>
+              <span>vku.und.vn</span>
+            </div>
+            <div className={styles.rating}>
+              <span>udn.vn</span>
             </div>
           </div>
         </div>

@@ -1,12 +1,14 @@
 // src/components/PopularBlogsSection/PopularBlogsSection.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./PopularBlogsSection.module.css";
+import { gsap } from 'gsap';
 
 export default function PopularBlogsSection() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const sectionRef = useRef(null);
+  
   useEffect(() => {
     fetch("/api/popular-blogs")
       .then((res) => {
@@ -29,6 +31,40 @@ export default function PopularBlogsSection() {
       });
   }, []);
 
+  useEffect(() => {
+    // Add null check before accessing DOM elements
+    if (!sectionRef.current) return;
+    
+    // Wait for next frame to ensure DOM is ready
+    setTimeout(() => {
+      const cards = sectionRef.current?.querySelectorAll(`.${styles.card}`);
+      
+      // Check if cards exist and have length
+      if (cards && cards.length > 0) {
+        // Set initial state (invisible)
+        gsap.set(cards, { opacity: 0, y: 30 });
+        
+        gsap.to(
+          cards,
+          { 
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.1, 
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",     // Start when 75% of section is in view
+              end: "top 30%",       // End when 30% of section is in view
+              toggleActions: "play none none reverse", // Play on enter, reverse on leave
+              markers: false        // Set to true for debugging
+            }
+          }
+        );
+      }
+    }, 0);
+  }, [articles]); // Add articles as dependency to run after data is loaded
+
   if (loading) {
     return <p className={styles.loading}>Đang tải bài viết phổ biến…</p>;
   }
@@ -48,7 +84,7 @@ export default function PopularBlogsSection() {
   };
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={sectionRef}>
       <h2 className={styles.heading}>Popular Blogs</h2>
       <div className={styles.grid}>
         {articles.map((item, idx) => {

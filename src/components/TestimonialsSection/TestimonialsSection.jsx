@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FaStar,
   FaStarHalfAlt,
@@ -6,6 +6,7 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import styles from "./TestimonialsSection.module.css";
+import { gsap } from 'gsap';
 
 const testimonials = [
   {
@@ -41,6 +42,36 @@ export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState("");
   const length = testimonials.length;
+  const sectionRef = useRef(null);
+
+  // Add animation for the section
+  useEffect(() => {
+    // Check if ref exists before accessing
+    if (!sectionRef.current) return;
+    
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      // Set initial state (invisible)
+      gsap.set(sectionRef.current, { opacity: 0, y: 30 });
+      
+      gsap.to(
+        sectionRef.current,
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",     // Start when 80% of section is in view
+            end: "top 40%",       // End when 40% of section is in view
+            toggleActions: "play none none reverse", // Play on enter, reverse on leave
+            markers: false        // Set to true for debugging
+          }
+        }
+      );
+    }, 0);
+  }, []);
 
   const changeSlide = (newIndex, dir) => {
     setDirection(dir);
@@ -68,7 +99,7 @@ export default function TestimonialsSection() {
   if (halfStar) stars.push(<FaStarHalfAlt key="half" />);
 
   return (
-    <section className={styles.testimonials}>
+    <section ref={sectionRef} className={styles.testimonials}>
       <div className={styles.header}>
         <h2 className={styles.title}>What Our Clients Say</h2>
         <p className={styles.subtitle}>

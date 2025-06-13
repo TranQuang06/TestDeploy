@@ -1,10 +1,12 @@
 // src/components/NewsSection/NewsSection.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./NewsSection.module.css";
+import { gsap } from 'gsap';
 
 export default function NewsSection() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     async function fetchNews() {
@@ -44,8 +46,42 @@ export default function NewsSection() {
     fetchNews();
   }, []);
 
+  useEffect(() => {
+    // Only run animation when data is loaded and component is mounted
+    if (loading || !sectionRef.current) return;
+    
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      const newsItems = sectionRef.current?.querySelectorAll(`.${styles.newsItem}`);
+      
+      // Check if elements exist before animating
+      if (newsItems && newsItems.length > 0) {
+        // Set initial state (invisible)
+        gsap.set(newsItems, { opacity: 0, y: 20 });
+        
+        gsap.to(
+          newsItems,
+          { 
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.15, 
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",     // Start when 80% of section is in view
+              end: "top 40%",       // End when 40% of section is in view
+              toggleActions: "play none none reverse", // Play on enter, reverse on leave
+              markers: false        // Set to true for debugging
+            }
+          }
+        );
+      }
+    }, 0);
+  }, [loading, articles]);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={sectionRef}>
       <h1 className={styles.title}>NEWS 24</h1>
 
       {loading ? (
@@ -60,7 +96,7 @@ export default function NewsSection() {
               rel="noopener noreferrer"
               className={styles.cardLink}
             >
-              <div className={`${styles.mainCard} ${styles.fadeIn}`}>
+              <div className={`${styles.mainCard} ${styles.fadeIn} ${styles.newsItem}`}>
                 {articles[0].image || articles[0].imageUrl ? (
                   <img 
                     src={articles[0].image || articles[0].imageUrl} 
@@ -95,7 +131,7 @@ export default function NewsSection() {
                 rel="noopener noreferrer"
                 className={styles.cardLink}
               >
-                <div className={`${styles.sideCard} ${styles.fadeIn}`}>
+                <div className={`${styles.sideCard} ${styles.fadeIn} ${styles.newsItem}`}>
                   {article.image || article.imageUrl ? (
                     <img 
                       src={article.image || article.imageUrl} 
