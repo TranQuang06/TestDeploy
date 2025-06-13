@@ -1,0 +1,336 @@
+/* Cập nhật CSS cho phần dashboard với màu sắc hài hòa hơn */
+.section_5 {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  overflow: hidden;
+  background-image: url("../../../public/assets/BG_ThiTruong.png");
+  background-color: #f9f9f9;
+  padding: 60px 0;
+  color: #333;
+}
+
+.section_5.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section_5 .container {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  align-items: center;
+}
+
+.section_5 .dashboard {
+  max-width: 1100px;
+  margin: auto;
+  height: 100%;
+}
+
+/* Hiệu ứng cho các phần tử con khi xuất hiện */
+.section_5 .dashboard_grid {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+  display: flex;
+  gap: 30px;
+}
+
+.section_5.visible .dashboard_grid {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section_5 .left_panel {
+  flex: 1;
+  max-width: 300px;
+}
+
+.section_5 .right_panel {
+  flex: 2;
+}
+
+.section_5 h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.section_5 .robot_img {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.section_5 .robot_img img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.section_5 .robot_img img:hover {
+  transform: translateY(-5px);
+}
+
+/* Stats cards */
+.section_5 .stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.section_5 .stat_card {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section_5 .stat_card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section_5 .stat_card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 5px;
+}
+
+.section_5 .stat_card p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Hiệu ứng xuất hiện cho biểu đồ */
+.section_5 .chart_card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  height: 300px;
+  position: relative;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.section_5.visible .chart_card:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.9s;
+}
+
+.section_5.visible .chart_card:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.1s;
+}
+
+.section_5 .chart_card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.section_5 .chart_card h3 i {
+  margin-right: 8px;
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.section_5 .chart_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section_5 .chart_header h3 {
+  margin: 0;
+}
+
+.section_5 .chart_select {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section_5 .chart_select:hover {
+  background: var(--secondary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.section_5 .chart_select:focus {
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.section_5 .chart_select option {
+  background: white;
+  color: #333;
+  padding: 8px;
+  font-size: 13px;
+}
+
+/* Đảm bảo select hiển thị đúng trên các trình duyệt */
+.section_5 .chart_select::-ms-expand {
+  display: none;
+}
+
+/* Hiệu ứng cho các biểu đồ Canvas */
+.section_5 canvas {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 1s ease-out 1.2s;
+}
+
+.section_5.visible canvas {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.charts {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 10px; /* Thêm khoảng cách phía trên */
+}
+
+.chart_card {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px; /* Giảm padding */
+  height: auto; /* Thay đổi từ height cố định sang auto */
+  min-height: 200px; /* Đặt chiều cao tối thiểu */
+  position: relative;
+  margin-bottom: 15px; /* Giảm margin bottom */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart_card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.chart_card .chart_header {
+  margin-bottom: 8px;
+}
+
+/* Container cho biểu đồ */
+.chart_container {
+  flex: 1;
+  width: 100%;
+  height: 160px; /* Chiều cao cố định cho container biểu đồ */
+  position: relative;
+}
+
+/* Đảm bảo canvas biểu đồ nằm gọn trong container */
+.chart_card > div:last-child {
+  flex: 1;
+  width: 100%;
+  height: calc(100% - 40px); /* Trừ đi chiều cao của tiêu đề */
+  overflow: hidden;
+}
+
+/* Đảm bảo Ant Design Charts nằm gọn trong container */
+.chart_card canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Đảm bảo responsive */
+@media (max-width: 768px) {
+  .charts {
+    flex-direction: column;
+  }
+
+  .chart_card {
+    height: 220px; /* Giảm thêm chiều cao trên mobile */
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section_5 .dashboard_grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .section_5 .left_panel {
+    max-width: 100%;
+  }
+
+  .charts {
+    flex-direction: column;
+  }
+
+  .section_5 h1 {
+    font-size: 24px;
+  }
+}
+
+/* Điều chỉnh chart_card nhỏ lại vừa khít nội dung */
+.chart_card {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px; /* Giảm padding */
+  height: auto; /* Thay đổi từ height cố định sang auto */
+  min-height: 200px; /* Đặt chiều cao tối thiểu */
+  position: relative;
+  margin-bottom: 15px; /* Giảm margin bottom */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart_container {
+  flex: 1;
+  width: 100%;
+  height: 160px; /* Chiều cao cố định cho container biểu đồ */
+  position: relative;
+}
+
+.chart_card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.chart_card .chart_header {
+  margin-bottom: 8px;
+}
+
+/* Đảm bảo responsive */
+@media (max-width: 768px) {
+  .chart_container {
+    height: 140px; /* Giảm chiều cao trên mobile */
+  }
+}

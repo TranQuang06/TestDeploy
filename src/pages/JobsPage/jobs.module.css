@@ -22,9 +22,9 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: transparent;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
   padding: 16px;
   overflow: hidden; /* Ẩn overflow, chỉ cho phép scroll trong jobList */
   height: 100%; /* Chiều cao 100% của container */

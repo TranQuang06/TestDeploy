@@ -9,7 +9,7 @@
   width: 100%;
   padding: 8px; /* Padding để nội dung không sát cạnh */
 
-  max-width: 1200px;
+  max-width: 1400px;
   z-index: 1000;
 
   /* Glassmorphism nền bán trong suốt */
@@ -71,7 +71,8 @@
 }
 
 .navLink {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 700;
   color: var(
     --primary-color
   ); /* Mặc định trắng để nổi trên nền glass tối phía sau */

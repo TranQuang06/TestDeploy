@@ -1,177 +1,177 @@
 .sectionOne {
-    background-color: var(--last-color);
+  background-color: var(--last-color);
+  padding-top: 100px;
 }
 
 .sectionOne .headerTitle {
-    font-size: 60px;
-    font-weight: bold;
-    text-align: center;
-    margin: 30px 0;
-    color: var(--primary-color);
-  }
-  
-  /* Left Side Styling */
-  .sectionOne .sectionOne .leftSide {
-    padding: 20px;
-    padding: 36px 160px;
-    background-color: var(--hover-color);
-    border-radius: 40px;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  font-size: 60px;
+  font-weight: bold;
+  text-align: center;
+  margin: 30px 0;
+  color: var(--primary-color);
+}
 
-  .sectionOne .title {
-    font-size: 27px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .sectionOne .letterContent {
-    background-color: white;
-    border-radius: 40px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    line-height: 2;
-    height: 350px;
-    display: flex;
-    flex-direction: column;
-    border: 5px solid var(--primary-color);
-    font-size: 16px;
-    flex: 1;
-    
-  }
-  
-  .sectionOne .btnAdd {
-    margin-top: auto;
-    margin-top: 20px;
-  }
-  
-  .sectionOne .btnAdd button {
-    background-color: white;
-    border-radius: 25px;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+/* Left Side Styling */
+.sectionOne .sectionOne .leftSide {
+  padding: 20px;
+  padding: 36px 160px;
+  background-color: var(--hover-color);
+  border-radius: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionOne .title {
+  font-size: 27px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.sectionOne .letterContent {
+  background-color: white;
+  border-radius: 40px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  line-height: 2;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid var(--primary-color);
+  font-size: 16px;
+  flex: 1;
+}
+
+.sectionOne .btnAdd {
+  margin-top: auto;
+  margin-top: 20px;
+}
+
+.sectionOne .btnAdd button {
+  background-color: white;
+  border-radius: 25px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 100%;
+  border: 5px solid var(--primary-color);
+}
+
+.sectionOne .btnText {
+  margin-left: 8px;
+  font-weight: 550;
+  font-size: 16px;
+}
+
+/* Right Side Styling */
+.sectionOne .rightSide {
+  padding: 50px 20px;
+  border-radius: 40px;
+  background-color: white;
+  padding-left: 60px;
+}
+
+.sectionOne .rightTitle {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.sectionOne .rightHeader {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+.sectionOne .rightDescription {
+  color: #6c757d;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Thêm style cho các điểm bullet */
+.sectionOne .featureList {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.sectionOne .featureItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sectionOne .featureDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionOne .featureRed {
+  background-color: #ff3b30;
+  color: white;
+}
+
+.sectionOne .featureBlue {
+  background-color: #007aff;
+  color: white;
+}
+
+.sectionOne .featureOrange {
+  background-color: #ff9500;
+  color: white;
+}
+
+.sectionOne .featureText {
+  font-weight: 500;
+}
+
+/* Style cho nút build resume */
+.sectionOne .buildButton {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 30px;
+  padding: 12px 25px;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+
+.sectionOne .arrowIcon {
+  background-color: #fff;
+  margin-right: 10px;
+  color: var(--primary-color);
+  border-radius: 50%;
+  padding: 3px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .leftSide,
+  .rightSide {
     width: 100%;
-    border: 5px solid var(--primary-color);
   }
-  
-  .sectionOne .btnText {
-    margin-left: 8px;
-    font-weight: 550;
-    font-size: 16px;
-  }
-  
-  /* Right Side Styling */
-  .sectionOne .rightSide {
-    padding: 50px 20px;
-    border-radius: 40px;
-    background-color: white;
-    padding-left: 60px;
-  }
-  
-  .sectionOne .rightTitle {
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
-  }
-  
-  .sectionOne .rightHeader {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: #212529;
-  }
-  
-  .sectionOne .rightDescription {
-    color: #6c757d;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
-  
-  /* Thêm style cho các điểm bullet */
-  .sectionOne .featureList {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
-  }
-  
-  .sectionOne .featureItem {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .sectionOne .featureDot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .sectionOne .featureRed {
-    background-color: #ff3b30;
-    color: white;
-  }
-  
-  .sectionOne .featureBlue {
-    background-color: #007aff;
-    color: white;
-  }
-  
-  .sectionOne .featureOrange {
-    background-color: #ff9500;
-    color: white;
-  }
-  
-  .sectionOne .featureText {
-    font-weight: 500;
-  }
-  
-  /* Style cho nút build resume */
-  .sectionOne .buildButton {
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 30px;
-    padding: 12px 25px;
-    display: inline-flex;
-    align-items: center;
-    margin-top: 30px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .sectionOne .arrowIcon {
-   background-color: #fff;
-   margin-right: 10px;
-   color: var(--primary-color);
-   border-radius: 50%;
-   padding: 3px;
-   justify-content: center;
-   align-items: center;
-  }
-  
-  @media (max-width: 768px) {
-    .leftSide, .rightSide {
-      width: 100%;
-    }
-  }
+}
 
-  /* SECTION 2 STYLING */
+/* SECTION 2 STYLING */
 .sectionTwo {
   background-color: #f9f8f3;
   padding: 60px 0;
@@ -273,7 +273,7 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
   .sectionTwo .boxItemLeft,
   .sectionTwo .boxItemRight {
     width: 90%;
@@ -288,19 +288,19 @@
     flex-direction: column;
     text-align: center;
   }
-  
+
   .sectionTwo .boxImg {
     margin-right: 0;
     margin-bottom: 20px;
   }
-  
+
   .sectionTwo .sectionTwoTitle {
     text-align: center;
     margin-left: 0;
   }
 }
 
-  /* END OF SECTION 2  */
+/* END OF SECTION 2  */
 
 /* SECTION 3 STYLING */
 
@@ -456,7 +456,11 @@
 .useTemplateButton {
   width: 100%;
   height: 36px;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #4a3a75) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color, #4a3a75) 100%
+  );
   color: white;
   border: none;
   border-radius: 8px;
@@ -518,7 +522,7 @@
   .templateGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .templateCard {
     max-width: 100%;
   }
@@ -534,13 +538,17 @@
 
 /* Màu cho tab đang active */
 :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
-  color: var(--secondary-color) !important; /* Màu xanh dương cho tab đang active */
+  color: var(
+    --secondary-color
+  ) !important; /* Màu xanh dương cho tab đang active */
   font-weight: bold !important;
 }
 
 /* Màu cho thanh indicator dưới tab đang active */
 :global(.ant-tabs-ink-bar) {
-  background-color: var(--secondary-color) !important; /* Màu xanh dương cho thanh indicator */
+  background-color: var(
+    --secondary-color
+  ) !important; /* Màu xanh dương cho thanh indicator */
   height: 3px !important;
 }
 
@@ -657,7 +665,12 @@
 
 /* Hover cho option chưa được chọn - background nhạt */
 :global(.ant-select-item:hover:not(.ant-select-item-option-selected)) {
-  background-color: rgba(93, 13, 13, 0.08) !important; /* Background nhạt với màu primary */
+  background-color: rgba(
+    93,
+    13,
+    13,
+    0.08
+  ) !important; /* Background nhạt với màu primary */
   color: var(--primary-color) !important;
   border-radius: 8px !important;
 }
@@ -694,7 +707,6 @@
   min-width: 180px;
 }
 
-
 /* SECTION THAM KHẢO CÁCH VIẾT CV */
 .reviewWriteCV {
   background: linear-gradient(135deg, #f1f1ff 0%, #dfdeff 100%);
@@ -708,7 +720,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 40px;
+  margin-right: 40px;
   width: 65%;
 }
 
@@ -753,7 +765,7 @@
   color: var(--primary-color);
   width: 100%;
   max-width: 520px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-left: auto;
 }
 
@@ -880,11 +892,11 @@
   .reviewTitle {
     font-size: 40px;
   }
-  
+
   .reviewDescription {
     font-size: 20px;
   }
-  
+
   .cvImageContainer {
     height: 500px;
   }
@@ -894,22 +906,23 @@
   .reviewWriteCV .container {
     flex-direction: column;
   }
-  
-  .leftSideContent, 
+
+  .leftSideContent,
   .rightSideContent {
     width: 100%;
     max-width: 100%;
     padding: 0 20px;
   }
-  
+
   .leftSideContent {
     margin-bottom: 40px;
   }
-  
-  .btnCV, .btnAllCVButton {
+
+  .btnCV,
+  .btnAllCVButton {
     max-width: 100%;
   }
-  
+
   .cvImageContainer {
     max-width: 100%;
     height: 450px;
@@ -954,11 +967,11 @@
   .sectionFour {
     padding: 60px 0;
   }
-  
+
   .sectionFourTitle {
     font-size: 36px;
   }
-  
+
   .sectionFourSubtitle {
     font-size: 18px;
   }
@@ -968,17 +981,16 @@
   .sectionFour {
     padding: 40px 0;
   }
-  
+
   .sectionFourTitle {
     font-size: 28px;
   }
-  
+
   .sectionFourSubtitle {
     font-size: 16px;
     padding: 0 20px;
   }
 }
-
 
 /* END OF SECTION 4 STYLING  */
 
@@ -1177,7 +1189,7 @@
 
 .sectionFive .swiperButtonPrev::after,
 .sectionFive .swiperButtonNext::after {
-  content: '';
+  content: "";
   width: 0;
   height: 0;
   transition: all 0.2s ease;
@@ -1224,7 +1236,7 @@
 /* Hiệu ứng ripple khi click */
 .sectionFive .swiperButtonPrev:active::before,
 .sectionFive .swiperButtonNext:active::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1250,20 +1262,20 @@
     font-size: 36px;
     padding: 0 0 0 40px;
   }
-  
+
   .sectionFive .subtitle {
     font-size: 18px;
     padding: 0 0 0 50px;
   }
-  
+
   .swiperContainer {
     height: 380px;
   }
-    .cvFigure {
+  .cvFigure {
     width: 200px;
     height: 270px;
   }
-  
+
   .cvFigure img {
     height: 240px;
   }
@@ -1274,39 +1286,38 @@
     font-size: 28px;
     padding: 0 0 0 20px;
   }
-  
+
   .sectionFive .subtitle {
     font-size: 16px;
     padding: 0 0 0 30px;
   }
-  
+
   .swiperContainer {
     height: 340px;
     margin: 0 10px;
   }
-  
+
   .cvFigure {
     width: 160px;
     height: 220px;
   }
-  
+
   .cvFigure img {
     height: 200px;
   }
-  
+
   .swiperButtonPrev,
   .swiperButtonNext {
     width: 50px;
     height: 50px;
   }
-  
+
   .swiperButtonPrev {
     left: 10px;
   }
-  
+
   .swiperButtonNext {
     right: 10px;
   }
 }
 /* END OF SECTION FIVE */
-

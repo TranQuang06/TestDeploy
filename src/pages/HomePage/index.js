@@ -5,9 +5,11 @@ import SearchSection from "../../components/SearchSection/SearchSection";
 import JobsSection from "../../components/JobsSection/JobsSection";
 import FashionSection from "../../components/FashionSection/FashionSection";
 import ImpressiveNumbersSection from "../../components/ImpressiveNumbersSection/ImpressiveNumbersSection";
+import ThiTruongHomNay from "../../components/ThiTruongHomNay/ThiTruong";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
+import ChatButton from "../../components/ChatButton/ChatButton";
 
 function HomePage() {
   return (
@@ -47,10 +49,7 @@ function HomePage() {
         {/* RIGHT */}
         <div className={styles.right}>
           <div className={styles.imageContainer}>
-            <img
-              src="https://images.unsplash.com/photo-1747106649672-c17636e6c6a6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Happy user"
-            />
+            <img src="../assets/img/HomePage/img_01.avif" alt="Happy user" />
             <div className={styles.uptimeCard}>
               <div className={styles.upHeader}>
                 <span>Uptime Guarantee</span>
@@ -66,30 +65,12 @@ function HomePage() {
 
         {/* PARTNERS */}
         <div className={styles.partners}>
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Coinbase"
-          />
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Spotify"
-          />
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Slack"
-          />
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Dropbox"
-          />
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Webflow"
-          />
-          <img
-            src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png"
-            alt="Zoom"
-          />
+          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Coinbase" />
+          <img src="../assets/img/HomePage/logo_02.png" alt="Spotify" />
+          <img src="../assets/img/HomePage/logo_03.png" alt="Slack" />
+          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Dropbox" />
+          <img src="../assets/img/HomePage/logo_04.png" alt="Webflow" />
+          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Zoom" />
         </div>
       </section>
       {/* End hero */}
@@ -119,7 +100,7 @@ function HomePage() {
                 90<span className={styles.statsPercent}>%</span>
               </h3>
               <p className={styles.statsDesc}>
-                Data filtering from companies doesn't take long
+                Data filtering from companies take long
               </p>
             </div>
 
@@ -152,7 +133,11 @@ function HomePage() {
       <ImpressiveNumbersSection />
       {/* end ImpressiveNumbersSection */}
 
+      {/* ThiTruongHomNay */}
+      <ThiTruongHomNay />
+      {/* end ThiTruongHomNay */}
       <Footer />
+      <ChatButton />
     </>
   );
 }

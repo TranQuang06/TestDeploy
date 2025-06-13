@@ -35,36 +35,41 @@ function Header() {
         <nav>
           <ul className={styles.navigationList}>
             <li className={styles.navItem}>
-              <Link href="/services" className={styles.navLink}>
-                Services
+              <Link href="/FindJob" className={styles.navLink}>
+                Việc làm
               </Link>
             </li>
             <li className={styles.navItem}>
-              <Link href="/specialists" className={styles.navLink}>
-                Specialists
+              <Link href="/CreateCV" className={styles.navLink}>
+                Tạo CV
               </Link>
             </li>
             <li className={styles.navItem}>
               <Link href="/works" className={styles.navLink}>
-                Our works
+                Công cụ
               </Link>
             </li>
             <li className={styles.navItem}>
-              <Link href="/subscriptions" className={styles.navLink}>
-                Subscriptions
+              <Link href="/Blog" className={styles.navLink}>
+                Về chúng tôi
               </Link>
             </li>
             <li className={styles.navItem}>
               <Link href="/about" className={styles.navLink}>
-                About
+                Social
+              </Link>
+            </li>
+            <li className={styles.navItem}>
+              <Link href="/JobsMapPage" className={styles.navLink}>
+                Bản đồ My Work
               </Link>
             </li>
           </ul>
         </nav>
 
         {/* CTA Button */}
-        <Link href="/appointment" className={styles.cta}>
-          Make an appointment <RiseOutlined />
+        <Link href="/SignIn" className={styles.cta}>
+          Tham gia vào cộng đồng ngay <RiseOutlined />
         </Link>
       </div>
     </header>

@@ -37,16 +37,16 @@ function CreateCV() {
 
   // Handler khi nhấn nút "Dùng mẫu"
   const handleUseTemplate = (template) => {
-    console.log('Selected template:', template); // Debug log
+    console.log("Selected template:", template); // Debug log
 
     // Lưu vị trí scroll hiện tại trước khi chuyển trang
     const currentScrollY = window.scrollY || window.pageYOffset;
     setScrollPosition(currentScrollY);
-    console.log('Saved scroll position:', currentScrollY); // Debug log
+    console.log("Saved scroll position:", currentScrollY); // Debug log
 
     // Lấy dữ liệu CV tương ứng với template
     const cvData = getCVDataByTemplate(template.id);
-    console.log('CV Data:', cvData); // Debug log
+    console.log("CV Data:", cvData); // Debug log
 
     setSelectedTemplate(template);
     setCurrentCVData(cvData);
@@ -55,7 +55,7 @@ function CreateCV() {
     // Scroll lên đầu trang với animation mượt
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
@@ -67,12 +67,12 @@ function CreateCV() {
 
     // Delay nhỏ để đảm bảo component đã render xong trước khi scroll
     setTimeout(() => {
-      console.log('Restoring scroll position:', scrollPosition); // Debug log
+      console.log("Restoring scroll position:", scrollPosition); // Debug log
 
       // Scroll về vị trí đã lưu với animation mượt
       window.scrollTo({
         top: scrollPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }, 100);
   };
@@ -84,7 +84,7 @@ function CreateCV() {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }, 100);
     }
@@ -180,7 +180,10 @@ function CreateCV() {
     return (
       <>
         <Header />
-        <CVTemplateDetailed data={currentCVData} onBackList={handleBackToList} />
+        <CVTemplateDetailed
+          data={currentCVData}
+          onBackList={handleBackToList}
+        />
         <Footer />
       </>
     );
@@ -226,8 +229,8 @@ function CreateCV() {
               Bring out the best in your unique background.
             </div>
             <div className={styles.rightDescription}>
-              When you build a cover letter with RevampCV, you're amplifying
-              your application with read-worthy templates that match your resume
+              When you build a cover letter with RevampCV, re amplifying your
+              application with read-worthy templates that match your resume
               design.
             </div>
 
@@ -283,7 +286,7 @@ function CreateCV() {
                   Website templates for every industry
                 </div>
                 <div className={styles.boxDescription}>
-                  We'll show you the type of language used in your field.
+                  'll show you the type of language used in your field.
                 </div>
               </div>
             </div>
