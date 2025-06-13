@@ -44,6 +44,14 @@
   color: white;
   flex-shrink: 0;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.authorAvatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.3);
 }
 
 .avatarImage {

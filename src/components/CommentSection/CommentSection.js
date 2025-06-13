@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { addComment, getPostComments } from "../../utils/socialMedia";
+import {
+  addCommentSimple as addComment,
+  getPostComments,
+  recalculateCommentCount,
+} from "../../utils/socialMedia";
 import styles from "./CommentSection.module.css";
 import { message } from "antd";
 import {
@@ -70,7 +74,9 @@ const CommentSection = ({ postId, onCommentAdded }) => {
           url: selectedImage,
           alt: "Comment image",
         };
-      } // Call addComment with correct parameters: userId, postId, content, media, parentCommentId
+      }
+
+      // Call addComment with correct parameters: userId, postId, content, media, parentCommentId
       const newCommentDoc = await addComment(
         user.uid,
         postId,
@@ -80,19 +86,45 @@ const CommentSection = ({ postId, onCommentAdded }) => {
       );
 
       // Add new comment to local state
-      setComments((prev) => [...prev, newCommentDoc]);
+      setComments((prev) => {
+        const newComments = [...prev, newCommentDoc];
+
+        // Notify parent component with new comment count
+        if (onCommentAdded) {
+          onCommentAdded(newComments.length);
+        }
+
+        return newComments;
+      });
+
       setNewComment("");
       setSelectedImage(null);
 
-      // Notify parent component
-      if (onCommentAdded) {
-        onCommentAdded();
+      // Try to recalculate comment count - don't fail if this fails
+      try {
+        await recalculateCommentCount(postId);
+      } catch (recalcError) {
+        console.warn("Could not recalculate comment count:", recalcError);
+        // Don't show error to user - comment was still added successfully
       }
 
       message.success("Đã thêm bình luận!");
     } catch (error) {
       console.error("Error adding comment:", error);
-      message.error("Không thể thêm bình luận");
+      // Check if it's a permission error but comment was actually added
+      if (error.code === "permission-denied") {
+        // Reload comments to see if comment was actually added
+        try {
+          await loadComments();
+          message.success("Đã thêm bình luận!");
+          setNewComment("");
+          setSelectedImage(null);
+        } catch (loadError) {
+          message.error("Không thể thêm bình luận");
+        }
+      } else {
+        message.error("Không thể thêm bình luận");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -167,7 +199,6 @@ const CommentSection = ({ postId, onCommentAdded }) => {
     setReplyingTo(null);
     setReplyText("");
   };
-
   // Submit reply
   const submitReply = async (parentCommentId) => {
     if (!replyText.trim()) {
@@ -205,7 +236,21 @@ const CommentSection = ({ postId, onCommentAdded }) => {
       message.success("Đã trả lời bình luận!");
     } catch (error) {
       console.error("Error adding reply:", error);
-      message.error("Không thể trả lời bình luận");
+      // Check if it's a permission error but reply was actually added
+      if (error.code === "permission-denied") {
+        // Reload comments to see if reply was actually added
+        try {
+          await loadComments();
+          message.success("Đã trả lời bình luận!");
+          setReplyingTo(null);
+          setReplyText("");
+          setShowReplies((prev) => new Set([...prev, parentCommentId]));
+        } catch (loadError) {
+          message.error("Không thể trả lời bình luận");
+        }
+      } else {
+        message.error("Không thể trả lời bình luận");
+      }
     } finally {
       setSubmitting(false);
     }

@@ -8,6 +8,7 @@ import {
   collection,
   addDoc,
   doc,
+  setDoc,
   updateDoc,
   deleteDoc,
   getDoc,
@@ -308,6 +309,14 @@ export const addComment = async (
   parentCommentId = null
 ) => {
   try {
+    console.log("🔍 Adding comment:", {
+      userId,
+      postId,
+      content,
+      media,
+      parentCommentId,
+    });
+
     // Get commenter info
     const userDoc = await getDoc(doc(db, "users", userId));
     if (!userDoc.exists()) {
@@ -339,11 +348,15 @@ export const addComment = async (
       updatedAt: new Date().toISOString(),
     };
 
+    console.log("📝 Comment data to save:", comment);
+
     const batch = writeBatch(db);
 
     // Add comment
     const commentRef = doc(collection(db, "comments"));
     batch.set(commentRef, comment);
+
+    console.log("💾 Adding comment with ID:", commentRef.id);
 
     // Update post comment count
     batch.update(doc(db, "posts", postId), {
@@ -368,11 +381,95 @@ export const addComment = async (
       }
     }
 
+    console.log("🚀 Committing batch...");
     await batch.commit();
+    console.log("✅ Comment added successfully!");
 
     return { id: commentRef.id, ...comment };
   } catch (error) {
-    console.error("Error adding comment:", error);
+    console.error("❌ Error adding comment:", error);
+    throw error;
+  }
+};
+
+/**
+ * Simple version of add comment - just adds comment without updating stats
+ */
+export const addCommentSimple = async (
+  userId,
+  postId,
+  content,
+  media = null,
+  parentCommentId = null
+) => {
+  try {
+    console.log("🔍 Adding comment (simple):", {
+      userId,
+      postId,
+      content,
+      media,
+      parentCommentId,
+    });
+
+    // Get commenter info
+    const userDoc = await getDoc(doc(db, "users", userId));
+    if (!userDoc.exists()) {
+      throw new Error("User not found");
+    }
+
+    const userInfo = userDoc.data();
+    const comment = {
+      postId,
+      authorId: userId,
+      authorInfo: {
+        displayName:
+          userInfo.displayName ||
+          `${userInfo.firstName || "User"} ${userInfo.lastName || ""}`.trim() ||
+          userInfo.email?.split("@")[0] ||
+          "Anonymous User",
+        avatar: userInfo.avatar || "",
+      },
+      content,
+      media: media || null,
+      parentCommentId: parentCommentId || null,
+      stats: {
+        likeCount: 0,
+        replyCount: 0,
+      },
+      mentions: [],
+      isEdited: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    console.log("📝 Comment data to save:", comment);
+
+    // Add comment only - no batch operations
+    const commentRef = doc(collection(db, "comments"));
+    await setDoc(commentRef, comment);
+    console.log("✅ Comment saved with ID:", commentRef.id);
+
+    // Try to update post comment count - but don't fail if it doesn't work
+    try {
+      const postRef = doc(db, "posts", postId);
+      const postDoc = await getDoc(postRef);
+
+      if (postDoc.exists()) {
+        const currentStats = postDoc.data().stats || {};
+        await updateDoc(postRef, {
+          "stats.commentCount": (currentStats.commentCount || 0) + 1,
+          updatedAt: new Date().toISOString(),
+        });
+        console.log("✅ Post comment count updated");
+      }
+    } catch (updateError) {
+      console.warn("⚠️ Could not update post comment count:", updateError);
+      // Don't throw error - comment was still added successfully
+      // The count will be corrected by recalculateCommentCount later
+    }
+
+    return { id: commentRef.id, ...comment };
+  } catch (error) {
+    console.error("❌ Error adding comment (simple):", error);
     throw error;
   }
 };
@@ -380,12 +477,12 @@ export const addComment = async (
 /**
  * Get comments for a post
  */
-export const getPostComments = async (postId, limitCount = 20) => {
+export const getPostComments = async (postId, limitCount = 50) => {
   try {
+    // Get all comments for this post (including replies)
     const q = query(
       collection(db, "comments"),
       where("postId", "==", postId),
-      where("parentCommentId", "==", null), // Only top-level comments
       orderBy("createdAt", "asc"),
       limit(limitCount)
     );
@@ -400,9 +497,43 @@ export const getPostComments = async (postId, limitCount = 20) => {
       });
     });
 
+    console.log(`📊 Retrieved ${comments.length} comments for post ${postId}`);
     return comments;
   } catch (error) {
     console.error("Error getting post comments:", error);
+    // If there's an index error, try a simpler query
+    if (error.code === "failed-precondition") {
+      try {
+        console.log("🔄 Trying simpler query without orderBy...");
+        const simpleQ = query(
+          collection(db, "comments"),
+          where("postId", "==", postId),
+          limit(limitCount)
+        );
+        const simpleSnapshot = await getDocs(simpleQ);
+        const simpleComments = [];
+
+        simpleSnapshot.forEach((doc) => {
+          simpleComments.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+
+        // Sort manually by createdAt
+        simpleComments.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+
+        console.log(
+          `📊 Retrieved ${simpleComments.length} comments with simple query`
+        );
+        return simpleComments;
+      } catch (simpleError) {
+        console.error("Simple query also failed:", simpleError);
+        throw simpleError;
+      }
+    }
     throw error;
   }
 };
@@ -802,6 +933,88 @@ export const getSavedPosts = async (
   }
 };
 
+/**
+ * Update user avatar in all their posts
+ */
+export const updateUserAvatarInPosts = async (
+  userId,
+  newAvatar,
+  newDisplayName = null
+) => {
+  try {
+    console.log(`🔄 Updating avatar in all posts for user: ${userId}`);
+
+    // Get all posts by this user
+    const q = query(collection(db, "posts"), where("authorId", "==", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("📭 No posts found for this user");
+      return;
+    }
+
+    const batch = writeBatch(db);
+    let updateCount = 0;
+
+    querySnapshot.forEach((doc) => {
+      const postRef = doc.ref;
+      const updateData = {
+        "authorInfo.avatar": newAvatar,
+        updatedAt: new Date().toISOString(),
+      };
+
+      // Also update display name if provided
+      if (newDisplayName) {
+        updateData["authorInfo.displayName"] = newDisplayName;
+      }
+
+      batch.update(postRef, updateData);
+      updateCount++;
+    });
+
+    // Commit all updates
+    await batch.commit();
+
+    console.log(`✅ Updated avatar in ${updateCount} posts`);
+    return updateCount;
+  } catch (error) {
+    console.error("❌ Error updating user avatar in posts:", error);
+    throw error;
+  }
+};
+
+/**
+ * Recalculate comment count for a post
+ */
+export const recalculateCommentCount = async (postId) => {
+  try {
+    console.log("🔢 Recalculating comment count for post:", postId);
+
+    // Count comments in database
+    const commentsQuery = query(
+      collection(db, "comments"),
+      where("postId", "==", postId)
+    );
+    const commentsSnapshot = await getDocs(commentsQuery);
+    const actualCount = commentsSnapshot.size;
+
+    console.log("📊 Actual comment count:", actualCount);
+
+    // Update post with correct count
+    const postRef = doc(db, "posts", postId);
+    await updateDoc(postRef, {
+      "stats.commentCount": actualCount,
+    });
+
+    console.log("✅ Comment count updated to:", actualCount);
+    return actualCount;
+  } catch (error) {
+    console.error("❌ Error recalculating comment count:", error);
+    throw error;
+  }
+};
+
 export default {
   // Posts
   createPost,
@@ -817,10 +1030,11 @@ export default {
   // Likes
   togglePostLike,
   hasUserLikedPost,
-
   // Comments
   addComment,
+  addCommentSimple,
   getPostComments,
+  recalculateCommentCount,
 
   // Follows
   toggleUserFollow,
@@ -828,4 +1042,10 @@ export default {
 
   // Activity
   updateUserActivity,
+
+  // Avatar
+  updateUserAvatarInPosts,
+
+  // Recalculate comment count
+  recalculateCommentCount,
 };

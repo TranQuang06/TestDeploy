@@ -24,12 +24,18 @@ service cloud.firestore {
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isAdmin();
     }
-    
-    // Posts collection - allow read for all authenticated users, write for owners and admins
+      // Posts collection - allow read for all authenticated users, write for owners and admins
     match /posts/{postId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
-      allow update: if isOwner(resource.data.authorId) || isAdmin();
+      // Allow content updates only by owner or admin
+      allow update: if (isOwner(resource.data.authorId) || isAdmin()) &&
+                       (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['stats']));
+      // Allow stats updates by any authenticated user (for likes, comments, etc.)
+      allow update: if isAuthenticated() && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stats']) &&
+                       request.resource.data.authorId == resource.data.authorId &&
+                       request.resource.data.content == resource.data.content;
       allow delete: if isOwner(resource.data.authorId) || isAdmin();
     }
     
@@ -48,8 +54,7 @@ service cloud.firestore {
       allow update: if isOwner(resource.data.userId) || isAdmin();
       allow delete: if isOwner(resource.data.userId) || isAdmin();
     }
-    
-    // Follows collection
+      // Follows collection
     match /follows/{followId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
@@ -57,12 +62,28 @@ service cloud.firestore {
       allow delete: if isOwner(resource.data.followerId) || isAdmin();
     }
     
+    // Friend Requests collection
+    match /friendRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                     (resource.data.fromUserId == request.auth.uid || 
+                      resource.data.toUserId == request.auth.uid || 
+                      isAdmin());
+      allow delete: if isAuthenticated() && 
+                     (resource.data.fromUserId == request.auth.uid || 
+                      resource.data.toUserId == request.auth.uid || 
+                      isAdmin());
+    }
+    
     // Friendships collection
     match /friendships/{friendshipId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
-      allow update: if isOwner(resource.data.user1Id) || isOwner(resource.data.user2Id) || isAdmin();
-      allow delete: if isOwner(resource.data.user1Id) || isOwner(resource.data.user2Id) || isAdmin();
+      allow update: if isAuthenticated() && 
+                     (request.auth.uid in resource.data.users || isAdmin());
+      allow delete: if isAuthenticated() && 
+                     (request.auth.uid in resource.data.users || isAdmin());
     }
     
     // Notifications collection

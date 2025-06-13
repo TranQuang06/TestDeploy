@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { updateUserAvatarInPosts } from "../../utils/socialMedia";
 import { message } from "antd";
 import styles from "./Profile.module.css";
 import {
@@ -63,7 +64,8 @@ const Profile = () => {
   };
 
   const handleImageUpload = (field, file) => {
-    if (file && file.size <= 5 * 1024 * 1024) { // 5MB limit
+    if (file && file.size <= 5 * 1024 * 1024) {
+      // 5MB limit
       const reader = new FileReader();
       reader.onload = (e) => {
         setFormData((prev) => ({
@@ -76,11 +78,17 @@ const Profile = () => {
       message.error("Ảnh không được vượt quá 5MB");
     }
   };
-
   const handleSave = async () => {
     try {
       setLoading(true);
-      
+      console.log("Saving profile data:", formData);
+
+      // Check if avatar changed
+      const avatarChanged = userProfile?.avatar !== formData.avatar;
+      const displayNameChanged =
+        `${userProfile?.firstName} ${userProfile?.lastName}` !==
+        `${formData.firstName} ${formData.lastName}`;
+
       // Update user profile in Firestore
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
@@ -88,9 +96,32 @@ const Profile = () => {
         updatedAt: new Date().toISOString(),
       });
 
-      // Update context
-      await updateUserProfile();
-      
+      console.log("Profile updated in Firestore");
+
+      // Update context with the new profile data
+      await updateUserProfile(formData);
+
+      console.log("Profile updated in context");
+
+      // Update avatar in all user's posts if avatar changed
+      if (avatarChanged || displayNameChanged) {
+        try {
+          const newDisplayName = `${formData.firstName} ${formData.lastName}`;
+          const updatedPostsCount = await updateUserAvatarInPosts(
+            user.uid,
+            formData.avatar,
+            displayNameChanged ? newDisplayName : null
+          );
+
+          if (updatedPostsCount > 0) {
+            console.log(`✅ Updated avatar in ${updatedPostsCount} posts`);
+          }
+        } catch (error) {
+          console.error("Error updating avatar in posts:", error);
+          // Don't fail the entire update if post avatar update fails
+        }
+      }
+
       setIsEditing(false);
       message.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
@@ -122,21 +153,25 @@ const Profile = () => {
   };
 
   const getDisplayName = () => {
-    return `${formData.firstName} ${formData.lastName}`.trim() || 
-           userProfile?.displayName || 
-           user?.displayName || 
-           user?.email?.split("@")[0] || 
-           "Người dùng";
+    return (
+      `${formData.firstName} ${formData.lastName}`.trim() ||
+      userProfile?.displayName ||
+      user?.displayName ||
+      user?.email?.split("@")[0] ||
+      "Người dùng"
+    );
   };
 
   return (
     <div className={styles.profileContainer}>
       {/* Cover Photo */}
       <div className={styles.coverPhotoSection}>
-        <div 
+        <div
           className={styles.coverPhoto}
-          style={{ 
-            backgroundImage: formData.coverPhoto ? `url(${formData.coverPhoto})` : 'linear-gradient(135deg, #FF6701 0%, #FF8533 100%)'
+          style={{
+            backgroundImage: formData.coverPhoto
+              ? `url(${formData.coverPhoto})`
+              : "linear-gradient(135deg, #FF6701 0%, #FF8533 100%)",
           }}
         >
           {isEditing && (
@@ -146,18 +181,24 @@ const Profile = () => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => handleImageUpload('coverPhoto', e.target.files[0])}
+                onChange={(e) =>
+                  handleImageUpload("coverPhoto", e.target.files[0])
+                }
                 hidden
               />
             </label>
           )}
         </div>
-        
+
         {/* Avatar */}
         <div className={styles.avatarSection}>
           <div className={styles.avatar}>
             {formData.avatar ? (
-              <img src={formData.avatar} alt="Avatar" className={styles.avatarImage} />
+              <img
+                src={formData.avatar}
+                alt="Avatar"
+                className={styles.avatarImage}
+              />
             ) : (
               <AiOutlineUser className={styles.avatarIcon} />
             )}
@@ -167,18 +208,18 @@ const Profile = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload('avatar', e.target.files[0])}
+                  onChange={(e) =>
+                    handleImageUpload("avatar", e.target.files[0])
+                  }
                   hidden
                 />
               </label>
             )}
           </div>
-          
+
           <div className={styles.nameSection}>
             <h1 className={styles.displayName}>{getDisplayName()}</h1>
-            {formData.bio && (
-              <p className={styles.bio}>{formData.bio}</p>
-            )}
+            {formData.bio && <p className={styles.bio}>{formData.bio}</p>}
           </div>
         </div>
       </div>
@@ -186,7 +227,7 @@ const Profile = () => {
       {/* Action Buttons */}
       <div className={styles.actionButtons}>
         {!isEditing ? (
-          <button 
+          <button
             className={styles.editButton}
             onClick={() => setIsEditing(true)}
           >
@@ -195,15 +236,19 @@ const Profile = () => {
           </button>
         ) : (
           <div className={styles.editActions}>
-            <button 
+            <button
               className={styles.saveButton}
               onClick={handleSave}
               disabled={loading}
             >
-              {loading ? <AiOutlineLoading3Quarters className={styles.spin} /> : <AiOutlineSave />}
+              {loading ? (
+                <AiOutlineLoading3Quarters className={styles.spin} />
+              ) : (
+                <AiOutlineSave />
+              )}
               Lưu thay đổi
             </button>
-            <button 
+            <button
               className={styles.cancelButton}
               onClick={handleCancel}
               disabled={loading}
@@ -219,7 +264,7 @@ const Profile = () => {
       <div className={styles.profileInfo}>
         <div className={styles.infoSection}>
           <h3 className={styles.sectionTitle}>Thông tin cá nhân</h3>
-          
+
           <div className={styles.infoGrid}>
             {/* First Name */}
             <div className={styles.infoField}>
@@ -231,12 +276,16 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.firstName}
-                  onChange={(e) => handleInputChange('firstName', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("firstName", e.target.value)
+                  }
                   className={styles.fieldInput}
                   placeholder="Nhập tên của bạn"
                 />
               ) : (
-                <span className={styles.fieldValue}>{formData.firstName || "Chưa cập nhật"}</span>
+                <span className={styles.fieldValue}>
+                  {formData.firstName || "Chưa cập nhật"}
+                </span>
               )}
             </div>
 
@@ -250,12 +299,16 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.lastName}
-                  onChange={(e) => handleInputChange('lastName', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("lastName", e.target.value)
+                  }
                   className={styles.fieldInput}
                   placeholder="Nhập họ của bạn"
                 />
               ) : (
-                <span className={styles.fieldValue}>{formData.lastName || "Chưa cập nhật"}</span>
+                <span className={styles.fieldValue}>
+                  {formData.lastName || "Chưa cập nhật"}
+                </span>
               )}
             </div>
 
@@ -278,12 +331,14 @@ const Profile = () => {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
                   className={styles.fieldInput}
                   placeholder="Nhập số điện thoại"
                 />
               ) : (
-                <span className={styles.fieldValue}>{formData.phone || "Chưa cập nhật"}</span>
+                <span className={styles.fieldValue}>
+                  {formData.phone || "Chưa cập nhật"}
+                </span>
               )}
             </div>
 
@@ -297,12 +352,16 @@ const Profile = () => {
                 <input
                   type="date"
                   value={formData.dateOfBirth}
-                  onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("dateOfBirth", e.target.value)
+                  }
                   className={styles.fieldInput}
                 />
               ) : (
                 <span className={styles.fieldValue}>
-                  {formData.dateOfBirth ? new Date(formData.dateOfBirth).toLocaleDateString('vi-VN') : "Chưa cập nhật"}
+                  {formData.dateOfBirth
+                    ? new Date(formData.dateOfBirth).toLocaleDateString("vi-VN")
+                    : "Chưa cập nhật"}
                 </span>
               )}
             </div>
@@ -317,12 +376,16 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.location}
-                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("location", e.target.value)
+                  }
                   className={styles.fieldInput}
                   placeholder="Nhập địa chỉ"
                 />
               ) : (
-                <span className={styles.fieldValue}>{formData.location || "Chưa cập nhật"}</span>
+                <span className={styles.fieldValue}>
+                  {formData.location || "Chưa cập nhật"}
+                </span>
               )}
             </div>
 
@@ -336,14 +399,18 @@ const Profile = () => {
                 <input
                   type="url"
                   value={formData.website}
-                  onChange={(e) => handleInputChange('website', e.target.value)}
+                  onChange={(e) => handleInputChange("website", e.target.value)}
                   className={styles.fieldInput}
                   placeholder="https://example.com"
                 />
               ) : (
                 <span className={styles.fieldValue}>
                   {formData.website ? (
-                    <a href={formData.website} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={formData.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {formData.website}
                     </a>
                   ) : (
@@ -362,7 +429,9 @@ const Profile = () => {
               {isEditing ? (
                 <select
                   value={formData.relationship}
-                  onChange={(e) => handleInputChange('relationship', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("relationship", e.target.value)
+                  }
                   className={styles.fieldSelect}
                 >
                   <option value="">Chọn tình trạng</option>
@@ -373,30 +442,30 @@ const Profile = () => {
                 </select>
               ) : (
                 <span className={styles.fieldValue}>
-                  {formData.relationship === 'single' && "Độc thân"}
-                  {formData.relationship === 'in_relationship' && "Đang hẹn hò"}
-                  {formData.relationship === 'married' && "Đã kết hôn"}
-                  {formData.relationship === 'complicated' && "Phức tạp"}
+                  {formData.relationship === "single" && "Độc thân"}
+                  {formData.relationship === "in_relationship" && "Đang hẹn hò"}
+                  {formData.relationship === "married" && "Đã kết hôn"}
+                  {formData.relationship === "complicated" && "Phức tạp"}
                   {!formData.relationship && "Chưa cập nhật"}
                 </span>
               )}
             </div>
 
             {/* Bio */}
-            <div className={styles.infoField} style={{ gridColumn: '1 / -1' }}>
-              <label className={styles.fieldLabel}>
-                Giới thiệu
-              </label>
+            <div className={styles.infoField} style={{ gridColumn: "1 / -1" }}>
+              <label className={styles.fieldLabel}>Giới thiệu</label>
               {isEditing ? (
                 <textarea
                   value={formData.bio}
-                  onChange={(e) => handleInputChange('bio', e.target.value)}
+                  onChange={(e) => handleInputChange("bio", e.target.value)}
                   className={styles.fieldTextarea}
                   placeholder="Viết vài dòng giới thiệu về bản thân..."
                   rows="4"
                 />
               ) : (
-                <span className={styles.fieldValue}>{formData.bio || "Chưa cập nhật"}</span>
+                <span className={styles.fieldValue}>
+                  {formData.bio || "Chưa cập nhật"}
+                </span>
               )}
             </div>
           </div>

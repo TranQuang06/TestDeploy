@@ -94,7 +94,8 @@ function TabLeftSocial({ onSidebarToggle }) {
         >
           <HiOutlineBriefcase className={styles.icon} />
           {!isCollapsed && <span>Jobs</span>}
-        </Link>        <Link
+        </Link>{" "}
+        <Link
           href="/saved"
           className={`${styles.navItem} ${
             isActiveRoute("/saved") ? styles.active : ""
@@ -103,7 +104,7 @@ function TabLeftSocial({ onSidebarToggle }) {
         >
           <AiOutlineHeart className={styles.icon} />
           {!isCollapsed && <span>Saved</span>}
-        </Link>
+        </Link>{" "}
         <Link
           href="/Profile"
           className={`${styles.navItem} ${

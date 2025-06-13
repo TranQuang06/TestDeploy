@@ -6,7 +6,7 @@ import TabLeftSocial from "../TabLeftSocial/TabLeftSocial";
 import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostList from "../PostList/PostList";
 
-function Dashboard() {
+function Dashboard({ children }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleSidebarToggle = (collapsed) => {
@@ -23,12 +23,18 @@ function Dashboard() {
         }`}
       >
         <div className={styles.contentWrapper}>
-          <CreatePostSection />
+          {children ? (
+            children
+          ) : (
+            <>
+              <CreatePostSection />
 
-          {/* Posts Feed */}
-          <div className={styles.postsSection}>
-            <PostList feedType="timeline" />
-          </div>
+              {/* Posts Feed */}
+              <div className={styles.postsSection}>
+                <PostList feedType="timeline" />
+              </div>
+            </>
+          )}
         </div>
 
         {/* <Footer /> */}

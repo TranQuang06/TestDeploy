@@ -13,6 +13,7 @@ import {
 import styles from "./PostList.module.css";
 import { Modal, message } from "antd";
 import CommentSection from "../CommentSection/CommentSection";
+import ProfileMiniCard from "../ProfileMiniCard/ProfileMiniCard";
 import {
   AiOutlineHeart,
   AiFillHeart,
@@ -46,6 +47,11 @@ const PostList = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const [showComments, setShowComments] = useState(new Set());
+  const [showProfileCard, setShowProfileCard] = useState(null);
+  const [profileCardPosition, setProfileCardPosition] = useState({
+    top: 0,
+    left: 0,
+  });
 
   // Use external hasMore if provided, otherwise internal
   const hasMore = customPosts ? hasMoreProp : hasMoreInternal;
@@ -84,7 +90,65 @@ const PostList = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [activeDropdown]);
+  }, [activeDropdown]); // Handle profile card hover
+  const handleAvatarMouseEnter = (userId, event) => {
+    console.log("🔍 Avatar hover entered:", userId, "current user:", user?.uid);
+    if (!userId) {
+      console.log("⚠️ Skipping profile card - no userId");
+      return; // Don't show if no userId
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
+
+    const position = {
+      top: rect.bottom + scrollTop + 8,
+      left: Math.max(10, rect.left + scrollLeft - 160), // Center card relative to avatar, with min left margin
+    };
+
+    console.log("📍 Setting profile card position:", position);
+    setProfileCardPosition(position);
+    setShowProfileCard(userId);
+    console.log("✅ Profile card should show for user:", userId);
+  };
+
+  const handleAvatarMouseLeave = () => {
+    setTimeout(() => {
+      setShowProfileCard(null);
+    }, 150); // Small delay to allow moving to card
+  };
+
+  const handleProfileCardClose = () => {
+    setShowProfileCard(null);
+  };
+  const handleCommentAdded = async (postId, newCommentCount) => {
+    try {
+      // Find and update the post in local state
+      const postIndex = posts.findIndex((p) => p.id === postId);
+      if (postIndex !== -1) {
+        // Update local state with the provided count
+        setPosts((prevPosts) => {
+          const updatedPosts = [...prevPosts];
+          updatedPosts[postIndex] = {
+            ...updatedPosts[postIndex],
+            stats: {
+              ...updatedPosts[postIndex].stats,
+              commentCount: newCommentCount,
+            },
+          };
+          return updatedPosts;
+        });
+
+        console.log(
+          `✅ Updated comment count for post ${postId}: ${newCommentCount}`
+        );
+      }
+    } catch (error) {
+      console.error("Error updating comment count:", error);
+    }
+  };
 
   const loadInitialPosts = async () => {
     try {
@@ -365,17 +429,22 @@ const PostList = ({
 
   const PostItem = ({ post }) => {
     const isLiked = likedPosts.has(post.id);
-    const isLiking = likingPosts.has(post.id);
-
-    // Debug post media
+    const isLiking = likingPosts.has(post.id); // Debug post data
+    console.log("📋 Post data:", post);
+    console.log("👤 Author ID:", post.authorId);
     console.log("📋 Post media data:", post.media);
 
     return (
       <div className={styles.postItem}>
         {/* Post Header */}
         <div className={styles.postHeader}>
+          {" "}
           <div className={styles.authorInfo}>
-            <div className={styles.authorAvatar}>
+            <div
+              className={styles.authorAvatar}
+              onMouseEnter={(e) => handleAvatarMouseEnter(post.authorId, e)}
+              onMouseLeave={handleAvatarMouseLeave}
+            >
               {post.authorInfo.avatar ? (
                 <img
                   src={post.authorInfo.avatar}
@@ -568,15 +637,14 @@ const PostList = ({
             <AiOutlineShareAlt className={styles.actionIcon} />
             <span>Chia sẻ</span>
           </button>
-        </div>
+        </div>{" "}
         {/* Comment Section */}
         {showComments.has(post.id) && (
           <CommentSection
             postId={post.id}
-            onCommentAdded={() => {
-              // Optionally refresh post data or show notification
-              console.log(`New comment added to post ${post.id}`);
-            }}
+            onCommentAdded={(newCommentCount) =>
+              handleCommentAdded(post.id, newCommentCount)
+            }
           />
         )}
       </div>
@@ -625,7 +693,6 @@ const PostList = ({
           )}
         </>
       )}
-
       {/* Delete Confirmation Modal */}
       <Modal
         title="Xác nhận xóa bài viết"
@@ -637,9 +704,26 @@ const PostList = ({
         okType="danger"
         centered
       >
+        {" "}
         <p>Bạn có chắc chắn muốn xóa bài viết này?</p>
         <p>Hành động này không thể hoàn tác.</p>
-      </Modal>
+      </Modal>{" "}
+      {/* Profile Mini Card */}
+      {showProfileCard && (
+        <>
+          {console.log(
+            "🎨 Rendering ProfileMiniCard for:",
+            showProfileCard,
+            "at position:",
+            profileCardPosition
+          )}
+          <ProfileMiniCard
+            userId={showProfileCard}
+            position={profileCardPosition}
+            onClose={handleProfileCardClose}
+          />
+        </>
+      )}
     </div>
   );
 };
