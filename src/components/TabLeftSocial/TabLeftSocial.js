@@ -107,12 +107,15 @@ function TabLeftSocial({ onSidebarToggle, onTabChange, chatTarget }) {
     e.preventDefault();
     handleTabClick("saved");
     router.push("/saved");
-  };
-  // Handle Profile click
+  };  // Handle Profile click
   const handleProfileClick = (e) => {
     e.preventDefault();
+    if (!user) {
+      router.push("/SignIn");
+      return;
+    }
     handleTabClick("profile");
-    router.push("/profile");
+    router.push("/Profile");
   };
 
   // Helper function to check if tab is active
