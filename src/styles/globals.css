@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 :root {
-/* 
+  /* 
   --primary-color: #6D2323;
   --secondary-color: #A31D1D;
   --hover-color: #E5D0AC;
@@ -9,13 +9,11 @@
   --bg-color: #000000;
 } */
 
-  --primary-color: #FF6701;
-  --secondary-color: #FEA82F;
-  --hover-color: #FFC288;
-  --last-color: #FCECDD;
-} 
-
-
+  --primary-color: #ff6701;
+  --secondary-color: #fea82f;
+  --hover-color: #ffc288;
+  --last-color: #fcecdd;
+}
 
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -41,7 +39,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .container {
@@ -86,7 +84,6 @@ body {
   }
 }
 
-
 a {
   color: inherit;
   text-decoration: none;
@@ -96,4 +93,56 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* Ngăn scroll kép */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Quy tắc quan trọng: ngăn scroll kép */
+.container,
+.leftPane,
+.rightPane,
+.jobList,
+.chatBody,
+[class*="container"],
+[class*="pane"],
+[class*="list"],
+[class*="body"] {
+  scrollbar-width: thin; /* Firefox */
+}
+
+/* Chỉ hiển thị scrollbar khi cần thiết */
+.container:not(:hover)::-webkit-scrollbar,
+.leftPane:not(:hover)::-webkit-scrollbar,
+.rightPane:not(:hover)::-webkit-scrollbar,
+.jobList:not(:hover)::-webkit-scrollbar,
+.chatBody:not(:hover)::-webkit-scrollbar,
+[class*="container"]:not(:hover)::-webkit-scrollbar,
+[class*="pane"]:not(:hover)::-webkit-scrollbar,
+[class*="list"]:not(:hover)::-webkit-scrollbar,
+[class*="body"]:not(:hover)::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* Hiển thị scrollbar khi hover */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
