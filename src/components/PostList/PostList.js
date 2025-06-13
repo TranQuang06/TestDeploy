@@ -10,6 +10,7 @@ import {
   unsavePost,
   updatePostVisibility,
 } from "../../utils/socialMedia";
+import { getJobPosts } from "../../utils/jobService";
 import styles from "./PostList.module.css";
 import { Modal, message } from "antd";
 import CommentSection from "../CommentSection/CommentSection";
@@ -27,6 +28,10 @@ import {
   AiOutlineSave,
   AiOutlineEye,
   AiOutlineLock,
+  AiOutlineDollarCircle,
+  AiOutlineEnvironment,
+  AiOutlineCalendar,
+  AiOutlineFileText,
 } from "react-icons/ai";
 
 const PostList = ({
@@ -35,6 +40,7 @@ const PostList = ({
   onLoadMore = null,
   hasMore: hasMoreProp = false,
   onPostUnsaved = null,
+  onStartChat = null,
 }) => {
   const { user, userProfile } = useAuth();
   const [posts, setPosts] = useState(customPosts || []);
@@ -119,10 +125,29 @@ const PostList = ({
       setShowProfileCard(null);
     }, 150); // Small delay to allow moving to card
   };
-
   const handleProfileCardClose = () => {
     setShowProfileCard(null);
   };
+
+  // Handle start chat with job poster
+  const handleStartChat = (userId, companyName) => {
+    if (!user) {
+      message.error("Vui lòng đăng nhập để sử dụng tính năng chat!");
+      return;
+    }
+
+    if (userId === user.uid) {
+      message.info("Đây là tin tuyển dụng của bạn!");
+      return;
+    }
+
+    if (onStartChat) {
+      onStartChat(userId, companyName);
+    } else {
+      message.info("Tính năng chat đang được phát triển!");
+    }
+  };
+
   const handleCommentAdded = async (postId, newCommentCount) => {
     try {
       // Find and update the post in local state
@@ -149,13 +174,58 @@ const PostList = ({
       console.error("Error updating comment count:", error);
     }
   };
-
   const loadInitialPosts = async () => {
     try {
       setLoading(true);
       let result;
 
-      if (feedType === "trending") {
+      if (feedType === "jobs") {
+        // Load job posts instead of regular posts
+        const jobPosts = await getJobPosts({
+          status: "active",
+          limit: 10,
+        });
+        // Transform job posts to match post structure
+        const transformedJobs = jobPosts.map((job) => ({
+          id: job.id,
+          type: "job",
+          content: `${job.jobTitle} tại ${job.companyName}\n\n${job.jobDescription}`,
+          author: {
+            uid: job.postedBy,
+            displayName: job.companyName,
+            photoURL: job.companyLogo || null,
+            email: job.contactEmail || null,
+          },
+          createdAt: job.createdAt,
+          updatedAt: job.updatedAt,
+          stats: {
+            likeCount: job.viewCount || 0,
+            commentCount: 0,
+            shareCount: 0,
+          },
+          visibility: "public",
+          // Additional job-specific data
+          jobData: {
+            jobTitle: job.jobTitle,
+            companyName: job.companyName,
+            salary: job.salary,
+            location: job.location,
+            jobType: job.jobType,
+            category: job.category,
+            experience: job.experience,
+            skills: job.skills,
+            benefits: job.benefits,
+            contactEmail: job.contactEmail,
+            expiryDate: job.expiryDate,
+          },
+        }));
+
+        result = {
+          posts: transformedJobs,
+          lastDoc: null,
+          hasMore: false,
+        };
+      } else if (feedType === "trending") {
         const trendingPosts = await getTrendingPosts(10);
         result = {
           posts: trendingPosts,
@@ -169,8 +239,8 @@ const PostList = ({
       setLastDoc(result.lastDoc);
       setHasMoreInternal(result.hasMore);
 
-      // Check which posts user has liked
-      if (user) {
+      // Check which posts user has liked (skip for job posts)
+      if (user && feedType !== "jobs") {
         await checkUserLikes(result.posts);
       }
     } catch (error) {
@@ -278,21 +348,24 @@ const PostList = ({
       });
     }
   };
+  // Format time for display
+  const formatTimeAgo = (timestamp) => {
+    if (!timestamp) return "";
 
-  const formatTimeAgo = (dateString) => {
+    // Handle Firestore timestamp
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     const now = new Date();
-    const postDate = new Date(dateString);
-    const diffInMinutes = Math.floor((now - postDate) / (1000 * 60));
+    const diffInSeconds = Math.floor((now - date) / 1000);
 
-    if (diffInMinutes < 1) return "Vừa xong";
-    if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
+    if (diffInSeconds < 60) return "Vừa xong";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} phút trước`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
 
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) return `${diffInHours} giờ trước`;
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays} ngày trước`;
-    return postDate.toLocaleDateString("vi-VN");
+    return date.toLocaleDateString("vi-VN");
   };
 
   // Handle dropdown toggle
@@ -425,6 +498,131 @@ const PostList = ({
 
       message.error(errorMessage);
     }
+  }; // Job Item Component for rendering job posts
+  const JobItem = ({ post }) => {
+    const { jobData } = post;
+
+    // Debug logging
+    console.log("🔍 JobItem received:", { post, jobData });
+    console.log("🔍 Skills type:", typeof jobData?.skills, jobData?.skills);
+    console.log(
+      "🔍 Benefits type:",
+      typeof jobData?.benefits,
+      jobData?.benefits
+    );
+
+    return (
+      <div className={`${styles.postItem} ${styles.jobItem}`}>
+        {/* Job Header */}
+        <div className={styles.postHeader}>
+          <div className={styles.authorInfo}>
+            <div className={styles.authorAvatar}>
+              {post.author.photoURL ? (
+                <img
+                  src={post.author.photoURL}
+                  alt={post.author.displayName}
+                  className={styles.avatarImage}
+                />
+              ) : (
+                <AiOutlineUser className={styles.avatarIcon} />
+              )}
+            </div>
+            <div className={styles.authorDetails}>
+              <div className={styles.authorName}>{jobData.companyName}</div>
+              <div className={styles.postMeta}>
+                <span className={styles.postTime}>
+                  {formatTimeAgo(post.createdAt)}
+                </span>
+                <AiOutlineGlobal className={styles.visibilityIcon} />
+              </div>
+            </div>
+          </div>
+          <div className={styles.jobBadge}>
+            <AiOutlineFileText />
+            <span>Tuyển dụng</span>
+          </div>
+        </div>
+        {/* Job Content */}
+        <div className={styles.jobContent}>
+          <h3 className={styles.jobTitle}>{jobData.jobTitle}</h3>
+          <div className={styles.jobDetails}>
+            <div className={styles.jobDetailItem}>
+              <AiOutlineDollarCircle className={styles.jobIcon} />
+              <span>{jobData.salary}</span>
+            </div>
+            <div className={styles.jobDetailItem}>
+              <AiOutlineEnvironment className={styles.jobIcon} />
+              <span>{jobData.location}</span>
+            </div>
+            <div className={styles.jobDetailItem}>
+              <AiOutlineCalendar className={styles.jobIcon} />
+              <span>{jobData.jobType}</span>
+            </div>
+          </div>
+          {jobData.experience && (
+            <div className={styles.jobRequirement}>
+              <strong>Kinh nghiệm:</strong> {jobData.experience}
+            </div>
+          )}{" "}
+          {jobData.skills && (
+            <div className={styles.jobSkills}>
+              <strong>Kỹ năng:</strong>
+              {Array.isArray(jobData.skills) ? (
+                <div className={styles.skillTags}>
+                  {jobData.skills.map((skill, index) => (
+                    <span key={index} className={styles.skillTag}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.skillText}>{jobData.skills}</div>
+              )}
+            </div>
+          )}
+          {jobData.benefits && (
+            <div className={styles.jobBenefits}>
+              <strong>Quyền lợi:</strong>
+              {Array.isArray(jobData.benefits) ? (
+                <ul className={styles.benefitsList}>
+                  {jobData.benefits.map((benefit, index) => (
+                    <li key={index}>{benefit}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={styles.benefitText}>{jobData.benefits}</div>
+              )}
+            </div>
+          )}{" "}
+          {jobData.expiryDate && (
+            <div className={styles.jobDeadline}>
+              <strong>Hạn ứng tuyển:</strong>{" "}
+              {jobData.expiryDate instanceof Date
+                ? jobData.expiryDate.toLocaleDateString("vi-VN")
+                : jobData.expiryDate.toDate
+                ? jobData.expiryDate.toDate().toLocaleDateString("vi-VN")
+                : new Date(jobData.expiryDate).toLocaleDateString("vi-VN")}
+            </div>
+          )}
+        </div>{" "}
+        {/* Job Actions */}
+        <div className={styles.jobActions}>
+          <button
+            className={styles.primaryJobBtn}
+            onClick={() =>
+              handleStartChat(post.author.uid, jobData.companyName)
+            }
+          >
+            Nhắn ngay
+          </button>
+          <button className={styles.secondaryJobBtn}>Lưu tin</button>
+          <button className={styles.actionBtn}>
+            <AiOutlineShareAlt className={styles.actionIcon} />
+            <span>Chia sẻ</span>
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const PostItem = ({ post }) => {
@@ -650,28 +848,46 @@ const PostList = ({
       </div>
     );
   };
-
   if (loading && posts.length === 0) {
     return (
       <div className={styles.loadingContainer}>
         <AiOutlineLoading3Quarters className={styles.loadingIcon} />
-        <span>Đang tải bài viết...</span>
+        <span>
+          {feedType === "jobs"
+            ? "Đang tải tin tuyển dụng..."
+            : "Đang tải bài viết..."}
+        </span>
       </div>
     );
   }
   return (
     <div className={styles.postList}>
+      {" "}
       {posts.length === 0 ? (
         <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>📝</div>
-          <h3>Chưa có bài viết nào</h3>
-          <p>Hãy tạo bài viết đầu tiên của bạn!</p>
+          <div className={styles.emptyIcon}>
+            {feedType === "jobs" ? "�" : "�📝"}
+          </div>
+          <h3>
+            {feedType === "jobs"
+              ? "Chưa có tin tuyển dụng nào"
+              : "Chưa có bài viết nào"}
+          </h3>
+          <p>
+            {feedType === "jobs"
+              ? "Hãy đăng tin tuyển dụng đầu tiên của bạn!"
+              : "Hãy tạo bài viết đầu tiên của bạn!"}
+          </p>
         </div>
       ) : (
         <>
-          {posts.map((post) => (
-            <PostItem key={post.id} post={post} />
-          ))}
+          {posts.map((post) =>
+            post.type === "job" ? (
+              <JobItem key={post.id} post={post} />
+            ) : (
+              <PostItem key={post.id} post={post} />
+            )
+          )}
 
           {hasMore && (
             <div className={styles.loadMoreContainer}>

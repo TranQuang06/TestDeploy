@@ -13,6 +13,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { Modal, message } from "antd";
 import styles from "./MyNetworkPage.module.css";
 import {
   AiOutlineUserAdd,
@@ -34,6 +35,8 @@ const MyNetworkPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("suggestions");
+  const [removeFriendModalOpen, setRemoveFriendModalOpen] = useState(false);
+  const [friendToRemove, setFriendToRemove] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -55,22 +58,74 @@ const MyNetworkPage = () => {
       setLoading(false);
     }
   };
-
   const loadSuggestedUsers = async () => {
     try {
-      // Get all users except current user and existing friends
+      // Get all users except current user
       const usersRef = collection(db, "users");
-      const usersQuery = query(usersRef, limit(20));
+      const usersQuery = query(usersRef, limit(50));
       const usersSnapshot = await getDocs(usersQuery);
 
-      const users = [];
+      const allUsers = [];
       usersSnapshot.forEach((doc) => {
         if (doc.id !== user.uid) {
-          users.push({ id: doc.id, ...doc.data() });
+          allUsers.push({ id: doc.id, ...doc.data() });
         }
       });
 
-      setSuggestedUsers(users);
+      // Get ONLY PENDING friend requests (both sent and received)
+      const sentRequestsQuery = query(
+        collection(db, "friendRequests"),
+        where("fromUserId", "==", user.uid),
+        where("status", "==", "pending")
+      );
+      const receivedRequestsQuery = query(
+        collection(db, "friendRequests"),
+        where("toUserId", "==", user.uid),
+        where("status", "==", "pending")
+      );
+
+      const [sentSnapshot, receivedSnapshot] = await Promise.all([
+        getDocs(sentRequestsQuery),
+        getDocs(receivedRequestsQuery),
+      ]);
+
+      // Get IDs of users with PENDING requests only
+      const pendingRequestUserIds = new Set();
+      sentSnapshot.forEach((doc) => {
+        const data = doc.data();
+        pendingRequestUserIds.add(data.toUserId);
+      });
+      receivedSnapshot.forEach((doc) => {
+        const data = doc.data();
+        pendingRequestUserIds.add(data.fromUserId);
+      });
+
+      // Get existing friends
+      const friendsQuery = query(
+        collection(db, "friendships"),
+        where("users", "array-contains", user.uid)
+      );
+      const friendsSnapshot = await getDocs(friendsQuery);
+      const friendIds = new Set();
+      friendsSnapshot.forEach((doc) => {
+        const data = doc.data();
+        const friendId = data.users.find((id) => id !== user.uid);
+        if (friendId) {
+          friendIds.add(friendId);
+        }
+      });
+
+      // Filter out users who have PENDING requests or are current friends
+      const filteredUsers = allUsers.filter(
+        (user) => !pendingRequestUserIds.has(user.id) && !friendIds.has(user.id)
+      );
+
+      console.log("📋 All users:", allUsers.length);
+      console.log("🔄 Pending requests:", pendingRequestUserIds.size);
+      console.log("👥 Current friends:", friendIds.size);
+      console.log("💡 Suggested users:", filteredUsers.length);
+
+      setSuggestedUsers(filteredUsers);
     } catch (error) {
       console.error("Error loading suggested users:", error);
     }
@@ -162,25 +217,67 @@ const MyNetworkPage = () => {
         createdAt: new Date(),
       });
 
-      // Update local state
-      setSuggestedUsers((users) => users.filter((u) => u.id !== toUserId));
-      await loadFriendRequests();
+      // Refresh data to update all UI sections
+      await loadNetworkData();
+
+      console.log("✅ Friend request sent");
     } catch (error) {
       console.error("Error sending friend request:", error);
     }
   };
+  const cancelFriendRequest = async (requestId, toUserId) => {
+    try {
+      const requestRef = doc(db, "friendRequests", requestId);
+      await deleteDoc(requestRef);
+
+      // Refresh data to update UI
+      await loadNetworkData();
+
+      console.log("✅ Friend request cancelled");
+    } catch (error) {
+      console.error("Error cancelling friend request:", error);
+    }
+  };
+  const removeFriend = async (friendId) => {
+    try {
+      // Find and delete friendship document
+      const friendshipId = [user.uid, friendId].sort().join("_");
+      const friendshipRef = doc(db, "friendships", friendshipId);
+      await deleteDoc(friendshipRef);
+
+      // Note: We're NOT deleting chat history - only removing friendship
+
+      // Refresh data to update UI
+      await loadNetworkData();
+
+      message.success("Đã hủy kết bạn thành công!");
+      console.log("✅ Friendship removed");
+    } catch (error) {
+      console.error("Error removing friend:", error);
+      message.error("Có lỗi xảy ra khi hủy kết bạn!");
+    }
+  };
+
+  const handleRemoveFriend = (friend) => {
+    setFriendToRemove(friend);
+    setRemoveFriendModalOpen(true);
+  };
+
+  const confirmRemoveFriend = async () => {
+    if (friendToRemove) {
+      await removeFriend(friendToRemove.id);
+      setRemoveFriendModalOpen(false);
+      setFriendToRemove(null);
+    }
+  };
+
+  const cancelRemoveFriend = () => {
+    setRemoveFriendModalOpen(false);
+    setFriendToRemove(null);
+  };
   const acceptFriendRequest = async (requestId, fromUserId) => {
     try {
-      // Update request status
-      const requestRef = doc(db, "friendRequests", requestId);
-      await setDoc(requestRef, {
-        fromUserId,
-        toUserId: user.uid,
-        status: "accepted",
-        updatedAt: new Date(),
-      });
-
-      // Create friendship
+      // Create friendship first
       const friendshipId = [user.uid, fromUserId].sort().join("_");
       const friendshipRef = doc(db, "friendships", friendshipId);
       await setDoc(friendshipRef, {
@@ -188,8 +285,23 @@ const MyNetworkPage = () => {
         createdAt: new Date(),
       });
 
-      // Refresh data
+      // Delete the friend request (both directions if exists)
+      const requestRef = doc(db, "friendRequests", requestId);
+      await deleteDoc(requestRef);
+
+      // Also delete reverse request if exists
+      const reverseRequestId = `${fromUserId}_${user.uid}`;
+      const reverseRequestRef = doc(db, "friendRequests", reverseRequestId);
+      try {
+        await deleteDoc(reverseRequestRef);
+      } catch (e) {
+        // Ignore if reverse request doesn't exist
+      }
+
+      // Refresh all data to update UI
       await loadNetworkData();
+
+      console.log("✅ Friend request accepted and friendship created");
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
@@ -198,14 +310,17 @@ const MyNetworkPage = () => {
     try {
       const requestRef = doc(db, "friendRequests", requestId);
       await deleteDoc(requestRef);
-      await loadFriendRequests();
+
+      // Refresh data to update UI
+      await loadNetworkData();
+
+      console.log("✅ Friend request rejected");
     } catch (error) {
       console.error("Error rejecting friend request:", error);
     }
   };
-
-  const searchUsers = async (query) => {
-    if (!query.trim()) {
+  const searchUsers = async (searchQuery) => {
+    if (!searchQuery.trim()) {
       setSearchResults([]);
       return;
     }
@@ -215,7 +330,7 @@ const MyNetworkPage = () => {
       const usersRef = collection(db, "users");
       const usersSnapshot = await getDocs(usersRef);
 
-      const results = [];
+      const allResults = [];
       usersSnapshot.forEach((doc) => {
         if (doc.id !== user.uid) {
           const userData = doc.data();
@@ -224,30 +339,80 @@ const MyNetworkPage = () => {
             `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
 
           if (
-            displayName.toLowerCase().includes(query.toLowerCase()) ||
+            displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
             (userData.email &&
-              userData.email.toLowerCase().includes(query.toLowerCase()))
+              userData.email.toLowerCase().includes(searchQuery.toLowerCase()))
           ) {
-            results.push({ id: doc.id, ...userData });
+            allResults.push({ id: doc.id, ...userData });
           }
         }
       });
 
-      setSearchResults(results);
+      // Apply same filtering logic as suggestions
+      // Get ONLY PENDING friend requests
+      const sentRequestsQuery = query(
+        collection(db, "friendRequests"),
+        where("fromUserId", "==", user.uid),
+        where("status", "==", "pending")
+      );
+      const receivedRequestsQuery = query(
+        collection(db, "friendRequests"),
+        where("toUserId", "==", user.uid),
+        where("status", "==", "pending")
+      );
+
+      const [sentSnapshot, receivedSnapshot] = await Promise.all([
+        getDocs(sentRequestsQuery),
+        getDocs(receivedRequestsQuery),
+      ]);
+
+      const pendingRequestUserIds = new Set();
+      sentSnapshot.forEach((doc) => {
+        const data = doc.data();
+        pendingRequestUserIds.add(data.toUserId);
+      });
+      receivedSnapshot.forEach((doc) => {
+        const data = doc.data();
+        pendingRequestUserIds.add(data.fromUserId);
+      });
+
+      // Get existing friends
+      const friendsQuery = query(
+        collection(db, "friendships"),
+        where("users", "array-contains", user.uid)
+      );
+      const friendsSnapshot = await getDocs(friendsQuery);
+      const friendIds = new Set();
+      friendsSnapshot.forEach((doc) => {
+        const data = doc.data();
+        const friendId = data.users.find((id) => id !== user.uid);
+        if (friendId) {
+          friendIds.add(friendId);
+        }
+      });
+
+      // Filter search results to exclude pending requests and current friends
+      const filteredResults = allResults.filter(
+        (user) => !pendingRequestUserIds.has(user.id) && !friendIds.has(user.id)
+      );
+
+      console.log("🔍 Search results before filter:", allResults.length);
+      console.log("🔍 Search results after filter:", filteredResults.length);
+
+      setSearchResults(filteredResults);
     } catch (error) {
       console.error("Error searching users:", error);
     } finally {
       setSearchLoading(false);
     }
   };
-
   const handleSearch = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
+    const searchQuery = e.target.value;
+    setSearchQuery(searchQuery);
 
     // Debounce search
-    if (query.length >= 2) {
-      setTimeout(() => searchUsers(query), 300);
+    if (searchQuery.length >= 2) {
+      setTimeout(() => searchUsers(searchQuery), 300);
     } else {
       setSearchResults([]);
     }
@@ -289,7 +454,6 @@ const MyNetworkPage = () => {
               Kết nối
             </button>
           )}
-
           {actionType === "received" && (
             <>
               <button
@@ -309,10 +473,26 @@ const MyNetworkPage = () => {
                 Từ chối
               </button>
             </>
-          )}
-
+          )}{" "}
           {actionType === "sent" && (
-            <span className={styles.pendingText}>Đã gửi lời mời</span>
+            <button
+              className={styles.cancelBtn}
+              onClick={() =>
+                cancelFriendRequest(userInfo.requestId, userInfo.id)
+              }
+            >
+              <AiOutlineClose className={styles.actionIcon} />
+              Hủy yêu cầu
+            </button>
+          )}{" "}
+          {actionType === "friend" && (
+            <button
+              className={styles.removeFriendBtn}
+              onClick={() => handleRemoveFriend(userInfo)}
+            >
+              <AiOutlineClose className={styles.actionIcon} />
+              Hủy kết bạn
+            </button>
           )}
         </div>
       </div>
@@ -439,7 +619,13 @@ const MyNetworkPage = () => {
             {sentRequests.length > 0 ? (
               <div className={styles.userGrid}>
                 {sentRequests.map((request) =>
-                  renderUserCard(request.userInfo, "sent")
+                  renderUserCard(
+                    {
+                      ...request.userInfo,
+                      requestId: request.id,
+                    },
+                    "sent"
+                  )
                 )}
               </div>
             ) : (
@@ -461,6 +647,31 @@ const MyNetworkPage = () => {
           </div>
         )}
       </div>
+
+      {/* Remove Friend Confirmation Modal */}
+      <Modal
+        title="Xác nhận hủy kết bạn"
+        open={removeFriendModalOpen}
+        onOk={confirmRemoveFriend}
+        onCancel={cancelRemoveFriend}
+        okText="Hủy kết bạn"
+        cancelText="Hủy bỏ"
+        okType="danger"
+        centered
+      >
+        <p>
+          Bạn có chắc chắn muốn hủy kết bạn với{" "}
+          <strong>
+            {friendToRemove?.displayName ||
+              friendToRemove?.firstName + " " + friendToRemove?.lastName ||
+              "người này"}
+          </strong>
+          ?
+        </p>
+        <p>
+          <em>Lưu ý: Lịch sử trò chuyện sẽ được giữ lại.</em>
+        </p>
+      </Modal>
     </div>
   );
 };

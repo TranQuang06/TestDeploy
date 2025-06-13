@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { createPost } from "../../utils/socialMedia";
 import styles from "./CreatePostSection.module.css";
 import { Modal, message } from "antd";
+import JobPostingModal from "../JobPostingModal/JobPostingModal";
 import {
   AiOutlineUser,
   AiOutlinePicture,
@@ -12,11 +13,13 @@ import {
   AiOutlineGlobal,
   AiOutlineDown,
   AiOutlineLoading3Quarters,
+  AiOutlineFileText,
 } from "react-icons/ai";
 
 const CreatePostSection = () => {
   const { user, userProfile } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [showJobModal, setShowJobModal] = useState(false);
   const [postContent, setPostContent] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [privacy, setPrivacy] = useState("public"); // public, friends, private
@@ -293,6 +296,14 @@ const CreatePostSection = () => {
             <span>😊</span>
             <span>Cảm xúc/hoạt động</span>
           </button>
+
+          <button
+            className={styles.actionBtn}
+            onClick={() => setShowJobModal(true)}
+          >
+            <AiOutlineFileText className={styles.actionIcon} />
+            <span>Đăng tuyển dụng</span>
+          </button>
         </div>
         {/* Hidden file input */}
         <input
@@ -414,6 +425,23 @@ const CreatePostSection = () => {
           </div>
         </div>
       )}
+      {/* Modal để đăng tuyển dụng */}
+      {showJobModal && (
+        <JobPostingModal
+          visible={showJobModal}
+          onClose={() => setShowJobModal(false)}
+          user={user}
+        />
+      )}
+      {/* Job Posting Modal */}
+      <JobPostingModal
+        isOpen={showJobModal}
+        onClose={() => setShowJobModal(false)}
+        onJobPosted={(newJob) => {
+          console.log("✅ New job posted:", newJob);
+          message.success("Đăng tin tuyển dụng thành công!");
+        }}
+      />
     </>
   );
 };

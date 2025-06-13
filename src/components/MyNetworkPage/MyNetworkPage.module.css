@@ -185,7 +185,9 @@
 
 .connectBtn,
 .acceptBtn,
-.rejectBtn {
+.rejectBtn,
+.cancelBtn,
+.removeFriendBtn {
   flex: 1;
   padding: 8px 16px;
   border: none;
@@ -225,6 +227,25 @@
 
 .rejectBtn:hover {
   background: #dc2626;
+}
+
+.cancelBtn {
+  background: #f59e0b;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background: #d97706;
+}
+
+.removeFriendBtn {
+  background: #dc2626;
+  color: white;
+}
+
+.removeFriendBtn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
 }
 
 .actionIcon {

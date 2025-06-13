@@ -469,6 +469,203 @@
   box-shadow: none;
 }
 
+/* Job Item Styles */
+.jobItem {
+  border-left: 4px solid #FF6701;
+  background: linear-gradient(135deg, #fefefe 0%, #f9f9f9 100%);
+}
+
+.jobItem:hover {
+  box-shadow: 0 6px 20px rgba(255, 103, 1, 0.15);
+}
+
+.jobBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jobBadge svg {
+  font-size: 14px;
+}
+
+.jobContent {
+  padding: 0 20px 16px;
+}
+
+.jobTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+  line-height: 1.3;
+}
+
+.jobDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.jobDetailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.jobIcon {
+  color: #FF6701;
+  font-size: 16px;
+}
+
+.jobRequirement {
+  margin-bottom: 12px;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.jobRequirement strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.jobSkills {
+  margin-bottom: 12px;
+}
+
+.jobSkills strong {
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.skillTag {
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.jobBenefits {
+  margin-bottom: 12px;
+}
+
+.jobBenefits strong {
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.benefitsList li {
+  color: #666;
+  font-size: 14px;
+  padding: 4px 0;
+  position: relative;
+  padding-left: 20px;
+}
+
+.benefitsList li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #FF6701;
+  font-weight: bold;
+}
+
+.jobDeadline {
+  color: #d73527;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 12px;
+}
+
+.jobDeadline strong {
+  color: #d73527;
+}
+
+.jobActions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.primaryJobBtn {
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 150px;
+}
+
+.primaryJobBtn:hover {
+  background: linear-gradient(135deg, #e55a01 0%, #e6732e 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.3);
+}
+
+.secondaryJobBtn {
+  background: transparent;
+  color: #FF6701;
+  border: 2px solid #FF6701;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 120px;
+}
+
+.secondaryJobBtn:hover {
+  background: #FF6701;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.benefitText {
+  color: #666;
+  font-size: 14px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .postItem {
@@ -521,5 +718,33 @@
   }
   .postMedia .mediaItem:only-child .postImage {
     max-height: 400px;
+  }
+
+  .jobTitle {
+    font-size: 18px;
+  }
+  
+  .jobDetails {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .jobActions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .primaryJobBtn,
+  .secondaryJobBtn {
+    max-width: none;
+  }
+  
+  .skillTags {
+    gap: 6px;
+  }
+  
+  .skillTag {
+    font-size: 11px;
+    padding: 3px 8px;
   }
 }

@@ -5,17 +5,33 @@ import { useState } from "react";
 import TabLeftSocial from "../TabLeftSocial/TabLeftSocial";
 import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostList from "../PostList/PostList";
+import JobsSection from "../JobsSection/JobsSection";
 
 function Dashboard({ children }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
+  const [chatTarget, setChatTarget] = useState(null);
 
   const handleSidebarToggle = (collapsed) => {
     setSidebarCollapsed(collapsed);
   };
 
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+  };
+
+  const handleStartChat = (userId, displayName) => {
+    setChatTarget({ userId, displayName });
+    // Auto switch to inbox/chat tab
+    setActiveTab("inbox");
+  };
   return (
     <div className={styles.dashboardContainer}>
-      <TabLeftSocial onSidebarToggle={handleSidebarToggle} />
+      <TabLeftSocial
+        onSidebarToggle={handleSidebarToggle}
+        onTabChange={handleTabChange}
+        chatTarget={chatTarget}
+      />
 
       <div
         className={`${styles.mainContent} ${
@@ -23,15 +39,17 @@ function Dashboard({ children }) {
         }`}
       >
         <div className={styles.contentWrapper}>
+          {" "}
           {children ? (
             children
           ) : (
             <>
-              <CreatePostSection />
-
-              {/* Posts Feed */}
+              <CreatePostSection /> {/* Posts Feed */}
               <div className={styles.postsSection}>
-                <PostList feedType="timeline" />
+                <PostList
+                  feedType={activeTab === "jobs" ? "jobs" : "timeline"}
+                  onStartChat={handleStartChat}
+                />
               </div>
             </>
           )}
