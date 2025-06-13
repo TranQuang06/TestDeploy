@@ -1,0 +1,280 @@
+.jobPostingModal {
+  .ant-modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .ant-modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-bottom: none;
+    padding: 20px 24px;
+  }
+
+  .ant-modal-title {
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .ant-modal-close {
+    top: 16px;
+    right: 16px;
+  }
+
+  .ant-modal-close-x {
+    color: white;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.titleIcon {
+  font-size: 20px;
+}
+
+.modalContent {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0 4px;
+}
+
+.jobForm {
+  padding: 24px 0;
+}
+
+.section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e6f7ff;
+}
+
+.rowFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.halfField {
+  margin-bottom: 0 !important;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.cancelBtn {
+  padding: 8px 24px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  background: white;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.cancelBtn:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.submitBtn {
+  padding: 8px 32px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.submitBtn:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b4c8a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.submitBtn:disabled {
+  background: #d9d9d9;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Form styling */
+.jobForm .ant-form-item-label > label {
+  color: #262626;
+  font-weight: 500;
+}
+
+.jobForm .ant-form-item-label > label.ant-form-item-required::before {
+  color: #ff4d4f;
+}
+
+.jobForm .ant-input,
+.jobForm .ant-select-selector,
+.jobForm .ant-input-number,
+.jobForm .ant-picker {
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  transition: all 0.3s ease;
+}
+
+.jobForm .ant-input:focus,
+.jobForm .ant-select-focused .ant-select-selector,
+.jobForm .ant-input-number:focus,
+.jobForm .ant-picker:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.jobForm .ant-input-affix-wrapper {
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  transition: all 0.3s ease;
+}
+
+.jobForm .ant-input-affix-wrapper:focus,
+.jobForm .ant-input-affix-wrapper-focused {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Textarea styling */
+.jobForm .ant-input {
+  resize: vertical;
+}
+
+.jobForm .ant-input[data-count] {
+  border-bottom-right-radius: 0;
+}
+
+/* Select styling */
+.jobForm .ant-select-dropdown {
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Date picker styling */
+.jobForm .ant-picker-dropdown {
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .jobPostingModal {
+    margin: 0;
+    max-width: 100vw;
+    
+    .ant-modal-content {
+      border-radius: 0;
+    }
+  }
+
+  .modalContent {
+    max-height: 60vh;
+  }
+
+  .rowFields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .halfField {
+    margin-bottom: 24px !important;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+  }
+}
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.submitBtn .anticon-loading {
+  animation: spin 1s linear infinite;
+}
+
+/* Error styling */
+.jobForm .ant-form-item-has-error .ant-input,
+.jobForm .ant-form-item-has-error .ant-select-selector,
+.jobForm .ant-form-item-has-error .ant-input-number,
+.jobForm .ant-form-item-has-error .ant-picker {
+  border-color: #ff4d4f;
+}
+
+.jobForm .ant-form-item-has-error .ant-input:focus,
+.jobForm .ant-form-item-has-error .ant-select-focused .ant-select-selector,
+.jobForm .ant-form-item-has-error .ant-input-number:focus,
+.jobForm .ant-form-item-has-error .ant-picker:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+/* Success styling */
+.jobForm .ant-form-item-has-success .ant-input,
+.jobForm .ant-form-item-has-success .ant-select-selector,
+.jobForm .ant-form-item-has-success .ant-input-number,
+.jobForm .ant-form-item-has-success .ant-picker {
+  border-color: #52c41a;
+}
+
+/* Custom scrollbar */
+.modalContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

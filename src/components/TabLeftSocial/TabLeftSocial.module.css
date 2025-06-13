@@ -1,0 +1,408 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  padding: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Mobile styles */
+.sidebar.mobile {
+  transform: translateX(0);
+  z-index: 1001;
+}
+
+.sidebar.mobile.collapsed {
+  transform: translateX(-100%);
+  width: 250px;
+}
+
+/* Mobile overlay */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Mobile toggle button */
+.mobileToggleButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 1002;
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobileToggleButton:hover {
+  background: linear-gradient(135deg, #FF8533 0%, #FF6701 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 103, 1, 0.5);
+}
+
+.mobileToggleButton.expanded {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  left: 270px;
+}
+
+.mobileToggleButton.collapsed {
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+}
+
+/* Styles khi chat interface mở */
+.sidebar.collapsed.chatOpen {
+  z-index: 1000;
+}
+
+.sidebar.collapsed.chatOpen .navItem:not(.inboxButton) {
+  opacity: 0.7;
+}
+
+.sidebar.collapsed.chatOpen .navItem:not(.inboxButton):hover {
+  opacity: 1;
+  background: rgba(255, 103, 1, 0.1);
+}
+
+/* Desktop toggle button */
+.toggleButton {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 1001;
+  box-shadow: 0 2px 8px rgba(255, 103, 1, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.toggleButton:hover {
+  background: linear-gradient(135deg, #FF8533 0%, #FF6701 100%);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.4);
+}
+
+.navigation {
+  flex: 1;
+  padding: 80px 0 20px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 140px);
+}
+
+/* Custom scrollbar for navigation */
+.navigation::-webkit-scrollbar {
+  width: 4px;
+}
+
+.navigation::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+  background: rgba(255, 103, 1, 0.5);
+  border-radius: 2px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 103, 1, 0.7);
+}
+
+/* Mobile navigation padding */
+.sidebar.mobile .navigation {
+  padding: 100px 0 20px 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 24px;
+  margin-bottom: 12px;
+  margin-left: 5px;
+  margin-right: 12px;
+  position: relative;
+  transform: translateX(0);
+  white-space: nowrap;
+  overflow: hidden;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: calc(100% - 17px);
+  box-sizing: border-box;
+}
+
+/* Styles cho inbox button */
+.inboxButton {
+  background: none !important;
+  border: none !important;
+  text-align: left;
+}
+
+.inboxButton:focus {
+  outline: none;
+}
+
+.collapsed .navItem {
+  padding: 15px;
+  justify-content: center;
+  margin-left: 5px;
+  margin-right: 10px;
+  width: 60px;
+}
+
+.collapsed .navItem span {
+  opacity: 0;
+  width: 0;
+  transition: all 0.3s ease;
+}
+
+/* Đảm bảo inbox button vẫn hiển thị đúng khi collapsed */
+.collapsed .inboxButton {
+  width: 60px;
+  justify-content: center;
+}
+
+.navItem:hover {
+  background: rgba(255, 103, 1, 0.1);
+  color: #FF6701;
+  border-radius: 24px;
+  transform: translateX(8px);
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.15);
+}
+
+.navItem.active {
+  background: linear-gradient(90deg, #FF6701 0%, #FF8533 100%);
+  border: none;
+  border-radius: 24px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 103, 1, 0.3);
+  transform: translateX(6px);
+}
+
+/* Đặc biệt cho inbox button khi active */
+.inboxButton.active {
+  background: linear-gradient(90deg, #FF6701 0%, #FF8533 100%) !important;
+  color: white !important;
+}
+
+.inboxButton.active .icon {
+  color: white !important;
+}
+
+.icon {
+  font-size: 20px;
+  margin-right: 15px;
+  min-width: 20px;
+  border-radius: 20px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  flex-shrink: 0;
+}
+
+.collapsed .icon {
+  margin-right: 0;
+}
+
+.navItem:hover .icon {
+  transform: scale(1.1);
+}
+
+.footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: auto;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 12px;
+  transition: color 0.3s ease;
+}
+
+.footerLink:hover {
+  color: white;
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+/* Tooltip for collapsed sidebar */
+.navItem::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  margin-left: 10px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.collapsed .navItem:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.navItem::before {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  margin-left: 4px;
+  z-index: 1000;
+}
+
+.collapsed .navItem:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Inbox button specific styling */
+.inboxButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.inboxButton:focus {
+  outline: none;
+}
+
+/* Hide tooltips on mobile */
+@media (max-width: 768px) {
+  .navItem::after,
+  .navItem::before {
+    display: none;
+  }
+  
+  /* Ensure sidebar takes full width on mobile when expanded */
+  .sidebar.mobile:not(.collapsed) {
+    width: 250px;
+  }
+  
+  /* Hide desktop toggle button on mobile */
+  .toggleButton {
+    display: none;
+  }
+  
+  /* Mobile navigation items - show text when expanded */
+  .sidebar.mobile:not(.collapsed) .navItem {
+    padding: 15px 25px;
+    justify-content: flex-start;
+    width: calc(100% - 17px);
+    display: flex !important;
+    visibility: visible !important;
+  }
+  
+  .sidebar.mobile:not(.collapsed) .navItem span {
+    opacity: 1;
+    width: auto;
+    display: inline-block !important;
+  }
+  
+  .sidebar.mobile:not(.collapsed) .icon {
+    margin-right: 15px;
+    display: inline-block !important;
+  }
+    /* Ensure all navigation items are visible on mobile */
+  .sidebar.mobile:not(.collapsed) .navigation {
+    display: flex;
+    flex-direction: column;
+    padding: 100px 0 20px 0;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+  
+  .sidebar.mobile:not(.collapsed) .navigation .navItem {
+    margin-bottom: 12px;
+    opacity: 1;
+    transform: none;
+  }
+  
+  /* Auto-close sidebar after navigation on mobile */
+  .sidebar.mobile .navItem:active {
+    background: linear-gradient(90deg, #FF6701 0%, #FF8533 100%);
+  }
+  
+  /* Specific styling for mobile navigation items */
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(1),
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(2),
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(3),
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(4),
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(5),
+  .sidebar.mobile:not(.collapsed) .navItem:nth-child(6) {
+    display: flex !important;
+    visibility: visible !important;
+  }
+}

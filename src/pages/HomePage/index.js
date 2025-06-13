@@ -22,10 +22,12 @@ function HomePage() {
           <h1>
             Tìm việc làm phù hợp
             <br />
-            dễ dàng và nhanh chóng          </h1>
+            dễ dàng và nhanh chóng{" "}
+          </h1>
           <p>
-           Khám phá hàng nghìn cơ hội việc làm được cập nhật mỗi ngày từ các công ty hàng đầu. Tạo CV, ứng tuyển và theo dõi công việc mơ ước của bạn ngay hôm nay.
-
+            Khám phá hàng nghìn cơ hội việc làm được cập nhật mỗi ngày từ các
+            công ty hàng đầu. Tạo CV, ứng tuyển và theo dõi công việc mơ ước của
+            bạn ngay hôm nay.
           </p>
 
           <div className={styles.searchBar}>

@@ -1,0 +1,170 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users collection - allow read/write for owners and admins
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+      // Posts collection - allow read for all authenticated users, write for owners and admins
+    match /posts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      // Allow content updates only by owner or admin
+      allow update: if (isOwner(resource.data.authorId) || isAdmin()) &&
+                       (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['stats']));
+      // Allow stats updates by any authenticated user (for likes, comments, etc.)
+      allow update: if isAuthenticated() && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stats']) &&
+                       request.resource.data.authorId == resource.data.authorId &&
+                       request.resource.data.content == resource.data.content;
+      allow delete: if isOwner(resource.data.authorId) || isAdmin();
+    }
+    
+    // Comments collection
+    match /comments/{commentId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.authorId) || isAdmin();
+      allow delete: if isOwner(resource.data.authorId) || isAdmin();
+    }
+    
+    // Likes collection
+    match /likes/{likeId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+      // Follows collection
+    match /follows/{followId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.followerId) || isAdmin();
+      allow delete: if isOwner(resource.data.followerId) || isAdmin();
+    }
+    
+    // Friend Requests collection
+    match /friendRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                     (resource.data.fromUserId == request.auth.uid || 
+                      resource.data.toUserId == request.auth.uid || 
+                      isAdmin());
+      allow delete: if isAuthenticated() && 
+                     (resource.data.fromUserId == request.auth.uid || 
+                      resource.data.toUserId == request.auth.uid || 
+                      isAdmin());
+    }
+    
+    // Friendships collection
+    match /friendships/{friendshipId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                     (request.auth.uid in resource.data.users || isAdmin());
+      allow delete: if isAuthenticated() && 
+                     (request.auth.uid in resource.data.users || isAdmin());
+    }
+    
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // Conversations collection
+    match /conversations/{conversationId} {
+      allow read: if isAuthenticated() && 
+                     (request.auth.uid in resource.data.participants || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                      (request.auth.uid in resource.data.participants || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // Messages collection
+    match /messages/{messageId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.senderId) || isAdmin();
+      allow delete: if isOwner(resource.data.senderId) || isAdmin();
+    }
+      // User Settings collection
+    match /user_settings/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+      // Saved Posts collection
+    match /saved_posts/{savedPostId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && 
+                      request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid || isAdmin();
+      allow delete: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid || isAdmin();
+      // Allow querying saved posts by userId
+      allow list: if isAuthenticated() && 
+                    request.query.where_equals("userId", request.auth.uid);
+    }
+    
+    // Migration documents - only admins can access
+    match /migrations/{migrationId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Allow admins to perform batch operations on any collection
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+      // Chat collections
+    match /chats/{chatId} {
+      allow read, write: if isAuthenticated() && 
+                            request.auth.uid in resource.data.participants;
+      allow create: if isAuthenticated() && 
+                       request.auth.uid in request.resource.data.participants;
+      
+      // Messages subcollection
+      match /messages/{messageId} {
+        allow read, write: if isAuthenticated() && 
+                              request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        allow create: if isAuthenticated() && 
+                         request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants &&
+                         request.auth.uid == request.resource.data.senderId;
+      }
+    }
+
+    // Jobs collection - for job postings
+    match /jobs/{jobId} {
+      allow read: if true; // Anyone can read job postings (public)
+      allow create: if isAuthenticated(); // Authenticated users can create jobs
+      allow update: if isAuthenticated() && 
+                       (resource.data.postedBy == request.auth.uid || isAdmin());
+      allow delete: if isAuthenticated() && 
+                       (resource.data.postedBy == request.auth.uid || isAdmin());
+    }
+  }
+}

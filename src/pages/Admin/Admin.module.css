@@ -1,0 +1,272 @@
+/* Admin.module.css */
+
+.adminContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-top: 80px;
+}
+
+.adminWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.adminHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.adminHeader h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.adminHeader p {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.adminContent {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  min-height: 600px;
+}
+
+/* Sidebar */
+.sidebar {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+}
+
+.navItem:hover {
+  background: #f3f4f6;
+  color: #374151;
+  transform: translateX(4px);
+}
+
+.navItem.active {
+  background: linear-gradient(135deg, #FF6701 0%, #FF8533 100%);
+  color: white;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(255, 103, 1, 0.3);
+}
+
+.navIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  font-size: 14px;
+}
+
+/* Main Content */
+.mainContent {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.contentHeader {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 20px 30px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.contentHeader h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.contentIcon {
+  color: #FF6701;
+  font-size: 24px;
+}
+
+.contentBody {
+  padding: 30px;
+  min-height: 400px;
+}
+
+/* Coming Soon */
+.comingSoon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  font-size: 18px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Loading */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #6b7280;
+}
+
+.loadingIcon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .adminContent {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+  }
+  
+  .sidebar {
+    padding: 16px;
+  }
+  
+  .navItem {
+    padding: 10px 12px;
+  }
+  
+  .navLabel {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .adminContainer {
+    padding-top: 60px;
+  }
+  
+  .adminWrapper {
+    padding: 16px;
+  }
+  
+  .adminHeader {
+    padding: 30px 20px;
+    margin-bottom: 30px;
+  }
+  
+  .adminHeader h1 {
+    font-size: 24px;
+  }
+  
+  .adminContent {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .sidebar {
+    position: static;
+    padding: 16px;
+  }
+  
+  .sidebarNav {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+  }
+  
+  .navItem {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 12px;
+  }
+  
+  .navItem:hover,
+  .navItem.active {
+    transform: none;
+  }
+  
+  .contentHeader {
+    padding: 16px 20px;
+  }
+  
+  .contentHeader h2 {
+    font-size: 18px;
+  }
+  
+  .contentBody {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminHeader h1 {
+    font-size: 20px;
+  }
+  
+  .adminHeader p {
+    font-size: 14px;
+  }
+  
+  .navItem {
+    padding: 6px 10px;
+  }
+  
+  .navLabel {
+    font-size: 12px;
+  }
+  
+  .contentBody {
+    padding: 16px;
+  }
+}
