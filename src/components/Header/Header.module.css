@@ -1,29 +1,48 @@
-/* Header.module.css */
-
-/* HEADER chính: vị trí fixed, canh giữa, glass effect */
+/* Header styles */
 .header {
   position: fixed;
-  top: 16px; /* hoặc 0 nếu bạn muốn sát cạnh trên màn hình */
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  padding: 8px; /* Padding để nội dung không sát cạnh */
-
+  padding: 8px;
   max-width: 1400px;
   z-index: 1000;
-
-  /* Glassmorphism nền sáng hơn để dễ nhìn */
-  background: rgba(255, 255, 255, 0.15); /* Tăng opacity từ 0.3 lên 0.15 để sáng hơn */
-  backdrop-filter: blur(8px); /* Tăng blur để glass effect rõ hơn */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-
-  /* Bo góc và shadow nhẹ */
   border-radius: 30px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Border sáng hơn */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
 
-  /* Chuyển đổi mềm mại khi scroll đổi background */
-  transition: background 0.3s ease, top 0.3s ease;
+/* Header scrolled state */
+.headerScrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Adjust text color when scrolled */
+.headerScrolled .navLink {
+  color: #333;
+  text-shadow: none;
+}
+
+.headerScrolled .navLink:hover {
+  color: var(--primary-color);
+}
+
+.headerScrolled .signInBtn {
+  color: #333;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.headerScrolled .dropdownIcon {
+  color: #333;
 }
 
 /* Khi scroll xuống, bật nền đục hơn để nội dung dễ đọc */
@@ -391,7 +410,7 @@
 }
 
 .userName {
-  color: #333;
+  color: #ffbf0f;
   font-size: 14px;
   font-weight: 500;
   margin-left: 12px;

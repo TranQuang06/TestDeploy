@@ -17,7 +17,6 @@ import styles from "../Header/Header.module.css";
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [isDarkBackground, setIsDarkBackground] = useState(false);
   const { user, userProfile, loading, logout, isAuthenticated } = useAuth();
 
   // Helper functions for user data
@@ -51,59 +50,38 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-
-      // More accurate background detection
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-
-      // Check elements behind header to determine background color
-      const headerElement = document.querySelector("header");
-      if (headerElement) {
-        const headerRect = headerElement.getBoundingClientRect();
-        const centerX = window.innerWidth / 2;
-        const centerY = headerRect.top + headerRect.height / 2;
-
-        // Get element behind the header center
-        const elementBehind = document.elementFromPoint(
-          centerX,
-          centerY + headerRect.height
-        );
-
-        // Determine if background is dark or light
-        if (elementBehind) {
-          const bgColor = window.getComputedStyle(elementBehind).backgroundColor;
-          const isColorDark = isDarkColor(bgColor);
-          setIsDarkBackground(isColorDark);
-        }
+      // Đơn giản hóa logic kiểm tra scroll
+      const isScrolled = window.scrollY > 50;
+      
+      // Chỉ cập nhật state khi có thay đổi để tránh re-render không cần thiết
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
       }
     };
 
-    // Helper to determine if a color is dark
-    const isDarkColor = (color) => {
-      // Simple implementation - can be improved
-      if (!color || color === "transparent" || color === "rgba(0, 0, 0, 0)") {
-        return false;
+    // Thêm debounce để tránh gọi hàm quá nhiều lần
+    let scrollTimeout;
+    const debouncedHandleScroll = () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
       }
-      
-      // Extract RGB values
-      const rgb = color.match(/\d+/g);
-      if (!rgb || rgb.length < 3) return false;
-      
-      // Calculate brightness
-      const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
-      return brightness < 128; // If less than 128, consider it dark
+      scrollTimeout = setTimeout(handleScroll, 10);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-    handleScroll(); // Call once to set initial state
+    // Đăng ký sự kiện với hàm debounced
+    window.addEventListener("scroll", debouncedHandleScroll, { passive: true });
+    
+    // Gọi ngay lập tức một lần để thiết lập trạng thái ban đầu
+    handleScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      // Dọn dẹp sự kiện
+      window.removeEventListener("scroll", debouncedHandleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
     };
-  }, []);
+  }, [scrolled]); // Chỉ phụ thuộc vào scrolled
 
   // User dropdown menu items
   const userMenuItems = [
@@ -196,11 +174,7 @@ function Header() {
   });
 
   return (
-    <header
-      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""} ${
-        isDarkBackground ? styles.headerOnDark : styles.headerOnLight
-      }`}
-    >
+    <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}>
       <div className={styles.headerContainer}>
         {/* Logo */}
         <div className={styles.logo}>
