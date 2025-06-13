@@ -12,20 +12,15 @@
   max-width: 1200px;
   z-index: 1000;
 
-  /* Glassmorphism nền bán trong suốt */
-  background: rgba(
-    255,
-    255,
-    255,
-    0.3
-  ); /* Màu nền hơi tối trong suốt, điều chỉnh alpha tuỳ ý */
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(10px);
+  /* Glassmorphism nền sáng hơn để dễ nhìn */
+  background: rgba(255, 255, 255, 0.15); /* Tăng opacity từ 0.3 lên 0.15 để sáng hơn */
+  backdrop-filter: blur(8px); /* Tăng blur để glass effect rõ hơn */
+  -webkit-backdrop-filter: blur(8px);
 
   /* Bo góc và shadow nhẹ */
   border-radius: 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.212);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Border sáng hơn */
 
   /* Chuyển đổi mềm mại khi scroll đổi background */
   transition: background 0.3s ease, top 0.3s ease;
@@ -33,7 +28,8 @@
 
 /* Khi scroll xuống, bật nền đục hơn để nội dung dễ đọc */
 .headerScrolled {
-  background: rgba(197, 197, 197, 0.39);
+  background: rgba(255, 255, 255, 0.25); /* Sáng hơn khi scroll */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 /* Nếu bạn muốn header sát cạnh trên, dùng top: 0 và adjust padding cho container */
@@ -68,22 +64,25 @@
 
 .navItem {
   /* Chỉ dùng cho <li>, style chính apply trên .navLink */
+  list-style: none;
 }
 
 .navLink {
   font-size: 16px;
-  color: #fff; /* Mặc định trắng để nổi trên nền glass tối phía sau */
+  color: #ffffff; /* Chữ trắng sáng để nổi bật trên nền tối */
   text-decoration: none;
-  padding: 8px;
-  border-radius: 4px;
-  transition: color 0.2s ease, background 0.2s ease, text-shadow 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Text shadow để chữ nổi bật hơn */
 }
 
 /* Hover effect: đổi màu hoặc shadow */
 .navLink:hover {
   color: #ffc46c; /* Màu nhấn, ví dụ vàng nhạt */
-  /* hoặc thêm text-shadow nhẹ */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1); /* Nền nhẹ khi hover */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Khi header đã scroll và nền sáng hơn, đổi màu link cho phù hợp */
@@ -119,10 +118,146 @@
 /* .headerScrolled .cta { border-color: #201514; color: #201514; }
    .headerScrolled .cta:hover { background: #201514; color: #fff; } */
 
-/* Responsive: ví dụ ẩn menu trên mobile, thêm hamburger nếu cần */
+/* Auth Section Styles */
+.authSection {
+  display: flex;
+  align-items: center;
+}
+
+/* Sign In Button */
+.signInBtn {
+  color: #ffffff !important; /* Chữ trắng để nổi bật trên nền tối */
+  font-weight: 500 !important;
+  padding: 8px 16px !important;
+  height: auto !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Border trắng mờ */
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.signInBtn:hover {
+  color: #007bff !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Register Button */
+.registerBtn {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  height: auto !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease !important;
+}
+
+.registerBtn:hover {
+  background-color: #0056b3 !important;
+  border-color: #0056b3 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
+}
+
+/* User Avatar */
+.userAvatar {
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userAvatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive auth section */
 @media (max-width: 768px) {
-  .navigationList {
-    display: none;
+  .authSection {
+    gap: 8px;
   }
-  /* Bạn có thể add class/mobile-menu ở đây */
+  
+  .signInBtn,
+  .registerBtn {
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+  }
+  
+  .userAvatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* Header color schemes based on background */
+/* When header is on dark background */
+.headerOnDark .navLink {
+  color: #ffffff !important; /* White text on dark background */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.headerOnDark .navLink:hover {
+  color: #ffc46c !important; /* Yellow accent on hover */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.headerOnDark .signInBtn {
+  color: #ffffff !important; /* White text */
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.headerOnDark .signInBtn:hover {
+  color: #007bff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.headerOnDark .registerBtn {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  color: #ffffff !important;
+}
+
+.headerOnDark .userAvatar {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* When header is on light background */
+.headerOnLight .navLink {
+  color: #333333 !important; /* Dark text on light background */
+  text-shadow: none;
+}
+
+.headerOnLight .navLink:hover {
+  color: #007bff !important; /* Blue accent on hover */
+}
+
+.headerOnLight .signInBtn {
+  color: #333333 !important; /* Dark text */
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.headerOnLight .signInBtn:hover {
+  color: #007bff !important;
+  background-color: rgba(0, 123, 255, 0.05) !important;
+  border-color: rgba(0, 123, 255, 0.2) !important;
+}
+
+.headerOnLight .registerBtn {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  color: #ffffff !important;
+}
+
+.headerOnLight .userAvatar {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Smooth transitions for color changes */
+.header .navLink,
+.header .signInBtn,
+.header .registerBtn,
+.header .userAvatar {
+  transition: all 0.3s ease !important;
 }

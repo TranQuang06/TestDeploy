@@ -3,15 +3,24 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaFacebookF } from "react-icons/fa";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁 icons
 
 import gsap from "gsap";
+import { useAuth } from "../../contexts/AuthContext";
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { signIn, isAuthenticated } = useAuth();
+  const router = useRouter();
 
   const leftRef = useRef(null);
   const rightRef = useRef(null);
@@ -19,6 +28,64 @@ function SignIn() {
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const user = await signIn(email, password);
+
+      if (!user.emailVerified) {
+        setError(
+          "Please verify your email before signing in. Check your inbox for the verification link."
+        );
+        return;
+      }
+
+      router.push("/");    } catch (error) {
+      console.error("Sign in error:", error);
+
+      // Handle Firebase Auth errors with user-friendly messages
+      switch (error.code) {
+        case "auth/user-not-found":
+          setError("Không tìm thấy tài khoản với email này.");
+          break;
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+          setError("Mật khẩu không đúng. Vui lòng thử lại.");
+          break;
+        case "auth/invalid-email":
+          setError("Địa chỉ email không hợp lệ.");
+          break;
+        case "auth/user-disabled":
+          setError("Tài khoản này đã bị vô hiệu hóa.");
+          break;
+        case "auth/too-many-requests":
+          setError("Quá nhiều lần thử không thành công. Vui lòng thử lại sau.");
+          break;
+        case "auth/network-request-failed":
+          setError("Lỗi kết nối mạng. Vui lòng kiểm tra internet và thử lại.");
+          break;
+        case "auth/popup-closed-by-user":
+          setError("Đăng nhập bị hủy.");
+          break;
+        default:
+          setError("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+          console.log("Unhandled error code:", error.code);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useLayoutEffect(() => {
@@ -72,24 +139,35 @@ function SignIn() {
           <div className={styles.brand}>
             <img src="/logo.png" alt="logo" />
             <h2>SuperStars</h2>
-          </div>
-          <h2>Sign in</h2>
+          </div>{" "}          <h2>Sign in</h2>
           {/* Form đăng nhập, có thể bổ sung validate ở bước sau */}
-          <form className={`${styles.signinForm} signin-form`}>
+          <form
+            className={`${styles.signinForm} signin-form`}
+            onSubmit={handleSubmit}
+          >
             <label>Email Address</label>
-            <input type="email" placeholder="johndoe@gmail.com" />
-            ...
+            <input
+              type="email"
+              placeholder="johndoe@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
             <label>Password</label>
             <div className={styles.passwordWrapper}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="******"
                 className={styles.passwordInput}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <span onClick={togglePassword} className={styles.eyeIcon}>
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
+            {error && <div className={styles.errorMessage}>{error}</div>}
             <div className={styles.signinOptions}>
               <label>
                 <input type="checkbox" /> Remember me
@@ -100,8 +178,9 @@ function SignIn() {
               ref={btnRef}
               type="submit"
               className={`${styles.signinButton} signinButton`}
+              disabled={isLoading}
             >
-              Sign in
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
             <div className={styles.signinBottom}>
               <p>

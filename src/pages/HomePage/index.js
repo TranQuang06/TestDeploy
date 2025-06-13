@@ -11,7 +11,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 function HomePage() {
   return (
-    <>
+    <div className={styles.homePageContainer}>
       <Header />
       {/* Hero */}
       <section className={styles.hero}>
@@ -93,7 +93,6 @@ function HomePage() {
         </div>
       </section>
       {/* End hero */}
-
       {/* Experience with Number */}
       <section className={styles.statsSection}>
         <div className={styles.statsContainer}>
@@ -135,25 +134,19 @@ function HomePage() {
         </div>
       </section>
       {/* End Experience with Number */}
-
       {/* SearchSection */}
       <SearchSection />
       {/* End SearchSection */}
-
       {/* JobsSection */}
       <JobsSection />
       {/* End JobsSection */}
-
       {/* FashionSection */}
       <FashionSection />
       {/* End FashionSection */}
-
       {/* ImpressiveNumbersSection */}
       <ImpressiveNumbersSection />
-      {/* end ImpressiveNumbersSection */}
-
-      <Footer />
-    </>
+      {/* end ImpressiveNumbersSection */} <Footer />
+    </div>
   );
 }
 export default HomePage;

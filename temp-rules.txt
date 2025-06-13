@@ -1,0 +1,17 @@
+// TEMPORARY FIREBASE SECURITY RULES
+// Copy this to Firebase Console > Firestore Database > Rules tab
+// This allows any authenticated user to perform admin operations temporarily
+// IMPORTANT: Change this back to restrictive rules after migration is complete
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // TEMPORARY: Allow all authenticated users to read/write everything
+    // This is for migration purposes only
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+// After migration is complete, replace with the secure rules from firestore.rules file
