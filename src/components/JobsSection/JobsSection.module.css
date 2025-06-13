@@ -1,7 +1,7 @@
 /* src/components/JobsSection/JobsSection.module.css */
 
 .section {
-  padding: 40px 20px;
+  padding: 20px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -20,9 +20,9 @@
   justify-content: center;
   text-align: center;
   font-size: 18px;
-  color: #6c00ff;
+  color: var(--secondary-color);
   margin-bottom: 16px;
-  height: 80px;
+  height: 30px;
 }
 
 /* Tab buttons container */
@@ -51,9 +51,8 @@
 
 /* Active tab styling */
 .active {
-  background: #6c00ff;
-  color: #fff;
-  border-color: #6c00ff;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 /* Grid layout for cards */
@@ -125,7 +124,7 @@
 /* Company name */
 .company {
   font-size: 15px;
-  color: #6c00ff;
+  color: var(--primary-color);
   margin: 0 0 4px 0;
 
   white-space: nowrap;
@@ -156,7 +155,7 @@
 /* Individual tag */
 .tag {
   background: #f3f3f3;
-  color: #6c00ff;
+  color: var(--primary-color);
   border-radius: 12px;
   padding: 2px 10px;
   font-size: 12px;
@@ -188,7 +187,7 @@
 
 /* Details button */
 .detailsBtn {
-  background: #6c00ff;
+  background: var(--secondary-color);
   color: #fff;
   border: none;
   border-radius: 20px;

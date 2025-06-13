@@ -126,7 +126,7 @@
 
 /* Nội dung card nhỏ (text) */
 .smallCard {
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--secondary-color);
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
@@ -164,8 +164,7 @@
 
 /* Bottom-right: overlay card to */
 .overlayCard {
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
+background: var(--secondary-color);  color: #fff;
   padding: 24px;
   display: flex;
   flex-direction: column;

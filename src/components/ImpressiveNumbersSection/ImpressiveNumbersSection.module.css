@@ -87,10 +87,10 @@
 
 /* Title và subtitle */
 .section-15 .title {
-  color: var(--font-color);
+  color: var(--primary-color);
   display: flex;
   justify-content: center;
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 700;
   line-height: 40px;
   margin: 0 0 16px;
@@ -137,10 +137,10 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .number-item.green-gradient {
-  background: linear-gradient(135deg, #007e38 0%, #00b14f 100%);
+  background: linear-gradient(135deg, #e18c02 0%, hsl(36, 100%, 85%) 100%);
 }
 .number-item.blue-gradient {
-  background: linear-gradient(135deg, #6a4ee1 0%, #a594f9 100%);
+  background: linear-gradient(135deg, #e18c02 0%, hsl(36, 100%, 85%) 100%);
 }
 
 /* Hiệu ứng viền chạy */

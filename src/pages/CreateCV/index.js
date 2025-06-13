@@ -321,7 +321,7 @@ function CreateCV() {
       <div className={styles.reviewWriteCV}>
         <div className="container">
           <Row>
-            <Col span={12} className={styles.leftSideContent}>
+            <Col span={10} className={styles.leftSideContent}>
               <div className={styles.headerContent}>
                 <div className={styles.reviewTitle}>Tham khảo cách viết CV</div>
                 <div className={styles.reviewDescription}>

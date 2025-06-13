@@ -122,7 +122,7 @@ export default function ThiTruong() {
     },
     color: "#00FF4C",
     lineStyle: {
-      lineWidth: 3,
+      lineWidth: 10,
     },
     point: {
       size: 0,
@@ -175,19 +175,6 @@ export default function ThiTruong() {
   };
 
   // Bảng màu cho các loại biểu đồ
-  const colorMap = {
-    CNTT: "#20C997",
-    Marketing: "#5682FF",
-    "Kế toán": "#FF8050",
-    "Bán hàng": "#F04E98",
-    "Nhân sự": "#FFC107",
-    "< 3tr": "#00B14F",
-    "3-10tr": "#4169E1",
-    "10-20tr": "#FFA500",
-    "20-30tr": "#00CED1",
-    "> 30tr": "#FFD700",
-    "Thỏa thuận": "#FFFFFF",
-  };
 
   // Cấu hình cho biểu đồ cột
   const columnConfig = {
@@ -195,7 +182,7 @@ export default function ThiTruong() {
     xField: "category",
     yField: "value",
     columnWidthRatio: 0.7,
-    color: ({ category }) => colorMap[category] || "#5B8FF9",
+    color: ({ category }) => colorMap[category] || "#00FF4C",
     animation: {
       appear: {
         animation: "wave-in",

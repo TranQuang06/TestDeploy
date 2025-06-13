@@ -44,6 +44,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 64px; /* Đặt chiều cao cố định cho container */
 }
 
 /* Logo */
@@ -60,25 +61,31 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  height: 100%; /* Đảm bảo chiều cao đầy đủ */
 }
 
 .navItem {
   /* Chỉ dùng cho <li>, style chính apply trên .navLink */
   list-style: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .navLink {
   font-size: 18px;
   font-weight: 700;
-  color: var(
-    --primary-color
-  ); /* Mặc định trắng để nổi trên nền glass tối phía sau */
+  color: var(--primary-color);
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Text shadow để chữ nổi bật hơn */
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 /* Hover effect: đổi màu hoặc shadow */
@@ -94,6 +101,126 @@
 }
 .headerScrolled .navLink:hover {
   color: #e74c3c;
+}
+
+/* Dropdown styles - modern version */
+.hasDropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navLinkWithDropdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  height: 100%;
+}
+
+.dropdownIcon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.hasDropdown:hover .dropdownIcon {
+  transform: rotate(180deg);
+}
+
+/* Modern dropdown menu styling */
+.navDropdown {
+  min-width: 280px;
+}
+
+.navDropdown :global(.ant-dropdown-menu) {
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navDropdown :global(.ant-dropdown-arrow) {
+  display: none; /* Hide default arrow */
+}
+
+/* Custom dropdown item */
+.customDropdownItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.dropdownItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 10px;
+  margin-right: 12px;
+  color: white;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.dropdownItemContent {
+  flex: 1;
+}
+
+.dropdownItemLabel {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.dropdownItemLabel a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dropdownItemDescription {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Hover effect for dropdown items */
+.navDropdown :global(.ant-dropdown-menu-item:hover) {
+  background-color: rgba(var(--primary-color-rgb), 0.08);
+}
+
+.navDropdown :global(.ant-dropdown-menu-item:hover) .dropdownItemLabel,
+.navDropdown :global(.ant-dropdown-menu-item:hover) .dropdownItemLabel a {
+  color: var(--primary-color);
+}
+
+/* Responsive dropdown */
+@media (max-width: 768px) {
+  .navDropdown {
+    min-width: 240px;
+  }
+  
+  .dropdownItemIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  
+  .dropdownItemLabel {
+    font-size: 14px;
+  }
+  
+  .dropdownItemDescription {
+    font-size: 11px;
+  }
 }
 
 /* CTA button */
@@ -125,6 +252,7 @@
 .authSection {
   display: flex;
   align-items: center;
+  height: 100%; /* Đảm bảo phần auth cũng được căn giữa */
 }
 
 /* Sign In Button */
@@ -140,15 +268,15 @@
 }
 
 .signInBtn:hover {
-  color: #007bff !important;
+  color: var(--primary-color) !important;
   background-color: rgba(255, 255, 255, 0.15) !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Register Button */
 .registerBtn {
-  background-color: #007bff !important;
-  border-color: #007bff !important;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--primary-color) !important;
   font-weight: 600 !important;
   padding: 8px 20px !important;
   height: auto !important;
@@ -157,8 +285,7 @@
 }
 
 .registerBtn:hover {
-  background-color: #0056b3 !important;
-  border-color: #0056b3 !important;
+  background-color: var(--primary-color) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
 }
@@ -211,14 +338,14 @@
 }
 
 .headerOnDark .signInBtn:hover {
-  color: #007bff !important;
+  color: var(--primary-color) !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .headerOnDark .registerBtn {
-  background-color: #007bff !important;
-  border-color: #007bff !important;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--primary-color) !important;
   color: #ffffff !important;
 }
 
@@ -233,7 +360,7 @@
 }
 
 .headerOnLight .navLink:hover {
-  color: #007bff !important; /* Blue accent on hover */
+  color: var(--primary-color) !important; /* Blue accent on hover */
 }
 
 .headerOnLight .signInBtn {
@@ -242,15 +369,13 @@
 }
 
 .headerOnLight .signInBtn:hover {
-  color: #007bff !important;
-  background-color: rgba(0, 123, 255, 0.05) !important;
-  border-color: rgba(0, 123, 255, 0.2) !important;
+  background-color: var(--hover-color) !important;
 }
 
 .headerOnLight .registerBtn {
-  background-color: #007bff !important;
-  border-color: #007bff !important;
-  color: #ffffff !important;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #000 !important;
 }
 
 .headerOnLight .userAvatar {
@@ -263,4 +388,15 @@
 .header .registerBtn,
 .header .userAvatar {
   transition: all 0.3s ease !important;
+}
+
+.userName {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }

@@ -84,8 +84,8 @@ function HomePage() {
         <div className={styles.statsContainer}>
           {/* Text bên trái */}
           <div className={styles.statsText}>
-            <p className={styles.statsSubtitle}>Join Connect Today</p>
-            <h2 className={styles.statsTitle}>Experience with Number</h2>
+            <p className={styles.statsSubtitle}>Những con số biết nói từ My Work</p>
+            <h2 className={styles.statsTitle}>Tham gia ngay hôm nay</h2>
           </div>
 
           {/* 3 cards bên phải */}
@@ -95,7 +95,7 @@ function HomePage() {
                 92<span className={styles.statsPercent}>%</span>
               </h3>
               <p className={styles.statsDesc}>
-                Many users find relevant jobs according to skills
+                Người dùng đã tìm được công việc phù hợp với kỹ năng cá nhân
               </p>
             </div>
 
@@ -104,7 +104,7 @@ function HomePage() {
                 90<span className={styles.statsPercent}>%</span>
               </h3>
               <p className={styles.statsDesc}>
-                Data filtering from companies take long
+                Dữ liệu tuyển dụng được hệ thống lọc thông minh, nhanh chóng
               </p>
             </div>
 
@@ -113,7 +113,7 @@ function HomePage() {
                 89<span className={styles.statsPercent}>%</span>
               </h3>
               <p className={styles.statsDesc}>
-                Many top employers can connect with Many users
+                Nhà tuyển dụng uy tín đang tích cực kết nối với người tìm việc
               </p>
             </div>
           </div>

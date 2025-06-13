@@ -6,23 +6,20 @@ export default function FashionSection() {
       {/* Left side */}
       <div className={styles.left}>
         <h2 className={styles.title}>
-          Sustainable and <br />
-          Ethical Fashion for <br />
-          <span>Urban Explorers</span>
+          Dành cho những người tiên phong đô thị
         </h2>
         <p className={styles.subtitle}>
-          → Explore the world sustainably and ethically with our urban-inspired
-          fashion.
+          Khám phá cơ hội nghề nghiệp phù hợp với bạn – bền vững, nhân văn, và đầy cảm hứng.
         </p>
-        <button className={styles.ctaBtn}>Shop the Collection</button>
+        <button className={styles.ctaBtn}>Tham gia ngay</button>
       </div>
 
       {/* Right side */}
       <div className={styles.collage}>
         {/* 1. Small text card */}
         <div className={styles.smallCard}>
-          <h4>Exclusive Limited Editions</h4>
-          <p>Inspired by different urban landscapes.</p>
+          <h4>Tìm kiếm việc làm</h4>
+          <p>Lấy cảm hứng từ những hành trình vượt khó và nỗ lực không ngừng.</p>
           <span className={styles.smallCardArrow}>→</span>
         </div>
 
@@ -42,16 +39,10 @@ export default function FashionSection() {
 
         {/* 4. Big overlay card */}
         <div className={styles.overlayCard}>
-          <h3>Urban Explorer Aesthetic</h3>
+          <h3>Hành trình My Work</h3>
           <p>
-            Our clothing is designed for the modern urban explorer – those who
-            value both style and functionality. From chic streetwear to
-            versatile outdoor gear, we cater to the adventurous spirit of city
-            dwellers and nature enthusiasts alike.
+           Chúng tôi tạo ra nền tảng cho những "người khám phá đô thị" – những người khuyết tật đang tìm kiếm công việc phù hợp, nơi họ có thể phát triển, đóng góp và tỏa sáng. Từ công việc từ xa, bán thời gian đến vị trí toàn thời gian linh hoạt – My Work luôn đồng hành cùng bạn trên hành trình nghề nghiệp.
           </p>
-          <button className={styles.overlayBtn}>
-            Start Your Eco-Adventure Now →
-          </button>
         </div>
       </div>
     </section>

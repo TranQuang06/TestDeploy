@@ -80,10 +80,6 @@ export default function JobsSection() {
   return (
     <section className={styles.section}>
       {/* Hint */}
-      <p className={styles.hint}>
-        ⚡ Upload your resume – let employers find you
-      </p>
-
       {/* Tabs */}
       <div className={styles.tabs}>
         {jobTypes.map((type) => (

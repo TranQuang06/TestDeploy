@@ -21,7 +21,7 @@ html, body {
     grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: 2rem;
-    padding: 24px 16px;
+    padding: 124px 16px 24px;
     background: #201514;
     color: #fff;
     width: 100%;
@@ -120,7 +120,7 @@ html, body {
   position: absolute;
   bottom: 1rem;
   left: -75px;
-  background: #005eff;
+  background: var(--secondary-color);
   color: #fff;
   padding: 1rem;
   border-radius: 0.75rem;
@@ -195,10 +195,10 @@ html, body {
 }
 
 .statsSection .statsTitle {
-  font-size: 40px;
+  font-size: 30px;
   line-height: 1.2;
   margin: 0;
-  color: #000;
+  color: var(--primary-color);
 }
 
 /* ---- Các thống kê bên phải ---- */
@@ -226,7 +226,7 @@ html, body {
 .statsSection .statsNumber {
   font-size: 36px;
   margin: 0;
-  color: #6c00ff;
+  color: var(--primary-color);
 }
 
 .statsSection .statsPercent {

@@ -4,6 +4,11 @@ import {
   UserOutlined,
   LogoutOutlined,
   SettingOutlined,
+  DownOutlined,
+  SearchOutlined,
+  EnvironmentOutlined,
+  FileTextOutlined,
+  AudioOutlined,
 } from "@ant-design/icons";
 import { Avatar, Space, Button, Dropdown } from "antd";
 import Link from "next/link";
@@ -65,27 +70,29 @@ function Header() {
           centerY + headerRect.height
         );
 
+        // Determine if background is dark or light
         if (elementBehind) {
-          const computedStyle = window.getComputedStyle(elementBehind);
-          const backgroundColor = computedStyle.backgroundColor;
-
-          // Simple heuristic: if background is very light or transparent, assume light background
-          const isLightBackground =
-            backgroundColor === "rgba(0, 0, 0, 0)" ||
-            backgroundColor === "transparent" ||
-            backgroundColor.includes("255, 255, 255") ||
-            backgroundColor.includes("rgb(255, 255, 255)");
-
-          setIsDarkBackground(!isLightBackground);
-        } else {
-          // Fallback: use scroll position
-          if (scrollY < windowHeight * 0.7) {
-            setIsDarkBackground(true); // Assume hero section is dark
-          } else {
-            setIsDarkBackground(false); // Other sections are light
-          }
+          const bgColor = window.getComputedStyle(elementBehind).backgroundColor;
+          const isColorDark = isDarkColor(bgColor);
+          setIsDarkBackground(isColorDark);
         }
       }
+    };
+
+    // Helper to determine if a color is dark
+    const isDarkColor = (color) => {
+      // Simple implementation - can be improved
+      if (!color || color === "transparent" || color === "rgba(0, 0, 0, 0)") {
+        return false;
+      }
+      
+      // Extract RGB values
+      const rgb = color.match(/\d+/g);
+      if (!rgb || rgb.length < 3) return false;
+      
+      // Calculate brightness
+      const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
+      return brightness < 128; // If less than 128, consider it dark
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -97,6 +104,7 @@ function Header() {
       window.removeEventListener("resize", handleScroll);
     };
   }, []);
+
   // User dropdown menu items
   const userMenuItems = [
     {
@@ -139,6 +147,54 @@ function Header() {
     },
   ];
 
+  // Dropdown menu cho "Việc làm" với icons
+  const jobsMenuItems = [
+    {
+      key: "find-job",
+      icon: <SearchOutlined />,
+      label: <Link href="/FindJob">Tìm việc làm ngay</Link>,
+      description: "Khám phá cơ hội việc làm phù hợp với bạn",
+    },
+    {
+      key: "jobs-map",
+      icon: <EnvironmentOutlined />,
+      label: <Link href="/JobsMapPage">Bản đồ việc làm</Link>,
+      description: "Xem việc làm theo vị trí địa lý",
+    },
+  ];
+
+  // Dropdown menu cho "Công cụ" với icons
+  const toolsMenuItems = [
+    {
+      key: "create-cv",
+      icon: <FileTextOutlined />,
+      label: <Link href="/CreateCV">Tạo CV</Link>,
+      description: "Tạo CV chuyên nghiệp trong vài phút",
+    },
+    {
+      key: "text-to-speech",
+      icon: <AudioOutlined />,
+      label: <Link href="/TextToSpeech">Chuyển văn bản thành giọng nói</Link>,
+      description: "Chuyển đổi văn bản thành âm thanh tự nhiên",
+    },
+  ];
+
+  // Custom dropdown render để hiển thị menu hiện đại hơn
+  const renderDropdownMenu = (items) => ({
+    items: items.map(item => ({
+      key: item.key,
+      label: (
+        <div className={styles.customDropdownItem}>
+          <div className={styles.dropdownItemIcon}>{item.icon}</div>
+          <div className={styles.dropdownItemContent}>
+            <div className={styles.dropdownItemLabel}>{item.label}</div>
+            <div className={styles.dropdownItemDescription}>{item.description}</div>
+          </div>
+        </div>
+      )
+    }))
+  });
+
   return (
     <header
       className={`${styles.header} ${scrolled ? styles.headerScrolled : ""} ${
@@ -160,34 +216,55 @@ function Header() {
         {/* Navigation */}
         <nav>
           <ul className={styles.navigationList}>
-            <li className={styles.navItem}>
-              <Link href="/FindJob" className={styles.navLink}>
-                Việc làm
-              </Link>
+            {/* Việc làm với dropdown */}
+            <li className={`${styles.navItem} ${styles.hasDropdown}`}>
+              <Dropdown
+                menu={renderDropdownMenu(jobsMenuItems)}
+                placement="bottomLeft"
+                arrow={false}
+                trigger={['hover']}
+                overlayClassName={styles.navDropdown}
+                align={{ offset: [-20, 10] }}
+              >
+                <div className={styles.navLinkWithDropdown}>
+                  <Link href="/FindJob" className={styles.navLink}>
+                    Việc làm
+                  </Link>
+                  <DownOutlined className={styles.dropdownIcon} />
+                </div>
+              </Dropdown>
             </li>
-            <li className={styles.navItem}>
-              <Link href="/CreateCV" className={styles.navLink}>
-                Tạo CV
-              </Link>
+
+            {/* Công cụ với dropdown */}
+            <li className={`${styles.navItem} ${styles.hasDropdown}`}>
+              <Dropdown
+                menu={renderDropdownMenu(toolsMenuItems)}
+                placement="bottomLeft"
+                arrow={false}
+                trigger={['hover']}
+                overlayClassName={styles.navDropdown}
+                align={{ offset: [-20, 10] }}
+              >
+                <div className={styles.navLinkWithDropdown}>
+                  <Link href="/CreateCV" className={styles.navLink}>
+                    Công cụ
+                  </Link>
+                  <DownOutlined className={styles.dropdownIcon} />
+                </div>
+              </Dropdown>
             </li>
-            <li className={styles.navItem}>
-              <Link href="/works" className={styles.navLink}>
-                Công cụ
-              </Link>
-            </li>
+
+            {/* Về chúng tôi - không có dropdown */}
             <li className={styles.navItem}>
               <Link href="/Blog" className={styles.navLink}>
                 Về chúng tôi
               </Link>
             </li>
+
+            {/* Social - không có dropdown */}
             <li className={styles.navItem}>
               <Link href="/Social" className={styles.navLink}>
                 Social
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/JobsMapPage" className={styles.navLink}>
-                Bản đồ My Work
               </Link>
             </li>
           </ul>
@@ -227,8 +304,7 @@ function Header() {
                     Sign In
                   </Button>
                 </Link>
-
-                <Link href="/Register">
+                <Link href="/SignUp">
                   <Button type="primary" className={styles.registerBtn}>
                     Register
                   </Button>
