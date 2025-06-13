@@ -18,7 +18,7 @@
   padding: 40px; /* tạo khoảng cách quanh nội dung */
   min-height: 500px; /* đảm bảo chiều cao tối thiểu */
 
-  background-image: url("https://images.unsplash.com/photo-1749315099905-9cf6cabd9126?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-image: url("../../../public/assets/img/HomePage/bg_01.avif");
   background-size: cover;
   background-position: center;
   overflow: hidden; /* tránh layout tràn ra */

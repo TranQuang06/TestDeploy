@@ -98,8 +98,9 @@
 /* Job card */
 .jobCard {
   background-color: white;
-  border-radius: 10px;
-  padding: 14px; /* Giảm padding để card nhỏ hơn */
+  border-radius: 20px;
+  margin-top: 15px;
+  padding: 20px; /* Giảm padding để card nhỏ hơn */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -109,6 +110,7 @@
 .jobCard:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+  border: 1px solid var(--primary-color);
 }
 
 .selectedJob {
@@ -301,7 +303,7 @@
 }
 
 .locationFilter {
-  font-size: 12px;
+  font-size: 16px;
   color: #6c00ff;
   background-color: rgba(108, 0, 255, 0.1);
   padding: 4px 10px;
@@ -309,4 +311,7 @@
   margin-top: 4px;
   flex-basis: 100%;
   text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-weight: 700;
 }

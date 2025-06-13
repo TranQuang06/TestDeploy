@@ -145,6 +145,14 @@ export default function JobsMapPage() {
               <option value="us">United States</option>
               <option value="de">Germany</option>
               <option value="fr">France</option>
+              <option value="it">Italy</option>
+              <option value="es">Spain</option>
+              <option value="nl">Netherlands</option>
+              <option value="at">Austria</option>
+              <option value="be">Belgium</option>
+              <option value="ch">Switzerland</option>
+              <option value="se">Sweden</option>
+              <option value="dk">Denmark</option>
             </select>
             <button type="submit" className={styles.searchBtn}>
               Search
