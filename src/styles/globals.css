@@ -23,8 +23,10 @@
 
 html,
 body {
+  overflow-x: hidden !important;
   max-width: 100vw;
-  overflow-x: hidden;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 body {
@@ -145,5 +147,130 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #aaa;
+}
+
+/* Global styles moved from CSS Modules files */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* Ant Design Tabs global styles */
+.ant-tabs-tab {
+  font-size: 16px !important;
+  padding: 12px 0 !important;
+  color: var(--primary-color) !important;
+  margin-right: 20px !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--secondary-color) !important;
+  font-weight: bold !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: var(--secondary-color) !important;
+  height: 3px !important;
+}
+
+.ant-tabs-tab:hover {
+  color: var(--primary-color) !important;
+}
+
+.ant-tabs-nav::before {
+  border-bottom: none !important;
+}
+
+.ant-tabs-nav {
+  border-bottom: 1px solid #eaeaea !important;
+  margin-bottom: 30px !important;
+}
+
+/* Ant Design Select global styles */
+.ant-select {
+  border-radius: 8px !important;
+}
+
+.ant-select .ant-select-selector {
+  border: 2px solid #d9d9d9 !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  padding: 0 12px !important;
+  background-color: white !important;
+  transition: all 0.3s ease !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ant-select:hover .ant-select-selector {
+  border-color: var(--primary-color) !important;
+}
+
+.ant-select.ant-select-focused .ant-select-selector {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(255, 103, 1, 0.2) !important;
+}
+
+.ant-select .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  font-weight: 500 !important;
+}
+
+.ant-select-arrow .anticon {
+  transition: transform 0.3s ease;
+}
+
+.ant-select-open .ant-select-arrow .anticon {
+  transform: rotate(180deg);
+}
+
+.ant-select-arrow {
+  color: var(--primary-color) !important;
+  font-size: 12px !important;
+  top: 50% !important;
+  margin-top: -6px !important;
+  right: 11px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: 7px !important;
+}
+
+.ant-select-dropdown {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e6e6e6 !important;
+}
+
+.ant-select-item {
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.ant-select-item:hover:not(.ant-select-item-option-selected) {
+  background-color: rgba(255, 103, 1, 0.08) !important;
+  color: var(--primary-color) !important;
+  border-radius: 8px !important;
+}
+
+.ant-select-item.ant-select-item-option-selected {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.ant-select-item.ant-select-item-option-selected:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.ant-select-item:not(.ant-select-item-option-selected) {
+  background-color: white !important;
+  color: #333 !important;
 }
 

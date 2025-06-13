@@ -1,7 +1,4 @@
-/* Reset toàn cục cho section */
-html, body {
-  overflow-x: hidden;
-}
+/* Reset toàn cục cho section - moved to globals.css */
 
 .section {
   /* padding: 60px 20px; */
