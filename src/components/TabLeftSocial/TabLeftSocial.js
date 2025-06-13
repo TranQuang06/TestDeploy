@@ -107,7 +107,7 @@ function TabLeftSocial({ onSidebarToggle, onTabChange, chatTarget }) {
     e.preventDefault();
     handleTabClick("saved");
     router.push("/saved");
-  };  // Handle Profile click
+  }; // Handle Profile click
   const handleProfileClick = (e) => {
     e.preventDefault();
     if (!user) {

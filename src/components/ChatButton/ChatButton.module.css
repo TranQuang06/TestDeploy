@@ -1,6 +1,4 @@
-body {
-  /* overflow-y: hidden; */
-}
+/* Removed global body selector - use globals.css instead */
 
 .chatButtonContainer {
   position: fixed;
