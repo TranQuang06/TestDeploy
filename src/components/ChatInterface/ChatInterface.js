@@ -632,9 +632,11 @@ const ChatInterface = ({
             {" "}
             {/* Chat Header */}
             <div className={styles.chatContentHeader}>
+              {" "}
               <div className={styles.chatUserInfo}>
+                {/* Back button - only visible on mobile devices */}
                 <button
-                  className={styles.backButton}
+                  className={`${styles.backButton} ${styles.mobileOnly}`}
                   onClick={() => setSelectedChat(null)}
                 >
                   <AiOutlineArrowLeft />
@@ -716,8 +718,11 @@ const ChatInterface = ({
                           <div className={styles.senderName}>
                             {getOtherUser(selectedChat).name}
                           </div>
-                        )}
-                        <div className={styles.messageText}>
+                        )}                        <div 
+                          className={`${styles.messageText} ${
+                            message.content && message.content.length <= 3 ? styles.shortMessage : ''
+                          }`}
+                        >
                           {message.content}
                         </div>
                         <div className={styles.messageTime}>

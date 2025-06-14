@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/router";
+import { useAdminCheck } from "../../hooks/useAdminCheck";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import MigrationPanel from "../../components/MigrationPanel/MigrationPanel";
@@ -16,18 +17,18 @@ import {
 } from "react-icons/ai";
 
 function Admin() {
-  const { user, userProfile, loading } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("setup");
+  const { isAdmin, isChecking, adminCheckError, user, userProfile } =
+    useAdminCheck();
+
   useEffect(() => {
-    // Only redirect if not logged in at all
-    // Allow access to Admin Setup tab even if not admin yet
-    if (!loading && !user) {
+    // Redirect if not logged in
+    if (!isChecking && !user) {
       router.push("/SignIn");
     }
-  }, [user, loading, router]);
-
-  if (loading) {
+  }, [user, isChecking, router]); // Show loading while checking authentication
+  if (isChecking) {
     return (
       <div className={styles.loadingContainer}>
         <AiOutlineLoading3Quarters className={styles.loadingIcon} />
@@ -36,8 +37,91 @@ function Admin() {
     );
   }
 
-  if (!user || (userProfile && userProfile.role !== "admin")) {
-    return null; // Will redirect
+  // Redirect to SignIn if not logged in
+  if (!user) {
+    return null;
+  }
+
+  // Show error if admin check failed
+  if (adminCheckError) {
+    return (
+      <>
+        <Header />
+        <div className={styles.adminContainer}>
+          <div className={styles.adminWrapper}>
+            <div className={styles.adminHeader}>
+              <h1>❌ Lỗi kiểm tra quyền</h1>
+              <p>Có lỗi xảy ra khi kiểm tra quyền admin</p>
+            </div>
+            <div className={styles.adminContent}>
+              <div className={styles.noAccessMessage}>
+                <div className={styles.messageCard}>
+                  <h3>🚨 System Error</h3>
+                  <p>Error: {adminCheckError}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className={styles.retryButton}
+                  >
+                    Thử lại
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  // If not admin, show message and admin setup option
+  if (!isAdmin) {
+    return (
+      <>
+        <Header />
+        <div className={styles.adminContainer}>
+          <div className={styles.adminWrapper}>
+            <div className={styles.adminHeader}>
+              <h1>Admin Access Required</h1>
+              <p>Bạn cần quyền admin để truy cập trang này</p>
+            </div>
+            <div className={styles.adminContent}>
+              <div className={styles.noAccessMessage}>
+                <div className={styles.messageCard}>
+                  <h3>🔒 Không có quyền truy cập</h3>
+                  <p>Bạn cần có quyền admin để sử dụng trang này.</p>
+                  <p>Nếu bạn là admin, hãy sử dụng Admin Setup để cấp quyền.</p>
+
+                  {/* Debug info - remove in production */}
+                  <div className={styles.debugInfo}>
+                    <details>
+                      <summary>Debug Info (Click to expand)</summary>
+                      <pre>
+                        {JSON.stringify(
+                          {
+                            email: user?.email,
+                            role: userProfile?.role,
+                            isAdmin: userProfile?.isAdmin,
+                            permissions: userProfile?.permissions,
+                          },
+                          null,
+                          2
+                        )}
+                      </pre>
+                    </details>
+                  </div>
+
+                  <div className={styles.setupSection}>
+                    <AdminSetup />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
   }
   const tabs = [
     {

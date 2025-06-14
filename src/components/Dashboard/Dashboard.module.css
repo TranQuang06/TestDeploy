@@ -19,6 +19,7 @@
 .contentWrapper {
   max-width: 1200px;
   margin: 0 auto;
+  overflow: visible; /* Ensure dropdowns can appear outside */
 }
 
 
@@ -114,6 +115,8 @@
 
 .postsSection {
   margin-top: 20px;
+  overflow: visible; /* Ensure dropdowns can appear outside */
+  position: relative;
 }
 
 /* Responsive adjustments for posts */

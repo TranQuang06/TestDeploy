@@ -688,6 +688,58 @@ export const getTrendingPosts = async (limitCount = 10) => {
  */
 export const deletePost = async (postId, userId) => {
   try {
+    console.log("🗑️ Simple delete post:", { postId, userId });
+
+    if (!postId || !userId) {
+      throw new Error("Post ID and User ID are required");
+    }
+
+    // First check if the post exists and user owns it
+    const postRef = doc(db, "posts", postId);
+    const postDoc = await getDoc(postRef);
+
+    if (!postDoc.exists()) {
+      throw new Error("Post not found");
+    }
+
+    const postData = postDoc.data();
+    console.log("📝 Post ownership check:", {
+      authorId: postData.authorId,
+      userId,
+      match: postData.authorId === userId,
+    });
+
+    // Check if user owns the post
+    if (postData.authorId !== userId) {
+      throw new Error("You can only delete your own posts");
+    }
+
+    // Simple delete - just delete the main post
+    await deleteDoc(postRef); // Try to update user's post count (optional, don't fail if it doesn't work)
+    try {
+      await updateDoc(doc(db, "users", userId), {
+        "stats.postCount": increment(-1),
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (statsError) {
+      // Silently ignore stats update errors
+    }
+
+    console.log("✅ Post deleted successfully:", postId);
+    return { success: true, message: "Post deleted successfully" };
+  } catch (error) {
+    console.error("❌ Error deleting post:", error);
+    throw error;
+  }
+};
+
+/**
+ * Simple delete post function (fallback)
+ */
+export const deletePostSimple = async (postId, userId) => {
+  try {
+    console.log("🗑️ Simple delete post:", { postId, userId });
+
     // First check if the post exists and user owns it
     const postRef = doc(db, "posts", postId);
     const postDoc = await getDoc(postRef);
@@ -703,47 +755,23 @@ export const deletePost = async (postId, userId) => {
       throw new Error("You can only delete your own posts");
     }
 
-    const batch = writeBatch(db);
+    // Just delete the post (don't worry about related data for now)
+    await deleteDoc(postRef);
 
-    // Delete the post
-    batch.delete(postRef);
+    // Try to update user stats, but don't fail if it doesn't work
+    try {
+      await updateDoc(doc(db, "users", userId), {
+        "stats.postCount": increment(-1),
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (statsError) {
+      console.warn("⚠️ Could not update user stats:", statsError);
+    }
 
-    // Delete all likes for this post
-    const likesQuery = query(
-      collection(db, "likes"),
-      where("targetType", "==", "post"),
-      where("targetId", "==", postId)
-    );
-    const likesSnapshot = await getDocs(likesQuery);
-
-    likesSnapshot.forEach((likeDoc) => {
-      batch.delete(likeDoc.ref);
-    });
-
-    // Delete all comments for this post
-    const commentsQuery = query(
-      collection(db, "comments"),
-      where("postId", "==", postId)
-    );
-    const commentsSnapshot = await getDocs(commentsQuery);
-
-    commentsSnapshot.forEach((commentDoc) => {
-      batch.delete(commentDoc.ref);
-    });
-
-    // Update user's post count
-    batch.update(doc(db, "users", userId), {
-      "stats.postCount": increment(-1),
-      updatedAt: new Date().toISOString(),
-    });
-
-    // Commit the batch
-    await batch.commit();
-
-    console.log("✅ Post deleted successfully:", postId);
+    console.log("✅ Post deleted successfully (simple):", postId);
     return { success: true, message: "Post deleted successfully" };
   } catch (error) {
-    console.error("❌ Error deleting post:", error);
+    console.error("❌ Error in simple delete:", error);
     throw error;
   }
 };
@@ -1022,6 +1050,8 @@ export default {
   getUserPosts,
   getTrendingPosts,
   deletePost,
+  deletePostSimple,
+  deletePostSimple,
   savePost,
   unsavePost,
   getSavedPosts,

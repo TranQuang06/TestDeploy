@@ -6,6 +6,7 @@ import {
   togglePostLike,
   hasUserLikedPost,
   deletePost,
+  deletePostSimple,
   savePost,
   unsavePost,
   updatePostVisibility,
@@ -377,15 +378,35 @@ const PostList = ({
     setDeleteModalOpen(true);
     setActiveDropdown(null);
   };
-
   // Confirm delete post
   const confirmDeletePost = async () => {
-    if (!postToDelete) return;
+    if (!postToDelete || !user?.uid) {
+      message.error("Không thể xác định người dùng hoặc bài viết!");
+      return;
+    }
 
     try {
-      console.log("🗑️ Deleting post:", postToDelete);
+      console.log("🗑️ Attempting to delete post:", {
+        postId: postToDelete,
+        userId: user.uid,
+        userEmail: user.email,
+      });
 
-      // Delete post from Firebase
+      // Find the post to verify ownership
+      const postToDeleteData = posts.find((p) => p.id === postToDelete);
+      if (!postToDeleteData) {
+        throw new Error("Không tìm thấy bài viết trong danh sách!");
+      }
+
+      console.log("📝 Post data:", {
+        authorId: postToDeleteData.authorId,
+        currentUserId: user.uid,
+        isOwner: postToDeleteData.authorId === user.uid,
+      });
+
+      if (postToDeleteData.authorId !== user.uid) {
+        throw new Error("Bạn chỉ có thể xóa bài viết của chính mình!");
+      } // Delete post from Firebase
       await deletePost(postToDelete, user.uid);
 
       // Update local state
@@ -397,10 +418,19 @@ const PostList = ({
       console.error("❌ Error deleting post:", error);
 
       let errorMessage = "Có lỗi xảy ra khi xóa bài viết!";
-      if (error.message === "You can only delete your own posts") {
+
+      if (error.code === "permission-denied") {
+        errorMessage =
+          "Không có quyền xóa bài viết này! Vui lòng kiểm tra quyền truy cập.";
+      } else if (error.message.includes("You can only delete your own posts")) {
         errorMessage = "Bạn chỉ có thể xóa bài viết của chính mình!";
-      } else if (error.message === "Post not found") {
+      } else if (error.message.includes("Post not found")) {
         errorMessage = "Không tìm thấy bài viết!";
+      } else if (
+        error.message.includes("Missing or insufficient permissions")
+      ) {
+        errorMessage =
+          "Thiếu quyền truy cập Firebase! Vui lòng kiểm tra Firestore rules.";
       }
 
       message.error(errorMessage);
@@ -674,64 +704,79 @@ const PostList = ({
               onClick={() => handleDropdownToggle(post.id)}
             >
               <AiOutlineMore />
-            </button>
-
+            </button>{" "}
             {/* Dropdown menu */}
             {activeDropdown === post.id && (
-              <div className={styles.dropdownMenu}>
-                {/* Only show delete option if user owns the post */}
-                {post.authorId === user?.uid && (
+              <>
+                {/* Mobile backdrop */}
+                <div
+                  className={styles.dropdownBackdrop}
+                  onClick={() => setActiveDropdown(null)}
+                />
+
+                <div className={styles.dropdownMenu}>
+                  {/* Only show delete option if user owns the post */}
+                  {post.authorId === user?.uid && (
+                    <button
+                      className={styles.dropdownItem}
+                      onClick={() => handleDeletePost(post.id)}
+                    >
+                      <AiOutlineDelete className={styles.dropdownIcon} />
+                      <span>Xóa bài viết</span>
+                    </button>
+                  )}
+
                   <button
                     className={styles.dropdownItem}
-                    onClick={() => handleDeletePost(post.id)}
+                    onClick={() => handleSavePost(post.id)}
                   >
-                    <AiOutlineDelete className={styles.dropdownIcon} />
-                    <span>Xóa bài viết</span>
+                    <AiOutlineSave className={styles.dropdownIcon} />
+                    <span>
+                      {feedType === "saved"
+                        ? "Bỏ lưu bài viết"
+                        : "Lưu bài viết"}
+                    </span>
                   </button>
-                )}{" "}
-                <button
-                  className={styles.dropdownItem}
-                  onClick={() => handleSavePost(post.id)}
-                >
-                  <AiOutlineSave className={styles.dropdownIcon} />
-                  <span>
-                    {feedType === "saved" ? "Bỏ lưu bài viết" : "Lưu bài viết"}
-                  </span>
-                </button>
-                {/* Only show visibility options if user owns the post */}
-                {post.authorId === user?.uid && (
-                  <>
-                    <div className={styles.dropdownDivider}></div>
-                    <div className={styles.dropdownLabel}>Đối tượng xem:</div>
 
-                    <button
-                      className={`${styles.dropdownItem} ${
-                        post.visibility === "public" ? styles.active : ""
-                      }`}
-                      onClick={() => handleChangeVisibility(post.id, "public")}
-                    >
-                      <AiOutlineGlobal className={styles.dropdownIcon} />
-                      <span>Công khai</span>
-                      {post.visibility === "public" && (
-                        <span className={styles.checkmark}>✓</span>
-                      )}
-                    </button>
+                  {/* Only show visibility options if user owns the post */}
+                  {post.authorId === user?.uid && (
+                    <>
+                      <div className={styles.dropdownDivider}></div>
+                      <div className={styles.dropdownLabel}>Đối tượng xem:</div>
 
-                    <button
-                      className={`${styles.dropdownItem} ${
-                        post.visibility === "private" ? styles.active : ""
-                      }`}
-                      onClick={() => handleChangeVisibility(post.id, "private")}
-                    >
-                      <AiOutlineLock className={styles.dropdownIcon} />
-                      <span>Chỉ mình tôi</span>
-                      {post.visibility === "private" && (
-                        <span className={styles.checkmark}>✓</span>
-                      )}
-                    </button>
-                  </>
-                )}
-              </div>
+                      <button
+                        className={`${styles.dropdownItem} ${
+                          post.visibility === "public" ? styles.active : ""
+                        }`}
+                        onClick={() =>
+                          handleChangeVisibility(post.id, "public")
+                        }
+                      >
+                        <AiOutlineGlobal className={styles.dropdownIcon} />
+                        <span>Công khai</span>
+                        {post.visibility === "public" && (
+                          <span className={styles.checkmark}>✓</span>
+                        )}
+                      </button>
+
+                      <button
+                        className={`${styles.dropdownItem} ${
+                          post.visibility === "private" ? styles.active : ""
+                        }`}
+                        onClick={() =>
+                          handleChangeVisibility(post.id, "private")
+                        }
+                      >
+                        <AiOutlineLock className={styles.dropdownIcon} />
+                        <span>Chỉ mình tôi</span>
+                        {post.visibility === "private" && (
+                          <span className={styles.checkmark}>✓</span>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </>
             )}
           </div>
         </div>{" "}

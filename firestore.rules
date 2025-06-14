@@ -23,36 +23,33 @@ service cloud.firestore {
       allow create: if isAuthenticated();
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isAdmin();
-    }
-      // Posts collection - allow read for all authenticated users, write for owners and admins
+    }      // Posts collection - allow read for all authenticated users, write for owners and admins
     match /posts/{postId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
       // Allow content updates only by owner or admin
-      allow update: if (isOwner(resource.data.authorId) || isAdmin()) &&
-                       (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['stats']));
+      allow update: if (isAuthenticated() && request.auth.uid == resource.data.authorId) || isAdmin();
       // Allow stats updates by any authenticated user (for likes, comments, etc.)
       allow update: if isAuthenticated() && 
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stats']) &&
                        request.resource.data.authorId == resource.data.authorId &&
                        request.resource.data.content == resource.data.content;
-      allow delete: if isOwner(resource.data.authorId) || isAdmin();
+      allow delete: if (isAuthenticated() && request.auth.uid == resource.data.authorId) || isAdmin();
     }
-    
-    // Comments collection
+      // Comments collection
     match /comments/{commentId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
-      allow update: if isOwner(resource.data.authorId) || isAdmin();
-      allow delete: if isOwner(resource.data.authorId) || isAdmin();
+      allow update: if (isAuthenticated() && request.auth.uid == resource.data.authorId) || isAdmin();
+      allow delete: if (isAuthenticated() && request.auth.uid == resource.data.authorId) || isAdmin();
     }
     
     // Likes collection
     match /likes/{likeId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated();
-      allow update: if isOwner(resource.data.userId) || isAdmin();
-      allow delete: if isOwner(resource.data.userId) || isAdmin();
+      allow update: if (isAuthenticated() && request.auth.uid == resource.data.userId) || isAdmin();
+      allow delete: if (isAuthenticated() && request.auth.uid == resource.data.userId) || isAdmin();
     }
       // Follows collection
     match /follows/{followId} {
