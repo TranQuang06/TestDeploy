@@ -52,7 +52,7 @@ function Header() {
     const handleScroll = () => {
       // Đơn giản hóa logic kiểm tra scroll
       const isScrolled = window.scrollY > 50;
-      
+
       // Chỉ cập nhật state khi có thay đổi để tránh re-render không cần thiết
       if (isScrolled !== scrolled) {
         setScrolled(isScrolled);
@@ -70,7 +70,7 @@ function Header() {
 
     // Đăng ký sự kiện với hàm debounced
     window.addEventListener("scroll", debouncedHandleScroll, { passive: true });
-    
+
     // Gọi ngay lập tức một lần để thiết lập trạng thái ban đầu
     handleScroll();
 
@@ -159,22 +159,26 @@ function Header() {
 
   // Custom dropdown render để hiển thị menu hiện đại hơn
   const renderDropdownMenu = (items) => ({
-    items: items.map(item => ({
+    items: items.map((item) => ({
       key: item.key,
       label: (
         <div className={styles.customDropdownItem}>
           <div className={styles.dropdownItemIcon}>{item.icon}</div>
           <div className={styles.dropdownItemContent}>
             <div className={styles.dropdownItemLabel}>{item.label}</div>
-            <div className={styles.dropdownItemDescription}>{item.description}</div>
+            <div className={styles.dropdownItemDescription}>
+              {item.description}
+            </div>
           </div>
         </div>
-      )
-    }))
+      ),
+    })),
   });
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}>
+    <header
+      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
+    >
       <div className={styles.headerContainer}>
         {/* Logo */}
         <div className={styles.logo}>
@@ -196,7 +200,7 @@ function Header() {
                 menu={renderDropdownMenu(jobsMenuItems)}
                 placement="bottomLeft"
                 arrow={false}
-                trigger={['hover']}
+                trigger={["hover"]}
                 overlayClassName={styles.navDropdown}
                 align={{ offset: [-20, 10] }}
               >
@@ -215,7 +219,7 @@ function Header() {
                 menu={renderDropdownMenu(toolsMenuItems)}
                 placement="bottomLeft"
                 arrow={false}
-                trigger={['hover']}
+                trigger={["hover"]}
                 overlayClassName={styles.navDropdown}
                 align={{ offset: [-20, 10] }}
               >
@@ -239,6 +243,11 @@ function Header() {
             <li className={styles.navItem}>
               <Link href="/Social" className={styles.navLink}>
                 Social
+              </Link>
+            </li>
+            <li className={styles.navItem}>
+              <Link href="/Course" className={styles.navLink}>
+                Khóa học
               </Link>
             </li>
           </ul>
