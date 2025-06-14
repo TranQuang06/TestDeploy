@@ -97,7 +97,9 @@ const PostList = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [activeDropdown]); // Handle profile card hover
+  }, [activeDropdown]); 
+  
+  // Handle profile card hover
   const handleAvatarMouseEnter = (userId, event) => {
     console.log("🔍 Avatar hover entered:", userId, "current user:", user?.uid);
     if (!userId) {
@@ -106,25 +108,24 @@ const PostList = ({
     }
 
     const rect = event.currentTarget.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
-
+    
+    // For fixed positioning, we use viewport coordinates directly
     const position = {
-      top: rect.bottom + scrollTop + 8,
-      left: Math.max(10, rect.left + scrollLeft - 160), // Center card relative to avatar, with min left margin
+      top: rect.bottom + 8, // Position below the avatar with some spacing
+      left: Math.max(10, rect.left - 160), // Center card relative to avatar, with min left margin
     };
 
     console.log("📍 Setting profile card position:", position);
+    console.log("📍 Avatar rect:", rect);
     setProfileCardPosition(position);
     setShowProfileCard(userId);
     console.log("✅ Profile card should show for user:", userId);
   };
-
   const handleAvatarMouseLeave = () => {
+    // Delay hiding to allow moving to card
     setTimeout(() => {
       setShowProfileCard(null);
-    }, 150); // Small delay to allow moving to card
+    }, 300); // Increased delay for better UX
   };
   const handleProfileCardClose = () => {
     setShowProfileCard(null);
