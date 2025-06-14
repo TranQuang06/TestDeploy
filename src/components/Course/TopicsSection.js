@@ -47,8 +47,8 @@ export default function TopicsSection({
     fetch(`https://udemy13.p.rapidapi.com/course/search/?query=${encodeURIComponent(query)}`, {
       method: "GET",
       headers: {
-        "x-rapidapi-host": "udemy13.p.rapidapi.com",
-        "x-rapidapi-key": RAPIDAPI_KEY
+        "x-rapidapi-host": RAPIDAPI_HOST,
+      "x-rapidapi-key": RAPIDAPI_KEY
       }
     })
       .then((res) => res.json())
@@ -104,7 +104,7 @@ export default function TopicsSection({
     <section className={styles.topicsSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>
-          Choose a topic that interests you
+          Chọn một chủ đề bạn quan tâm
         </h2>
         {/* Search input */}
         <form

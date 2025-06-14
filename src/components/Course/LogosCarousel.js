@@ -2,18 +2,18 @@ import React from 'react';
 import styles from './LogosCarousel.module.css';
 
 const logos = [
-  '/assets/logos/google.png',
-  '/assets/logos/uber.png',
-  '/assets/logos/samsung.png',
-  '/assets/logos/adidas.png',
-  '/assets/logos/amazon.png',
+  '/assets/img/Course/Group1.png',
+  '/assets/img/Course/Group2.png',
+  '/assets/img/Course/Group3.png',
+  '/assets/img/Course/Group4.png',
 ];
 
 export default function LogosCarousel() {
   return (
     <section className={styles.logosSection}>
       <div className={styles.container}>
-        <h3 className={styles.heading}>Join the group of real specialists</h3>
+        <h3 className={styles.heading}>Tham gia nhóm các chuyên gia thực thụ
+</h3>
         <div className={styles.logosRow}>
           {logos.map((src, idx) => (
             <div key={idx} className={styles.logoItem}>

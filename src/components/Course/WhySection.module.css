@@ -39,7 +39,7 @@
 }
 
 .learnMore {
-  color: #14141a;
+  color: var(--primary-color);
   font-weight: 600;
   text-decoration: none;
   font-size: 1rem;
@@ -54,7 +54,7 @@
 }
 
 .learnMore:hover {
-  color: #e052cb;
+  color: var(--secondary-color);
 }
 
 .featuresList {
@@ -74,12 +74,12 @@
 .iconWrap {
   width: 44px;
   height: 44px;
-  background: #fff0fa;
+  background: var(--last-color);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e052cb;
+  color: var(--secondary-color);
   font-size: 28px;
   box-shadow: 0 1px 7px #f7e6f7;
   margin-top: 2px;
@@ -98,18 +98,163 @@
   margin: 0;
 }
 
-@media (max-width: 950px) {
+/* --- Responsive Adjustments --- */
+
+/* Điều chỉnh cho màn hình Tablet lớn (max-width: 1100px) */
+@media (max-width: 1100px) {
   .container {
-    flex-direction: column;
-    gap: 32px;
-    padding: 0 16px;
+    gap: 40px; /* Giảm khoảng cách */
+    padding: 0 20px;
   }
   .leftCard {
-    margin: 0 auto 20px auto;
-    max-width: 100%;
+    flex-basis: 40%; /* Điều chỉnh tỷ lệ flex-basis */
+    max-width: 400px;
+    padding: 40px 30px;
+  }
+  .leftCard h2 {
+    font-size: 1.9rem;
+  }
+  .leftCard p {
+    font-size: 1rem;
   }
   .featuresList {
-    grid-template-columns: 1fr;
-    gap: 28px 0;
+    flex-basis: 55%;
+    gap: 30px 30px; /* Giảm gap giữa các feature item */
+  }
+  .featureItem h3 {
+    font-size: 1rem;
+  }
+  .featureItem p {
+    font-size: 0.92rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình Tablet nhỏ / Điện thoại ngang (max-width: 950px - breakpoint hiện tại của bạn) */
+@media (max-width: 950px) {
+  .whySection {
+    padding: 50px 0 0 0; /* Điều chỉnh padding */
+  }
+  .container {
+    flex-direction: column; /* Xếp chồng leftCard và featuresList */
+    gap: 32px;
+    padding: 0 20px; /* Giữ padding ngang */
+    align-items: center; /* Căn giữa các phần khi xếp chồng */
+  }
+  .leftCard {
+    margin: 0 auto; /* Căn giữa card */
+    max-width: 600px; /* Cho phép card rộng hơn trên mobile nếu màn hình lớn */
+    width: 100%; /* Chiếm toàn bộ chiều rộng có sẵn */
+    flex-basis: auto; /* Cho phép flex-basis tự động */
+    padding: 36px 28px; /* Điều chỉnh padding card */
+    text-align: center; /* Căn giữa văn bản trong card */
+    align-items: center; /* Căn giữa nội dung */
+  }
+  .leftCard h2 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+  .leftCard p {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  .learnMore {
+    margin-top: 18px; /* Điều chỉnh margin nút */
+  }
+
+  .featuresList {
+    grid-template-columns: 1fr; /* Chuyển thành một cột duy nhất */
+    gap: 28px; /* Giữ gap như bạn đề xuất */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    max-width: 600px; /* Giới hạn max-width cho danh sách tính năng */
+    padding: 0; /* Bỏ padding vì container đã có */
+  }
+  .featureItem {
+    flex-direction: row; /* Giữ icon và text trên cùng một hàng */
+    align-items: flex-start; /* Căn trên cùng */
+    gap: 15px; /* Giảm gap giữa icon và text */
+    text-align: left; /* Đảm bảo văn bản featureItem vẫn căn trái */
+  }
+  .iconWrap {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    margin-top: 0; /* Đảm bảo icon căn trên cùng */
+  }
+  .featureItem h3 {
+    font-size: 1rem;
+  }
+  .featureItem p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình Điện thoại nhỏ (max-width: 576px) */
+@media (max-width: 576px) {
+  .whySection {
+    padding: 40px 0 0 0;
+  }
+  .container {
+    gap: 24px;
+    padding: 0 16px; /* Giảm padding ngang thêm */
+  }
+  .leftCard {
+    padding: 30px 20px;
+  }
+  .leftCard h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  .leftCard p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+  .featuresList {
+    gap: 20px;
+  }
+  .featureItem {
+    gap: 12px;
+  }
+  .iconWrap {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+  .featureItem h3 {
+    font-size: 0.95rem;
+  }
+  .featureItem p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình Điện thoại rất nhỏ (max-width: 400px) */
+@media (max-width: 400px) {
+  .whySection {
+    padding: 30px 0 0 0;
+  }
+  .container {
+    gap: 20px;
+    padding: 0 12px;
+  }
+  .leftCard {
+    padding: 24px 18px;
+  }
+  .leftCard h2 {
+    font-size: 1.4rem;
+  }
+  .leftCard p {
+    font-size: 0.9rem;
+  }
+  .featuresList {
+    gap: 18px;
+  }
+  .featureItem {
+    flex-direction: column; /* Icon và text xếp chồng nếu quá hẹp */
+    align-items: center; /* Căn giữa khi xếp chồng */
+    text-align: center;
+    gap: 8px; /* Giảm khoảng cách */
+  }
+  .iconWrap {
+    margin-bottom: 0; /* Reset margin-top */
   }
 }

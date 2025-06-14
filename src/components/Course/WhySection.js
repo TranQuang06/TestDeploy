@@ -8,12 +8,12 @@ export default function WhySection() {
       <div className={styles.container}>
         {/* Left Card */}
         <div className={styles.leftCard}>
-          <h2>Why we are different</h2>
+          <h2>Điều gì làm chúng tôi khác biệt?</h2>
           <p>
-            A place where failures, successes and experiences are transformed into specific guidelines, turning theory into practice.
+          Chúng tôi tạo ra một môi trường học tập nơi mọi rào cản được gỡ bỏ, và tiềm năng của bạn được khai phóng. Chúng tôi biến lý thuyết thành hành động, với sự hỗ trợ tối đa cho từng cá nhân.
           </p>
           <a href="#learn-more" className={styles.learnMore}>
-            Learn more <ArrowRightOutlined className={styles.learnMoreArrow} />
+            Xem thêm  <ArrowRightOutlined className={styles.learnMoreArrow} />
           </a>
         </div>
 
@@ -22,29 +22,29 @@ export default function WhySection() {
           <div className={styles.featureItem}>
             <div className={styles.iconWrap}><ToolOutlined /></div>
             <div>
-              <h3>Specific tools</h3>
-              <p>Act quickly and effectively thanks to ready-made tools</p>
+              <h3>Công cụ chuyên biệt & dễ tiếp cận</h3>
+              <p>Các khóa học được thiết kế có ý thức về tính toàn diện, sử dụng ngôn ngữ và định dạng thân thiện, dễ dàng tiếp cận với các công nghệ hỗ trợ.</p>
             </div>
           </div>
           <div className={styles.featureItem}>
             <div className={styles.iconWrap}><KeyOutlined /></div>
             <div>
-              <h3>Implementation examples</h3>
-              <p>Real examples will accelerate successful implementation</p>
+              <h3>Ví dụ thực tế & ứng dụng cao</h3>
+              <p>Minh họa rõ ràng bằng các tình huống thực tế, giúp bạn dễ dàng áp dụng kiến thức vào công việc hàng ngày.</p>
             </div>
           </div>
           <div className={styles.featureItem}>
             <div className={styles.iconWrap}><BookOutlined /></div>
             <div>
-              <h3>Practical knowledge</h3>
-              <p>Applying knowledge in practice will translate into real benefits</p>
+              <h3>Kiến thức thực tiễn & hữu dụng</h3>
+              <p>Tập trung vào các kỹ năng có thể mang lại lợi ích ngay lập tức trong môi trường làm việc chuyên nghiệp.</p>
             </div>
           </div>
           <div className={styles.featureItem}>
             <div className={styles.iconWrap}><ShareAltOutlined /></div>
             <div>
-              <h3>Exchange of experiences</h3>
-              <p>Join the real specialists community</p>
+              <h3>Trao đổi kinh nghiệm & cộng đồng hỗ trợ</h3>
+              <p>Tham gia vào một cộng đồng học tập đa dạng, nơi bạn có thể chia sẻ, học hỏi từ các chuyên gia và đồng nghiệp.</p>
             </div>
           </div>
         </div>

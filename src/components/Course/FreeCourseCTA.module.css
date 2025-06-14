@@ -2,6 +2,7 @@
   background: #fafcff;
   padding: 28px 0 0 0; /* Giảm padding trên để không cách xa phần dưới */
   margin-bottom: 0;
+  overflow: hidden; /* Đảm bảo không có scroll ngang không mong muốn */
 }
 
 .container {
@@ -10,34 +11,44 @@
   display: flex;
   align-items: center;
   gap: 40px;
-  padding: 0 24px;
+  padding: 0 24px; /* Padding ngang tổng thể cho container */
+  flex-wrap: wrap; /* Cho phép các item xuống dòng nếu không đủ chỗ */
+  justify-content: center; /* Căn giữa các item khi xuống dòng */
 }
 
 .textWrapper {
   flex: 1;
-  min-width: 320px;
+  min-width: 320px; /* Đảm bảo textWrapper không quá nhỏ */
+  /* Sử dụng flex-basis thay cho min-width để kiểm soát kích thước tốt hơn trên màn hình nhỏ */
+  flex-basis: 50%; /* Chiếm khoảng 50% chiều rộng mặc định */
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
 }
 
 .textWrapper h2 {
   font-size: 2rem;
   margin: 0 0 14px 0;
   font-weight: 700;
+  line-height: 1.2; /* Cải thiện khoảng cách dòng cho tiêu đề */
 }
 
 .textWrapper p {
   font-size: 1.06rem;
   margin: 0 0 24px 0;
   color: #5f5f6e;
+  line-height: 1.6; /* Cải thiện khả năng đọc cho đoạn văn */
 }
 
 .actionRow {
   display: flex;
   align-items: center;
   gap: 18px;
+  /* Đảm bảo các nút có thể xuống dòng nếu không đủ chỗ */
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Căn trái các nút mặc định */
 }
 
 .ctaButton {
-  background: #23222b;
+  background: var(--secondary-color);
   color: white;
   border: none;
   padding: 11px 34px;
@@ -46,49 +57,123 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.18s;
+  white-space: nowrap; /* Ngăn nút bị ngắt dòng chữ */
 }
 .ctaButton:hover {
-  background: #484868;
+  background: var(--secondary-color);
 }
 
-.downloadLink {
-  text-decoration: none;
-  font-size: 1rem;
-  color: #23222b;
-  font-weight: 500;
-  transition: color 0.18s;
-}
-.downloadLink:hover {
-  color: #e052cb;
-}
+
 
 .imageWrapper {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 220px;
+  min-width: 220px; /* Đảm bảo imageWrapper không quá nhỏ */
+  /* Sử dụng flex-basis để kiểm soát kích thước tốt hơn */
+  flex-basis: 40%; /* Chiếm khoảng 40% chiều rộng mặc định */
 }
 .imageWrapper img {
   max-width: 270px;
-  width: 100%;
+  width: 100%; /* Đảm bảo ảnh co giãn theo chiều rộng của container */
+  height: auto; /* Giữ tỷ lệ khung hình */
   border-radius: 14px;
   object-fit: cover;
   background: #f6fafd;
   box-shadow: 0 6px 32px #e3e5eb15;
 }
 
+/* Responsive adjustments */
+
+/* Điều chỉnh cho màn hình tablet nhỏ và điện thoại ngang (max-width: 900px) */
 @media (max-width: 900px) {
   .container {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse; /* Ảnh lên trên, chữ xuống dưới */
     text-align: center;
-    gap: 22px;
-    padding: 0 12px;
+    gap: 30px; /* Tăng khoảng cách giữa ảnh và chữ */
+    padding: 0 20px; /* Tăng padding ngang để nội dung không quá sát cạnh */
   }
+
+  .textWrapper,
+  .imageWrapper {
+    flex-basis: auto; /* Cho phép chúng chiếm toàn bộ chiều rộng có sẵn */
+    min-width: unset; /* Xóa min-width để linh hoạt hơn */
+    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
+  }
+
+  .textWrapper h2 {
+    font-size: 1.75rem; /* Giảm kích thước font cho tiêu đề */
+  }
+
+  .textWrapper p {
+    font-size: 1rem; /* Giảm kích thước font cho đoạn văn */
+  }
+
   .actionRow {
-    flex-direction: column;
+    flex-direction: column; /* Đảm bảo các nút nằm dọc */
     gap: 12px;
-    align-items: center;
+    align-items: center; /* Căn giữa các nút */
     justify-content: center;
+    width: 100%; /* Chiếm toàn bộ chiều rộng để các nút có thể giãn ra */
+  }
+
+  .ctaButton {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+    max-width: 280px; /* Giới hạn chiều rộng tối đa của nút để không quá to */
+    padding: 12px 20px; /* Điều chỉnh padding */
+    font-size: 1rem; /* Điều chỉnh font size */
+  }
+
+  .downloadLink {
+    font-size: 0.95rem; /* Điều chỉnh font size */
+  }
+
+  .imageWrapper img {
+    max-width: 200px; /* Giảm kích thước ảnh trên mobile */
+    border-radius: 10px; /* Giảm bo tròn ảnh */
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại nhỏ (max-width: 576px) */
+@media (max-width: 576px) {
+  .ctaSection {
+    padding: 20px 0 0 0; /* Giảm padding trên cùng */
+  }
+
+  .container {
+    padding: 0 16px; /* Giảm padding ngang thêm */
+    gap: 20px; /* Giảm khoảng cách giữa các phần */
+  }
+
+  .textWrapper h2 {
+    font-size: 1.5rem; /* Giảm kích thước font thêm cho tiêu đề */
+    margin-bottom: 10px;
+  }
+
+  .textWrapper p {
+    font-size: 0.9rem; /* Giảm kích thước font thêm cho đoạn văn */
+    margin-bottom: 20px;
+  }
+
+  .ctaButton {
+    max-width: 250px; /* Giới hạn nút nhỏ hơn nữa */
+    padding: 10px 15px; /* Giảm padding nút */
+    font-size: 0.95rem;
+  }
+
+  .downloadLink {
+    font-size: 0.85rem;
+  }
+
+  .imageWrapper img {
+    max-width: 180px; /* Giảm kích thước ảnh thêm */
+  }
+}
+
+/* Điều chỉnh nhỏ hơn nếu cần (ví dụ: màn hình rất nhỏ) */
+@media (max-width: 375px) {
+  .ctaButton {
+    max-width: 100%; /* Cho phép nút chiếm toàn bộ chiều rộng trên màn hình rất nhỏ */
   }
 }

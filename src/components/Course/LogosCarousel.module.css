@@ -35,10 +35,9 @@
 }
 
 .logoItem img {
-  max-height: 38px;
-  max-width: 116px;
+  max-height: 140px;
+  max-width: 2900px;
   object-fit: contain;
-  filter: grayscale(0.8) contrast(1.2);
   opacity: 0.86;
   transition: filter 0.18s;
 }
@@ -48,12 +47,106 @@
   opacity: 1;
 }
 
-@media (max-width: 700px) {
+
+/* --- Responsive Adjustments --- */
+
+/* Điều chỉnh cho màn hình Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+  .logosSection {
+    padding: 30px 0 10px 0; /* Giảm padding */
+  }
+
+  .container {
+    padding: 0 20px; /* Giảm padding ngang một chút */
+  }
+
+  .heading {
+    font-size: 1.2rem; /* Giảm kích thước tiêu đề */
+    margin-bottom: 28px;
+  }
+
   .logosRow {
-    gap: 24px;
+    gap: 30px; /* Giảm khoảng cách giữa các logo */
+  }
+
+  .logoItem {
+    min-width: 70px;
+    max-width: 150px; /* Điều chỉnh kích thước tối đa của logo item */
+  }
+
+  .logoItem img {
+    max-height: 35px; /* Giảm kích thước logo */
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại (max-width: 768px - thường dùng hơn 700px) */
+@media (max-width: 768px) {
+  .logosSection {
+    padding: 25px 0 8px 0;
+  }
+
+  .container {
+    padding: 0 16px; /* Padding ngang nhỏ hơn nữa */
+  }
+
+  .heading {
+    font-size: 1.1rem; /* Giảm kích thước tiêu đề thêm */
+    margin-bottom: 24px;
+  }
+
+  .logosRow {
+    gap: 20px; /* Giảm khoảng cách giữa các logo */
+    justify-content: center; /* Đảm bảo căn giữa */
+  }
+
+  .logoItem {
+    min-width: 60px; /* Kích thước tối thiểu cho logo trên mobile */
+    max-width: 120px; /* Kích thước tối đa cho logo trên mobile */
+    /* Có thể dùng flex: 0 0 calc(33.33% - 20px) nếu muốn 3 cột */
+    /* Hoặc flex: 0 0 calc(50% - 20px) nếu muốn 2 cột trên một số mobile */
+  }
+
+  .logoItem img {
+    max-height: 30px; /* Kích thước logo trên điện thoại */
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại nhỏ (max-width: 480px) */
+@media (max-width: 480px) {
+  .logosSection {
+    padding: 20px 0 5px 0;
+  }
+
+  .container {
+    padding: 0 12px; /* Padding ngang rất nhỏ */
+  }
+
+  .heading {
+    font-size: 1rem; /* Tiêu đề nhỏ hơn */
+    margin-bottom: 20px;
+  }
+
+  .logosRow {
+    gap: 15px; /* Giảm khoảng cách thêm */
+  }
+
+  .logoItem {
+    min-width: 50px;
+    max-width: 100px; /* Giới hạn kích thước logo trên điện thoại nhỏ */
+    /* Có thể dùng flex: 0 0 calc(50% - 15px) nếu muốn 2 cột mạnh mẽ */
+  }
+
+  .logoItem img {
+    max-height: 25px; /* Kích thước logo nhỏ nhất */
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại cực nhỏ (max-width: 320px) */
+@media (max-width: 320px) {
+  .logosRow {
+    gap: 10px;
   }
   .logoItem img {
-    max-width: 80px;
-    max-height: 28px;
+    max-height: 22px;
   }
 }

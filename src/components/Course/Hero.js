@@ -20,7 +20,7 @@ const Hero = ({ onSearch }) => {
       <div className={styles.overlay} />
       <div className={styles.content}>
         <h1 className={styles.title}>
-          Over <span className={styles.highlight}>20 courses</span> dedicated to employees of <span className={styles.highlight}>lean organizations</span>
+        Hơn 20 khóa học dành riêng cho nhân viên khuyết tật
         </h1>
 
         <form className={styles.searchForm} onSubmit={handleSubmit}>
@@ -28,13 +28,13 @@ const Hero = ({ onSearch }) => {
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="What do you need?"
+              placeholder="Bạn cần gì?"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search courses"
+              aria-label="Tìm kiếm"
             />
             <button type="submit" className={styles.searchButton}>
-              Search course
+              Tìm kiếm
             </button>
           </div>
         </form>
@@ -46,8 +46,8 @@ const Hero = ({ onSearch }) => {
               <ClockCircleOutlined className={styles.featureIcon} />
             </div>
             <div className={styles.featureText}>
-              <h3 className={styles.featureTitle}>Lifetime access</h3>
-              <p className={styles.featureDesc}>Use whenever and wherever you want</p>
+              <h3 className={styles.featureTitle}>Truy cập trọn đời</h3>
+              <p className={styles.featureDesc}>Học mọi lúc, mọi nơi bạn muốn, với sự hỗ trợ đầy đủ về công nghệ tiếp cận.</p>
             </div>
           </div>
           {/* Feature 2 */}
@@ -56,8 +56,8 @@ const Hero = ({ onSearch }) => {
               <SyncOutlined className={styles.featureIcon} />
             </div>
             <div className={styles.featureText}>
-              <h3 className={styles.featureTitle}>Regular updates</h3>
-              <p className={styles.featureDesc}>Files, examples, case studies from real projects</p>
+              <h3 className={styles.featureTitle}>Cập nhật thường xuyên & đa dạng</h3>
+              <p className={styles.featureDesc}> Tài liệu, ví dụ thực tế và dự án mẫu được tinh chỉnh để phù hợp với nhiều phương pháp học.</p>
             </div>
           </div>
           {/* Feature 3 */}
@@ -66,8 +66,8 @@ const Hero = ({ onSearch }) => {
               <SafetyCertificateOutlined className={styles.featureIcon} />
             </div>
             <div className={styles.featureText}>
-              <h3 className={styles.featureTitle}>Certificates</h3>
-              <p className={styles.featureDesc}>Accelerate recruitment thanks to a rich CV</p>
+              <h3 className={styles.featureTitle}>Chứng chỉ được công nhận</h3>
+              <p className={styles.featureDesc}>Nâng cao hồ sơ nghề nghiệp và tăng cường cơ hội việc làm thông qua chứng nhận uy tín.</p>
             </div>
           </div>
         </div>

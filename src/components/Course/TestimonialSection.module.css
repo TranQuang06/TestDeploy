@@ -25,7 +25,7 @@
   margin-bottom: 12px;
 }
 .checkAllBtn {
-  background: #16161a;
+  background: var(--primary-color);
   color: #fff;
   padding: 11px 38px;
   border-radius: 7px;
@@ -38,7 +38,7 @@
   box-shadow: 0 2px 8px #e8e8f6;
 }
 .checkAllBtn:hover {
-  background: #252528;
+  background: var(--secondary-color);
 }
 
 .right {
@@ -123,15 +123,162 @@
   vertical-align: sub;
 }
 
-@media (max-width: 900px) {
+/* --- Responsive Adjustments --- */
+
+/* Màn hình lớn hơn 1300px: Đảm bảo container không dính vào cạnh nếu màn hình quá rộng */
+@media (min-width: 1301px) {
   .grid {
-    flex-direction: column;
-    gap: 32px;
-    padding: 0 18px;
-  }
-  .card {
-    min-width: 0;
-    width: 100%;
-    padding: 28px 15px;
+    padding: 0; /* Bỏ padding ngang nếu màn hình quá lớn, để max-width quản lý */
   }
 }
+
+
+/* Điều chỉnh cho màn hình Tablet lớn (max-width: 1100px) */
+@media (max-width: 1100px) {
+  .grid {
+    gap: 40px; /* Giảm khoảng cách */
+    padding: 0 20px;
+  }
+  .left {
+    min-width: 280px; /* Giảm min-width cho cột trái */
+    max-width: 350px;
+  }
+  .heading {
+    font-size: 1.8rem; /* Giảm kích thước tiêu đề */
+  }
+  .checkAllBtn {
+    padding: 10px 30px; /* Giảm padding nút */
+  }
+  .card {
+    min-width: 340px; /* Giảm min-width của card */
+    max-width: 400px;
+    padding: 30px 30px;
+  }
+}
+
+/* Điều chỉnh cho màn hình Tablet nhỏ / Điện thoại ngang (max-width: 900px) */
+@media (max-width: 900px) {
+  .testimonialSection {
+    padding: 40px 0 20px 0; /* Giảm padding tổng thể */
+  }
+  .grid {
+    flex-direction: column; /* Xếp chồng cột trái và cột phải */
+    gap: 32px; /* Khoảng cách giữa các phần xếp chồng */
+    padding: 0 18px; /* Padding ngang cho mobile */
+    align-items: center; /* Căn giữa các cột khi xếp chồng */
+  }
+  .left {
+    width: 100%; /* Cột trái chiếm toàn bộ chiều rộng */
+    min-width: unset; /* Bỏ min-width để linh hoạt hơn */
+    max-width: 600px; /* Giới hạn chiều rộng tối đa khi xếp chồng */
+    text-align: center; /* Căn giữa văn bản và nút */
+  }
+  .heading {
+    font-size: 1.6rem; /* Giảm kích thước tiêu đề */
+    margin-bottom: 18px;
+  }
+  .checkAllBtn {
+    margin-top: 10px; /* Điều chỉnh margin nút */
+  }
+  .right {
+    width: 100%; /* Cột phải chiếm toàn bộ chiều rộng */
+    min-width: unset;
+    justify-content: flex-start; /* Căn trái slider (hoặc center tùy thích) */
+    overflow-x: auto; /* Quan trọng: Cho phép slider cuộn ngang nếu các card tràn */
+    padding-bottom: 10px; /* Thêm padding dưới để thanh cuộn (nếu hiện) không che mất nội dung */
+  }
+  .slider {
+    gap: 12px; /* Giảm khoảng cách giữa các phần tử trong slider */
+    flex-wrap: nowrap; /* Đảm bảo các card không xuống dòng trong slider */
+    padding: 0 4px; /* Padding nhẹ trong slider để card không quá sát mép */
+  }
+  .arrowBtn {
+    display: none; /* Ẩn mũi tên điều hướng trên mobile, dùng cuộn ngang thay thế */
+  }
+  .card {
+    min-width: 300px; /* Giảm min-width của card trên mobile */
+    max-width: 380px; /* Giới hạn max-width để không quá to */
+    padding: 28px 24px; /* Điều chỉnh padding card */
+    gap: 15px;
+  }
+  .userRow {
+    gap: 12px;
+  }
+  .avatar {
+    width: 42px;
+    height: 42px;
+  }
+  .name {
+    font-size: 1rem;
+  }
+  .title {
+    font-size: 0.9rem;
+  }
+  .text {
+    font-size: 0.95rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại nhỏ (max-width: 576px) */
+@media (max-width: 576px) {
+  .testimonialSection {
+    padding: 30px 0 15px 0;
+  }
+  .grid {
+    gap: 24px;
+    padding: 0 12px; /* Giảm padding ngang thêm */
+  }
+  .heading {
+    font-size: 1.4rem;
+  }
+  .card {
+    min-width: 280px; /* Card nhỏ hơn nữa */
+    max-width: 340px;
+    padding: 24px 20px;
+    gap: 12px;
+  }
+  .userRow {
+    gap: 10px;
+  }
+  .avatar {
+    width: 38px;
+    height: 38px;
+  }
+  .name {
+    font-size: 0.95rem;
+  }
+  .title {
+    font-size: 0.85rem;
+  }
+  .text {
+    font-size: 0.9rem;
+  }
+  .quoteMark {
+    font-size: 2rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại rất nhỏ (max-width: 400px) */
+@media (max-width: 400px) {
+  .testimonialSection {
+    padding: 25px 0 10px 0;
+  }
+  .grid {
+    gap: 20px;
+    padding: 0 10px;
+  }
+  .heading {
+    font-size: 1.25rem;
+  }
+  .card {
+    min-width: 260px; /* Giảm min-width để phù hợp hơn với màn hình rất nhỏ */
+    padding: 20px 15px;
+    gap: 10px;
+  }
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+

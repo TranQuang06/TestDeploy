@@ -270,7 +270,7 @@ function Register() {
             <img src="/logo.png" alt="logo" />
             <h2>SuperStars</h2>
           </div>{" "}
-          <h2> Register </h2>{" "}
+          <h2> Đăng Kí </h2>{" "}
           {message && (
             <div
               className={`${styles.message} ${
@@ -287,7 +287,7 @@ function Register() {
               className={`${styles.registerForm} register-form`}
               onSubmit={handleSubmit}
             >
-              <label> First Name </label>
+              <label> Tên đăng nhập </label>
               <input
                 type="text"
                 name="firstName"
@@ -300,7 +300,7 @@ function Register() {
                 <span className={styles.errorText}>{errors.firstName}</span>
               )}
 
-              <label> Surname </label>
+              <label> Họ </label>
               <input
                 type="text"
                 name="surname"
@@ -313,7 +313,7 @@ function Register() {
                 <span className={styles.errorText}>{errors.surname}</span>
               )}
 
-              <label>Email Address</label>
+              <label>Email </label>
               <input
                 type="email"
                 name="email"
@@ -326,7 +326,7 @@ function Register() {
                 <span className={styles.errorText}>{errors.email}</span>
               )}
 
-              <label>Password</label>
+              <label>Mật khẩu</label>
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -346,7 +346,7 @@ function Register() {
                 <span className={styles.errorText}>{errors.password}</span>
               )}
 
-              <label>Confirm Password</label>
+              <label>Nhập lại mật khẩu</label>
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -393,7 +393,7 @@ function Register() {
                   isLoading ? styles.loading : ""
                 }`}
               >
-                {isLoading ? "Creating Account..." : "Register"}
+                {isLoading ? "Creating Account..." : "Đăng kí"}
               </button>
             </form>
           ) : (
@@ -462,9 +462,9 @@ function Register() {
           )}{" "}
           {!isRegistered && (
             <p className={styles.loginPrompt}>
-              Already have an account?{" "}
+              Bạn đã có tài khoản?{" "}
               <Link href="/SignIn" className={styles.loginLink}>
-                Login here
+                Đăng nhập tại đây
               </Link>
             </p>
           )}
@@ -473,24 +473,25 @@ function Register() {
         {/* Panel bên phải - trang trí, giới thiệu sản phẩm */}
         <div className={styles.registerRight} ref={rightRef}>
           <div className={styles.registerPanel}>
-            <h4>Welcome to SuperStars</h4>
+            <h4>Chào mừng đến với SuperStars</h4>
             <p>
-              SuperStars helps developers to build organized and well coded
-              dashboards full of beautiful UI and rich modules. Join us and
-              start building your application today.
+              SuperStars giúp các nhà phát triển xây dựng các bảng điều khiển
+              được tổ chức và mã hóa tốt với giao diện người dùng đẹp mắt và các
+              mô-đun phong phú. Hãy tham gia cùng chúng tôi và bắt đầu xây dựng
+              ứng dụng của bạn ngay hôm nay.
             </p>
-            <p>More than 17k people joined us, it’s your turn</p>
+            <p>Hơn 17 nghìn người đã tham gia cùng chúng tôi, đến lượt bạn rồi</p>
             <div className={styles.registerCta}>
               <h5>
-                Get your right job and right
+              Có được công việc phù hợp và đúng đắn
                 <br />
-                place apply now
+                địa điểm nộp đơn ngay bây giờ
               </h5>
 
               <div className={styles.ctaRow}>
                 <p>
-                  Be among the first founders to experience the easiest way to
-                  start run a business.
+                Hãy là một trong những người sáng lập đầu tiên trải nghiệm cách dễ nhất để
+                bắt đầu điều hành một doanh nghiệp.
                 </p>
                 <div className={styles.avatars}>
                   <img src="/avatar1.jpg" alt="avatar1" />

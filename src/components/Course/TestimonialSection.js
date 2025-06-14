@@ -6,13 +6,13 @@ const testimonials = [
   {
     name: 'Pawel Nawara',
     title: 'Product Designer',
-    avatar: '/assets/avatars/pawel.jpg', // avatar thật
+    avatar: '/assets/img/Course/TacGia1.png', 
     text: 'Consultants showed high flexibility and perfect organization - in addition to the planned activities, they supported the company in ongoing initiatives. One of such activities was the planning of equipment for the design of a new production hall, where the extensive knowledge and experience of consultants was an invaluable help.',
   },
   {
     name: 'Tomasz Osowski',
     title: 'Head of Design',
-    avatar: '/assets/avatars/tomasz.jpg',
+    avatar: '/assets/img/Course/TacGia2.png',
     text: 'Consultants showed high flexibility and perfect organization - in addition to the planned activities, they supported the company in ongoing initiatives. Their knowledge and experience were invaluable.',
   },
 ];
@@ -31,9 +31,9 @@ export default function TestimonialSection() {
         {/* Left: Tiêu đề và nút */}
         <div className={styles.left}>
           <h2 className={styles.heading}>
-            See what participants say<br />about our courses
+            Những người tham gia nói gì về các khóa học của chúng tôi
           </h2>
-          <button className={styles.checkAllBtn}>Check all courses</button>
+          <button className={styles.checkAllBtn}>Kiểm tra tất cả đánh giá</button>
         </div>
 
         {/* Right: Card đánh giá */}

@@ -52,7 +52,8 @@ function SignIn() {
         return;
       }
 
-      router.push("/");    } catch (error) {
+      router.push("/");
+    } catch (error) {
       console.error("Sign in error:", error);
 
       // Handle Firebase Auth errors with user-friendly messages
@@ -139,13 +140,14 @@ function SignIn() {
           <div className={styles.brand}>
             <img src="/logo.png" alt="logo" />
             <h2>SuperStars</h2>
-          </div>{" "}          <h2>Sign in</h2>
+          </div>{" "}
+          <h2>Đăng Nhập</h2>
           {/* Form đăng nhập, có thể bổ sung validate ở bước sau */}
           <form
             className={`${styles.signinForm} signin-form`}
             onSubmit={handleSubmit}
           >
-            <label>Email Address</label>
+            <label>Email</label>
             <input
               type="email"
               placeholder="johndoe@gmail.com"
@@ -153,7 +155,7 @@ function SignIn() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <label>Password</label>
+            <label>Mật khẩu</label>
             <div className={styles.passwordWrapper}>
               <input
                 type={showPassword ? "text" : "password"}
@@ -170,9 +172,9 @@ function SignIn() {
             {error && <div className={styles.errorMessage}>{error}</div>}
             <div className={styles.signinOptions}>
               <label>
-                <input type="checkbox" /> Remember me
+                <input type="checkbox" /> Lưu thông tin đăng nhập
               </label>
-              <Link href="#">Forgot Password?</Link>
+              <Link href="#">Quên mật khẩu</Link>
             </div>
             <button
               ref={btnRef}
@@ -180,13 +182,13 @@ function SignIn() {
               className={`${styles.signinButton} signinButton`}
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign in"}
+              {isLoading ? "Signing in..." : "Đăng nhập"}
             </button>
             <div className={styles.signinBottom}>
               <p>
-                Don’t have an account?{" "}
+                Không có tài khoản?{" "}
                 <Link href="/Register" className={styles.link}>
-                  Register
+                  Đăng Kí tại đây
                 </Link>
               </p>
 
@@ -208,24 +210,27 @@ function SignIn() {
         {/* Panel bên phải - trang trí, giới thiệu sản phẩm */}
         <div className={styles.signinRight} ref={rightRef}>
           <div className={styles.signinPanel}>
-            <h4>Welcome to SuperStars</h4>
+            <h4>Chào mừng đến SuperStars</h4>
             <p>
-              SuperStars helps developers to build organized and well coded
-              dashboards full of beautiful UI and rich modules. Join us and
-              start building your application today.
+              SuperStars giúp các nhà phát triển xây dựng các bảng điều khiển
+              được tổ chức và mã hóa tốt với giao diện người dùng đẹp mắt và các
+              mô-đun phong phú. Hãy tham gia cùng chúng tôi và bắt đầu xây dựng
+              ứng dụng của bạn ngay hôm nay.
             </p>
-            <p>More than 17k people joined us, it’s your turn</p>
+            <p>
+              Hơn 17 nghìn người đã tham gia cùng chúng tôi, đến lượt bạn rồi
+            </p>
             <div className={styles.signinCta}>
               <h5>
-                Get your right job and right
+                Có được công việc phù hợp và đúng đắn
                 <br />
-                place apply now
+                địa điểm nộp đơn ngay bây giờ
               </h5>
 
               <div className={styles.ctaRow}>
                 <p>
-                  Be among the first founders to experience the easiest way to
-                  start run a business.
+                  Hãy là một trong những người sáng lập đầu tiên trải nghiệm
+                  cách dễ nhất để bắt đầu điều hành một doanh nghiệp.
                 </p>
                 <div className={styles.avatars}>
                   <img src="/avatar1.jpg" alt="avatar1" />

@@ -6,15 +6,15 @@ export default function FreeCourseCTA() {
     <section className={styles.ctaSection}>
       <div className={styles.container}>
         <div className={styles.textWrapper}>
-          <h2>Still undecided?</h2>
-          <p>Get access to a free course on our platform</p>
+          <h2>Vẫn còn băn khoăn?</h2>
+          <p>Hãy nhận ngay một khóa học miễn phí để trải nghiệm nền tảng học tập hòa nhập của chúng tôi!</p>
           <div className={styles.actionRow}>
-            <button className={styles.ctaButton}>Get access</button>
-            <a href="#download" className={styles.downloadLink}>Download site map &rarr;</a>
+            <button className={styles.ctaButton}>Nhận quyền truy cập miễn phí</button>
+    
           </div>
         </div>
         <div className={styles.imageWrapper}>
-          <img src="/assets/images/free-course.jpg" alt="Free course preview" />
+          <img src="/assets/img/Course/Free.png" alt="Free course preview" />
         </div>
       </div>
     </section>

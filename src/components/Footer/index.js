@@ -10,14 +10,12 @@ function Footer() {
         {/* Phần podcast nổi trên footer*/}
         <div className={styles.podcastBox}>
         <div className={styles.podcastText}>
-          <h2>The Nivi Nation </h2>
-          <p> Elit at pharetra morbi dui posuere tortor aliquam elit elementum.
-            Neque sit ipsum orci viverra etiam. Sit viverra posuere neque
-            facilisis tellus phasellus donec sit.
+          <h2>SuperStars </h2>
+          <p> Chào mừng bạn đến với SuperStars – nơi kết nối những tài năng đặc biệt và các cơ hội việc làm ý nghĩa. Chúng tôi tin rằng mỗi cá nhân đều có những giá trị riêng để đóng góp. Hãy cùng khám phá những công việc phù hợp và xây dựng một tương lai vững chắc.
           </p>
           {/* Phần nền tảng nghe podcast*/}
           <div className={styles.listenOn}>
-            <span>Listen On:</span>
+            <span>Nghe trên:</span>
             <br></br><i className="Spotify"> <SpotifyFilled /></i>
             <i className="Youtube"> <YoutubeFilled /></i>
             <i className="Facebook"> <FacebookFilled /></i>
@@ -35,30 +33,32 @@ function Footer() {
           <div className={styles.footerTop}>
             {/* Cột 1*/}
             <div className={styles.column}>
-              <h3>Quick Links</h3>
+              <h3>LIÊN KẾT NHANH</h3>
               <ul>
+                
+                <li><Link href="/homepage"> Trang chủ</Link></li>
+                <li><Link href="/about"> Về chúng tôi</Link></li>
+                <li><Link href="/episodes"> Cơ hội việc làm</Link></li>
                 <li><Link href="/" > Landing</Link></li>
-                <li><Link href="/homepage"> Homepage</Link></li>
-                <li><Link href="/about"> About</Link></li>
-                <li><Link href="/episodes"> Episodes</Link></li>
                 <li><Link href="/blog"> Blog</Link></li>
-                <li><Link href="/contact"> Contact</Link></li>
+                <li><Link href="/contact"> Liên hệ</Link></li>
               </ul>
             </div>
 
             {/* Cột 2 */}
             <div className={styles.column}>
-              <h3>Contact and Legal</h3>
+              <h3>LIÊN HỆ & PHÁP LÝ</h3>
               <ul>
                 <li><Link href="/divi">Divipodcast@support.com</Link></li>
-                <li><Link href="/privacy">Privacy Policy</Link></li>
-                <li><Link href="/terms">Terms and Conditons</Link></li>
+                <li><Link href="/privacy">Chính sách bảo mật</Link></li>
+                <li><Link href="/terms">Điều khoản và điều kiện</Link></li>
+                <li><Link href="/contact">Chính sách hỗ trợ người khuyết tật</Link></li>
               </ul>
             </div>
             
             {/* Cột 3 */}
             <div className={styles.column}>
-              <h3>Join the Conversation - Let's Connect!</h3>
+              <h3>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI - HÃY KẾT NỐI!</h3>
               <div className={styles.socials}>
                 <Link href="/face"><FacebookFilled /></Link>
                 <Link href="/linked"> <LinkedinFilled /></Link>
@@ -69,16 +69,16 @@ function Footer() {
 
           {/* Đăng kí email */}
           <div className={styles.subscribeSection}>
-            <h2> Never Miss an Episode - Join our Community!</h2>
+            <h2> Không bỏ lỡ cơ hội - Tham gia cộng đồng của chúng tôi!</h2>
             <div className={styles.subscribeForm}>
               <input type="email" placeholder="Email"/>
-              <button> SUBSCRIBE FOR FREE</button>
+              <button> Đăng kí free</button>
             </div>
           </div>
 
           {/* Bản quyền  */}
           <div className={styles.copyRight}>
-            <em> Copyright @ 2025 | <Link href="/">Privacy Policy</Link> </em>
+            <em> Copyright @ 2025 | <Link href="/">Chính sách bảo mật </Link> </em>
           </div>
           
         </footer>

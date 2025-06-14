@@ -8,35 +8,35 @@ import {
 
 // Dữ liệu cứng fallback
 const defaultCourse = {
-  title: "Advanced Diploma Course in Generalist Human Resource Management",
-  image: "/course-demo-img.png",
+  title: "Lập trình Java nâng cao",
+  image: "/assets/img/Course/Java.png",
   rating: 4.5,
   reviews: 2220,
   students: 21450,
   description:
-    "Learn the Role and Responsibilities at Individual, Group, and Organization Levels, Employee Life Cycle, Policy & Process. Master the intricacies of creating and implementing HR policies, process management and strategic planning.",
+    "Bạn sẽ được học về ngôn ngữ lập trình từ A đến Z  ",
   author: {
-    name: "Amanda Kim",
-    org: "HR University",
-    logo: "/assets/img/logo_hr_university.png",
-    avatar: "/assets/img/avatar_amanda_kim.jpg",
+    name: "Vũ Nguyễn coder",
+    org: "VKU University",
+    logo: "/assets/img/Course/LogoTruong.png",
+    avatar: "/assets/img/Course/GiangVien1.png",
     updated: "07.2024",
   },
   features: [
     "English",
-    "English, Spanish, Russian, French, German",
+    "English, VietNamese",
     "10h 36m",
-    "Certificate upon comition",
-    "4 practice tests",
-    "Assignments",
-    "24 articles",
-    "20 downloadable resources",
+    "Giấy chứng nhận khi đến",
+    "4 bài kiểm tra thực hành",
+    "Bài tập",
+    "24 bài viết",
+    "20 tài nguyên có thể tải xuống",
   ],
   learnings: [
-    "Key factors in the development of HR and People Management as a Generalist HR.",
-    "Generalist Human Resource Management, the Scope of HRM, Processes in HRM, and the Role of HRM in this framework.",
-    "Skills required for Generalist HR Professionals with case studies, assignments, and coursework.",
-    "Skills required for Generalist HR Professionals with case studies, assignments, and coursework.",
+    "Lập trình hướng đối tượng nâng cao (interface, abstract, generic).",
+    "Xử lý đa luồng, networking, và I/O nâng cao.",
+    "Làm việc với cơ sở dữ liệu qua JDBC.",
+    "Xây dựng giao diện người dùng bằng Swing/JavaFX.",
   ],
   price: "$68,00",
   oldPrice: "$90,00",
@@ -48,40 +48,7 @@ export default function CourseDetailPage({ courseId = "" }) {
   const [course, setCourse] = useState(defaultCourse);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
   
-    fetch('https://dummyjson.com/products/category/laptops')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.products || !Array.isArray(data.products) || !data.products.length) {
-          setError("No course data from API. Showing sample data.");
-          setCourse(defaultCourse);
-          return;
-        }
-        const item = data.products[0];
-        setCourse({
-          title: item.title || defaultCourse.title,
-          image: item.thumbnail || defaultCourse.image,
-          rating: item.rating || 4.5,
-          reviews: item.stock || 1000,
-          students: 5000,
-          description: item.description || defaultCourse.description,
-          author: defaultCourse.author,
-          features: defaultCourse.features,
-          learnings: defaultCourse.learnings,
-          price: `$${item.price}` || defaultCourse.price,
-          oldPrice: "$90,00",
-          discount: `${item.discountPercentage || 75}% off!`,
-        });
-      })
-      .catch(err => {
-        setError("Failed to fetch course data. Showing sample data.");
-        setCourse(defaultCourse);
-      })
-      .finally(() => setLoading(false));
-  }, []);
 
   return (
     <div className={styles.pageWrapper}>
@@ -111,7 +78,7 @@ export default function CourseDetailPage({ courseId = "" }) {
           <div className={styles.avatarGroup}>
             <img
               src={course.author.logo}
-              alt="HR University"
+              alt="VKU University"
               className={styles.avatarCircle}
             />
             <img
@@ -141,7 +108,7 @@ export default function CourseDetailPage({ courseId = "" }) {
             <BookOutlined
               style={{ marginRight: 8, color: "#1976d2", fontSize: 22 }}
             />
-            What you'll learn
+            Bạn sẽ học được gì?
           </h2>
           <div className={styles.learnBox}>
             <ul>
@@ -167,12 +134,12 @@ export default function CourseDetailPage({ courseId = "" }) {
             <span className={styles.oldPrice}>{course.oldPrice}</span>
             <span className={styles.discount}>{course.discount}</span>
           </div>
-          <button className={styles.enrollBtn}>Start course</button>
+          <button className={styles.enrollBtn}>Bắt đầu khóa học</button>
           <div className={styles.guaranteeText}>
-            14 day money back guarantee
+            Đảm bảo hoàn tiền trong vòng 14 ngày
           </div>
           <div className={styles.cardFeatures}>
-            <h4>This course includes:</h4>
+            <h4>Khóa học bao gồm:</h4>
             <ul>
               {course.features.map((f, i) => (
                 <li key={i}>

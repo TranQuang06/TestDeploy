@@ -24,14 +24,18 @@
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     text-align: left;
+    width: 350px;
+    height: 250px;
+    gap: 24px;
+
   }
   .iconWrapper {
-    width: 40px; height: 40px;
-    margin-bottom: 16px;
+    width: 20px; height: 40px;
+    margin-bottom: 55px;
   }
   .iconWrapper img {
-    width: 100%;
-    height: 100%;
+    width: 130px;
+    height: 100px;
     object-fit: contain;
   }
   .stepTitle {
@@ -62,4 +66,133 @@
   .checkBtn:hover {
     opacity: 0.9;
   }
+
+  /* --- Responsive Adjustments --- */
+
+/* Điều chỉnh cho màn hình Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+  .nextSection {
+    padding: 60px 24px; /* Giảm padding tổng thể */
+  }
+
+  .container h2 {
+    font-size: 1.6rem; /* Giảm kích thước tiêu đề */
+    margin-bottom: 28px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Điều chỉnh minmax cho tablet */
+    gap: 20px; /* Giảm khoảng cách giữa các thẻ */
+  }
+
+  .stepCard {
+    padding: 20px 18px; /* Giảm padding thẻ */
+  }
+
+  .iconWrapper {
+    width: 120px;
+    height: 90px;
+    margin-bottom: 15px;
+  }
+
+  .stepTitle {
+    font-size: 1.15rem; /* Giảm kích thước tiêu đề thẻ */
+  }
+
+  .stepDesc {
+    font-size: 0.9rem; /* Giảm kích thước mô tả thẻ */
+  }
+
+  .stepNumber {
+    font-size: 1.8rem; /* Giảm kích thước số */
+    top: 14px;
+    right: 14px;
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại (max-width: 768px) */
+@media (max-width: 768px) {
+  .nextSection {
+    padding: 40px 16px; /* Giảm padding tổng thể cho mobile */
+  }
+
+  .container h2 {
+    font-size: 1.4rem; /* Giảm kích thước tiêu đề chính */
+    margin-bottom: 24px;
+  }
+
+  .stepsGrid {
+    /* Cho phép chỉ 1 cột trên điện thoại nhỏ hơn */
+    grid-template-columns: 1fr; /* Mỗi thẻ chiếm 1 hàng */
+    gap: 16px; /* Giảm khoảng cách giữa các thẻ khi xếp chồng */
+  }
+
+  .stepCard {
+    width: 100%; /* Chiếm toàn bộ chiều rộng có sẵn */
+    height: auto; /* Chiều cao tự động */
+    padding: 18px 16px; /* Padding thẻ */
+    text-align: left; /* Căn trái nội dung */
+  }
+    .iconWrapper {
+    width: 100px; /* Giảm kích thước icon */
+    height: 75px;
+    margin-bottom: 10px;
+  }
+  .stepTitle {
+    font-size: 1.1rem;
+  }
+  .stepDesc {
+    font-size: 0.85rem;
+  }
+  .stepNumber {
+    font-size: 1.5rem;
+    top: 12px;
+    right: 12px;
+  }
+  .checkBtn {
+    margin-top: 20px; /* Điều chỉnh khoảng cách nút */
+    padding: 8px 20px; /* Điều chỉnh padding nút */
+    font-size: 0.9rem;
+  }
+}
+
+/* Điều chỉnh cho màn hình điện thoại rất nhỏ (max-width: 480px) */
+@media (max-width: 480px) {
+  .nextSection {
+    padding: 30px 12px; /* Giảm padding thêm */
+  }
+
+  .container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .stepCard {
+    padding: 16px 12px;
+  }
+
+  .iconWrapper {
+    width: 80px; /* Giảm kích thước icon nhỏ nhất */
+    height: 60px;
+  }
+
+  .stepTitle {
+    font-size: 1rem;
+  }
+
+  .stepDesc {
+    font-size: 0.8rem;
+  }
+
+  .stepNumber {
+    font-size: 1.3rem;
+    top: 10px;
+    right: 10px;
+  }
+
+  .checkBtn {
+    padding: 7px 18px;
+    font-size: 0.85rem;
+  }
+}
   

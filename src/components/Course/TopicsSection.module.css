@@ -170,27 +170,119 @@
   font-size: 1.1rem;
 }
 
-/* Responsive: khi màn hình nhỏ, show ít card hơn hoặc stack dọc */
-/* Ví dụ: nếu muốn mỗi card full width màn nhỏ */
-@media (max-width: 768px) {
+/* --- Responsive Adjustments --- */
+
+/* Điều chỉnh cho màn hình Tablet lớn (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .carouselSection {
+    padding: 40px 0;
+  }
+  .carouselWrapper {
+    padding: 0 18px; /* Giảm padding ngang */
+  }
   .cardsContainer {
-    gap: 16px;
+    gap: 20px; /* Giảm khoảng cách */
   }
   .card {
-    width: 240px;
+    width: 280px; /* Giảm chiều rộng card một chút */
+    height: 180px;
+  }
+  .arrowBtn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
   }
 }
 
-/* Nếu muốn khi quá nhỏ, chuyển thành grid dọc */
-@media (max-width: 480px) {
-  .carouselWrapper {
-    flex-direction: column;
-    align-items: flex-start;
+/* Điều chỉnh cho màn hình Tablet nhỏ / Điện thoại ngang (max-width: 768px) */
+@media (max-width: 768px) {
+  .carouselSection {
+    padding: 30px 0;
   }
-  .arrowBtn {
-    align-self: center;
+  .carouselWrapper {
+    padding: 0 16px;
   }
   .cardsContainer {
-    /* cho phép scroll ngang hoặc chuyển thành grid một cột */
+    gap: 16px; /* Giữ gap như bạn đề xuất */
+    justify-content: flex-start; /* Quan trọng: Căn trái các cards trong container cuộn */
+  }
+  .card {
+    width: 240px; /* Giữ width card như bạn đề xuất */
+    height: 160px;
+  }
+  .arrowBtn {
+    display: none; /* Ẩn mũi tên điều hướng trên mobile, dựa vào cuộn tay */
+  }
+}
+
+/* Điều chỉnh cho màn hình Điện thoại nhỏ (max-width: 480px) */
+@media (max-width: 480px) {
+  .carouselSection {
+    padding: 20px 0;
+  }
+  .carouselWrapper {
+    flex-direction: column; /* Các mũi tên và container xếp chồng */
+    gap: 15px; /* Khoảng cách giữa các phần tử xếp chồng */
+    padding: 0 12px;
+  }
+  .cardsContainer {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    justify-content: flex-start; /* Đảm bảo cards bắt đầu từ trái */
+    padding: 10px 0; /* Giữ padding */
+    gap: 12px; /* Giảm khoảng cách giữa cards */
+  }
+  .card {
+    width: 90%; /* Hoặc một % nào đó để card trông cân đối trên mobile */
+    min-width: 200px; /* Đảm bảo card không quá nhỏ */
+    max-width: 320px; /* Giới hạn max-width để không quá to trên điện thoại */
+    height: 150px;
+    padding: 15px;
+    font-size: 1.1rem;
+    margin: 0 auto; /* Căn giữa card trong trường hợp nó không full width */
+    scroll-snap-align: center; /* Dựng card ở giữa khi cuộn */
+  }
+  /* Nếu bạn thực sự muốn carouselWrapper chuyển thành grid dọc khi quá nhỏ,
+     thay vì flex-direction: column và cuộn ngang, bạn có thể làm như sau: */
+  /*
+  .carouselWrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      padding: 0 12px;
+  }
+  .cardsContainer {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      overflow-x: hidden; // Tắt cuộn ngang
+      scroll-snap-type: none; // Tắt scroll snap
+  }
+  .card {
+      width: 100%;
+      height: auto;
+      max-width: none;
+      margin: 0;
+  }
+  */
+}
+
+/* Điều chỉnh cho màn hình điện thoại rất nhỏ (max-width: 360px) */
+@media (max-width: 360px) {
+  .carouselSection {
+    padding: 15px 0;
+  }
+  .carouselWrapper {
+    gap: 10px;
+    padding: 0 8px;
+  }
+  .cardsContainer {
+    gap: 10px;
+  }
+  .card {
+    width: 85%; /* Điều chỉnh lại % để phù hợp */
+    min-width: 180px;
+    height: 140px;
+    padding: 12px;
+    font-size: 1rem;
   }
 }

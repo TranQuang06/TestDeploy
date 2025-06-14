@@ -4,25 +4,25 @@ import styles from './NextStepsSection.module.css';
 export default function NextStepsSection() {
   const steps = [
     {
-      icon: '/assets/icons/icon1.svg',
-      title: 'Choose a course that suits your needs',
-      desc: 'We are passionate about good and smart work. We believe that each of us, through our own actions.',
+      icon: '/assets/img/Course/Next1.png',
+      title: 'Chọn khóa học phù hợp với mục tiêu của bạn',
+      desc: 'Chúng tôi tin rằng mỗi cá nhân đều có tiềm năng to lớn. Hãy chọn khóa học giúp bạn phát triển tối đa năng lực và đam mê của mình.',
     },
     {
-      icon: '/assets/icons/icon2.svg',
-      title: 'Add it to your cart and make the payment',
-      desc: 'We accelerate the development of production companies on a daily basis using lean tools.',
+      icon: '/assets/img/Course/Next2.png',
+      title: 'Đăng ký và bắt đầu hành trình học tập',
+      desc: ' Quy trình đăng ký đơn giản, dễ dàng. Chúng tôi sẽ hướng dẫn bạn từng bước để nhanh chóng bắt đầu trải nghiệm học tập của mình.',
     },
     {
-      icon: '/assets/icons/icon3.svg',
-      title: 'Enjoy lifetime access to our courses',
-      desc: 'We do this for everyone who wants to be better tomorrow than it is today.',
+      icon: '/assets/img/COurse/Next3.png',
+      title: 'Tận hưởng quyền truy cập trọn đời và phát triển không ngừng',
+      desc: 'Với quyền truy cập không giới hạn, bạn có thể học theo nhịp độ của riêng mình, ôn lại kiến thức và luôn cập nhật những nội dung mới nhất.',
     },
   ];
   return (
     <section className={styles.nextSection}>
       <div className={styles.container}>
-        <h2>What should you do next?</h2>
+        <h2>Bạn nên làm gì tiếp theo?</h2>
         <div className={styles.stepsGrid}>
           {steps.map((s, idx) => (
             <div key={idx} className={styles.stepCard}>
@@ -35,7 +35,6 @@ export default function NextStepsSection() {
             </div>
           ))}
         </div>
-        <button className={styles.checkBtn}>Check all courses</button>
       </div>
     </section>
   );

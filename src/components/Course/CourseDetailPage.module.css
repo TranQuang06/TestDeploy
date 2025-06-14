@@ -203,7 +203,7 @@
   }
   
   .currentPrice {
-    color: #ea2b63;
+    color:var(--secondary-color);
     font-size: 1.7rem;
     font-weight: 700;
   }
@@ -225,7 +225,7 @@
   
   .enrollBtn {
     width: 100%;
-    background: #ea2b63;
+    background: var(--primary-color);
     color: #fff;
     font-weight: 600;
     font-size: 17px;
@@ -237,7 +237,7 @@
     transition: background 0.2s;
   }
   .enrollBtn:hover {
-    background: #d91e56;
+    background: var(--secondary-color);
   }
   
   .guaranteeText {
