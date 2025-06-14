@@ -3,6 +3,13 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
+}
+
+/* Đảm bảo Leaflet container có kích thước đúng */
+.mapContainer :global(.leaflet-container) {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .loadingMap {

@@ -20,6 +20,13 @@ export default function JobMap({ jobData = [], selectedJobId, onSelectJob }) {
     setMapError(error.message || "Error loading map");
   };
 
+  // Reset error khi có dữ liệu mới
+  React.useEffect(() => {
+    if (mapError && jobData.length > 0) {
+      setMapError(null);
+    }
+  }, [jobData, mapError]);
+
   if (mapError) {
     return (
       <div className={styles.mapError}>
