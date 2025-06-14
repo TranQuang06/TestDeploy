@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "leaflet/dist/leaflet.css";
 import { AuthProvider } from "../contexts/AuthContext";
 
 // Import chat utilities for development/testing

@@ -60,38 +60,69 @@ export default function MapComponent({
   jobData = [],
   selectedJobId,
   onSelectJob,
+  onError,
 }) {
   const [isMapReady, setIsMapReady] = useState(false);
   const markerRefs = useRef({});
 
+  // Xử lý lỗi
+  const handleError = (error) => {
+    console.error("MapComponent error:", error);
+    if (onError) {
+      onError(error);
+    }
+  };
+
   // Kiểm tra và lọc các job có tọa độ hợp lệ
   const validJobs = jobData.filter(
-    (j) => typeof j.lat === "number" && typeof j.lng === "number"
+    (j) =>
+      typeof j.lat === "number" &&
+      typeof j.lng === "number" &&
+      !isNaN(j.lat) &&
+      !isNaN(j.lng) &&
+      j.lat >= -90 &&
+      j.lat <= 90 &&
+      j.lng >= -180 &&
+      j.lng <= 180
   );
 
   const bounds =
     validJobs.length > 0
       ? validJobs.map((j) => [j.lat, j.lng])
       : [[52.2297, 21.0122]]; // Default to Warsaw if no valid jobs
-
   // Nếu không có job hợp lệ, hiển thị bản đồ mặc định
   if (validJobs.length === 0) {
     return (
-      <MapContainer
-        center={[52.2297, 21.0122]} // Warsaw, Poland (mặc định)
-        zoom={5}
-        scrollWheelZoom
-        style={{ width: "100%", height: "100%" }}
-        whenCreated={() => setIsMapReady(true)}
-      >
-        <TileLayer
-          attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <div style={{ width: "100%", height: "100%", position: "relative" }}>
+        {" "}
+        <MapContainer
+          center={[52.2297, 21.0122]} // Warsaw, Poland (mặc định)
+          zoom={5}
+          scrollWheelZoom
+          style={{ width: "100%", height: "100%" }}
+          whenCreated={(map) => {
+            try {
+              setIsMapReady(true);
+              setTimeout(() => {
+                map.invalidateSize();
+              }, 250);
+            } catch (error) {
+              handleError(error);
+            }
+          }}
+        >
+          <TileLayer
+            attribution="&copy; OpenStreetMap contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            onError={(error) =>
+              handleError(new Error("Failed to load map tiles"))
+            }
+          />
+        </MapContainer>
         <div className={styles.noJobsOverlay}>
           No jobs with location data found. Try a different search.
         </div>
-      </MapContainer>
+      </div>
     );
   }
 
@@ -101,18 +132,28 @@ export default function MapComponent({
       onSelectJob(job);
     }
   };
-
   return (
     <MapContainer
       center={bounds[0]} // Lấy vị trí đầu tiên làm center
       zoom={5}
       scrollWheelZoom
       style={{ width: "100%", height: "100%" }}
-      whenCreated={() => setIsMapReady(true)}
+      whenCreated={(map) => {
+        try {
+          setIsMapReady(true);
+          // Invalidate size để đảm bảo map render đúng
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 250);
+        } catch (error) {
+          handleError(error);
+        }
+      }}
     >
       <TileLayer
         attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        onError={(error) => handleError(new Error("Failed to load map tiles"))}
       />
 
       {/* Chỉ fit bounds khi map đã sẵn sàng và có ít nhất 2 marker */}
