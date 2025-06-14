@@ -1,6 +1,7 @@
 import styles from "../CreateCV/CreateCV.module.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ChatButton from "../../components/ChatButton/ChatButton";
 import { useState, useEffect } from "react"; // Thêm import useState và useEffect
 import { Row, Col, Tabs } from "antd";
 import {
@@ -100,12 +101,12 @@ function CreateCV() {
   const items = [
     {
       key: "1",
-      label: "Resume Templates",
+      label: "Mẫu sơ yếu lý lịch",
       children: <ResumeTemplatesTab onUseTemplate={handleUseTemplate} />,
     },
     {
       key: "2",
-      label: "Cover Letter Templates",
+      label: "Mẫu thư xin việc",
       children: "Content of Tab Pane 2",
     },
   ];
@@ -196,74 +197,74 @@ function CreateCV() {
       <div className={styles.sectionOne}>
         <Row className="container">
           <Col>
-            <div className={styles.headerTitle}>Cover Letter</div>
+            <div className={styles.headerTitle}>Mẫu CV dành cho bạn bạn</div>
           </Col>
         </Row>
         <Row className="container">
           <Col className={styles.leftSide} span={14}>
             <div className={styles.leftSideContent}>
-              <div className={styles.title}>Letter Content</div>
+              <div className={styles.title}>Mẫu thư xin việc</div>
               <div className={styles.letterContent} contentEditable="true">
-                <div>About company</div>
+                <div>Java company</div>
                 <div>More info...</div>
-                <h3>Heading 3</h3>
+                <h3>Thư xin việc</h3>
                 <div>
-                  The place where you can write your cover letter content. and
-                  you can add more information about your skills, experience,
-                  and why you are a good fit for the job.
+                  Kính gửi Phòng Tuyển dụng, Tôi viết thư này để bày tỏ sự quan
+                  tâm đến các cơ hội việc làm tại quý công ty. Với kinh nghiệm
+                  trong lập trình khả năng lập trình java, tôi tự tin có thể
+                  đóng góp vào sự phát triển của quý vị. Tôi mong muốn được thảo
+                  luận thêm về cách kinh nghiệm của mình phù hợp với nhu cầu của
+                  công ty trong buổi phỏng vấn. <br></br>
+                  Trân trọng,<br></br>
+                  Nguyễn Ngọc Vũ
                 </div>
               </div>
               <div className={styles.btnAdd}>
                 <button>
                   <PlusCircleOutlined />
-                  <span className={styles.btnText}>Add Signature</span>
+                  <span className={styles.btnText}>Thêm chữ ký</span>
                 </button>
               </div>
             </div>
           </Col>
           <Col className={styles.rightSide} span={10}>
             <div className={styles.rightTitle}>
-              FREE ONLINE COVER LETTER BUILDER
+              CÔNG CỤ TẠO THƯ XIN VIỆC TRỰC TUYẾN MIỄN PHÍ
             </div>
             <div className={styles.rightHeader}>
-              Bring out the best in your unique background.
+              Khai thác tối đa nền tảng độc đáo của bạn.
             </div>
             <div className={styles.rightDescription}>
-              When you build a cover letter with RevampCV, re amplifying your
-              application with read-worthy templates that match your resume
-              design.
+              Khi bạn xây dựng thư xin việc với RevampCV, hãy khuếch đại thêm hồ
+              sơ ứng tuyển của bạn với các mẫu dễ đọc, phù hợp với thiết kế sơ
+              yếu lý lịch của bạn.
             </div>
-
             <ul className={styles.featureList}>
               <li className={styles.featureItem}>
                 <div className={`${styles.featureDot} ${styles.featureRed}`}>
                   <CheckOutlined />
                 </div>
-                <span className={styles.featureText}>
-                  Templates that get read
-                </span>
+                <span className={styles.featureText}>Mẫu thư được đọc kỹ</span>
               </li>
               <li className={styles.featureItem}>
                 <div className={`${styles.featureDot} ${styles.featureBlue}`}>
                   <CheckOutlined />
                 </div>
                 <span className={styles.featureText}>
-                  Fill-in-the-blank sections
+                  Các phần điền vào chỗ trống
                 </span>
               </li>
               <li className={styles.featureItem}>
                 <div className={`${styles.featureDot} ${styles.featureOrange}`}>
                   <CheckOutlined />
                 </div>
-                <span className={styles.featureText}>
-                  Intuitive customizations
-                </span>
+                <span className={styles.featureText}>Tùy chỉnh trực quan</span>
               </li>
             </ul>
 
             <button className={styles.buildButton}>
               <ArrowRightOutlined className={styles.arrowIcon} />
-              Build a Resume
+              Tạo sơ yếu lí lịch
             </button>
           </Col>
         </Row>
@@ -271,7 +272,9 @@ function CreateCV() {
       {/* END OF SECTION ONE  */}
       {/* START OF SECTION TWO */}
       <div className={styles.sectionTwo}>
-        <div className={styles.sectionTwoTitle}>Create Your CV in Minutes</div>
+        <div className={styles.sectionTwoTitle}>
+          Tạo CV của bạn trong vài phút
+        </div>
         <div className="container">
           <div className={styles.boxList}>
             <div className={styles.boxItemLeft}>
@@ -283,10 +286,11 @@ function CreateCV() {
               </div>
               <div className={styles.boxContent}>
                 <div className={styles.boxTitle}>
-                  Website templates for every industry
+                  Mẫu trang web cho mọi ngành công nghiệp
                 </div>
                 <div className={styles.boxDescription}>
-                  'll show you the type of language used in your field.
+                  Tôi sẽ cho bạn thấy loại ngôn ngữ được sử dụng trong lĩnh vực
+                  của bạn.
                 </div>
               </div>
             </div>
@@ -299,11 +303,11 @@ function CreateCV() {
               </div>
               <div className={styles.boxContent}>
                 <div className={styles.boxTitle}>
-                  Example title for the website page
+                  Ví dụ tiêu đề cho trang web
                 </div>
                 <div className={styles.boxDescription}>
-                  Send it our way and let our experts review and bring it to
-                  perfection! Illustrated with real-life examples.
+                  Hãy gửi nó cho chúng tôi và để các chuyên gia của chúng tôi
+                  xem xét và hoàn thiện nó! Minh họa bằng các ví dụ thực tế.
                 </div>
               </div>
             </div>
@@ -499,6 +503,7 @@ function CreateCV() {
       </div>
       {/* END OF SECTION FIVE */}
       <Footer />
+      <ChatButton />
     </>
   );
 }

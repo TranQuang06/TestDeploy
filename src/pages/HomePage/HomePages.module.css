@@ -9,23 +9,23 @@
 
 /* Hero - section 1 */
 .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 2rem;
-    padding: 124px 16px 24px;
-    background: #201514;
-    color: #fff;
-    width: 100%;
-    max-width: 100vw;
-    overflow: hidden; /* Ngăn content tràn ra ngoài */
-    box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 124px 16px 24px;
+  background: #201514;
+  color: #fff;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden; /* Ngăn content tràn ra ngoài */
+  box-sizing: border-box;
 }
-.hero .left { 
-    max-width: 100%;
-    padding-left: 200px;
-    width: 100%;
-    box-sizing: border-box;
+.hero .left {
+  max-width: 100%;
+  padding-left: 350px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .hero .left h1 {
   font-size: 2.5rem;
@@ -100,13 +100,13 @@
   overflow: visible;
 }
 .hero .imageContainer img {
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    height: 420px;
-    object-fit: cover; /* Crop ảnh nếu tỷ lệ không khớp */
-    object-position: center; /* Canh giữa ảnh */
-    border-radius: 1rem;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  height: 420px;
+  object-fit: cover; /* Crop ảnh nếu tỷ lệ không khớp */
+  object-position: center; /* Canh giữa ảnh */
+  border-radius: 1rem;
 }
 .hero .uptimeCard {
   position: absolute;
@@ -246,16 +246,16 @@
     text-align: center;
     gap: 3rem;
   }
-  
+
   .hero .left {
     padding-left: 0;
     order: 1;
   }
-  
+
   .hero .right {
     order: 2;
   }
-  
+
   .hero .partners {
     order: 3;
     flex-wrap: wrap;
@@ -267,21 +267,21 @@
   .hero {
     padding: 16px 12px;
   }
-  
+
   .hero .left h1 {
     font-size: 2rem;
   }
-  
+
   .hero .imageContainer img {
     max-width: 300px;
     height: 320px;
   }
-  
+
   .hero .uptimeCard {
     left: -50px;
     width: 8rem;
   }
-  
+
   .hero .partners img {
     max-height: 1.5rem;
     padding-right: 30px;

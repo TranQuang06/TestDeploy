@@ -266,10 +266,6 @@ function Register() {
     <>
       <div className={styles.registerWrapper}>
         <div className={styles.registerLeft} ref={leftRef}>
-          <div className={styles.brand}>
-            <img src="/logo.png" alt="logo" />
-            <h2>SuperStars</h2>
-          </div>{" "}
           <h2> Đăng Kí </h2>{" "}
           {message && (
             <div
@@ -480,18 +476,20 @@ function Register() {
               mô-đun phong phú. Hãy tham gia cùng chúng tôi và bắt đầu xây dựng
               ứng dụng của bạn ngay hôm nay.
             </p>
-            <p>Hơn 17 nghìn người đã tham gia cùng chúng tôi, đến lượt bạn rồi</p>
+            <p>
+              Hơn 17 nghìn người đã tham gia cùng chúng tôi, đến lượt bạn rồi
+            </p>
             <div className={styles.registerCta}>
               <h5>
-              Có được công việc phù hợp và đúng đắn
+                Có được công việc phù hợp và đúng đắn
                 <br />
                 địa điểm nộp đơn ngay bây giờ
               </h5>
 
               <div className={styles.ctaRow}>
                 <p>
-                Hãy là một trong những người sáng lập đầu tiên trải nghiệm cách dễ nhất để
-                bắt đầu điều hành một doanh nghiệp.
+                  Hãy là một trong những người sáng lập đầu tiên trải nghiệm
+                  cách dễ nhất để bắt đầu điều hành một doanh nghiệp.
                 </p>
                 <div className={styles.avatars}>
                   <img src="/avatar1.jpg" alt="avatar1" />
