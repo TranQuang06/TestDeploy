@@ -56,7 +56,7 @@ function HomePage() {
             <img src="../assets/img/HomePage/img_01.avif" alt="Happy user" />
             <div className={styles.uptimeCard}>
               <div className={styles.upHeader}>
-                <span>Uptime Guarantee</span>
+                <span>Mức độ hài lòng</span>
                 <FaStar />
               </div>
               <div className={styles.percent}>99.99%</div>
@@ -84,7 +84,9 @@ function HomePage() {
         <div className={styles.statsContainer}>
           {/* Text bên trái */}
           <div className={styles.statsText}>
-            <p className={styles.statsSubtitle}>Những con số biết nói từ My Work</p>
+            <p className={styles.statsSubtitle}>
+              Những con số biết nói từ My Work
+            </p>
             <h2 className={styles.statsTitle}>Tham gia ngay hôm nay</h2>
           </div>
 

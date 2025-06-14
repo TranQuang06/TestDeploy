@@ -1,5 +1,6 @@
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ChatButton from "../../components/ChatButton/ChatButton";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { Pagination, Slider, InputNumber } from "antd";
@@ -1699,6 +1700,7 @@ function FindJob() {
         </div>
       </div>
       <Footer />
+      <ChatButton />
     </>
   );
 }

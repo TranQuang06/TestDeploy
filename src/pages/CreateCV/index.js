@@ -1,6 +1,7 @@
 import styles from "../CreateCV/CreateCV.module.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ChatButton from "../../components/ChatButton/ChatButton";
 import { useState, useEffect } from "react"; // Thêm import useState và useEffect
 import { Row, Col, Tabs } from "antd";
 import {
@@ -196,13 +197,13 @@ function CreateCV() {
       <div className={styles.sectionOne}>
         <Row className="container">
           <Col>
-            <div className={styles.headerTitle}>Cover Letter</div>
+            <div className={styles.headerTitle}>Mẫu CV dành cho bạn bạn</div>
           </Col>
         </Row>
         <Row className="container">
           <Col className={styles.leftSide} span={14}>
             <div className={styles.leftSideContent}>
-              <div className={styles.title}>Letter Content</div>
+              <div className={styles.title}>Mẫu thư xin việc</div>
               <div className={styles.letterContent} contentEditable="true">
                 <div>Java company</div>
                 <div>More info...</div>
@@ -210,10 +211,10 @@ function CreateCV() {
                 <div>
                   Kính gửi Phòng Tuyển dụng, Tôi viết thư này để bày tỏ sự quan
                   tâm đến các cơ hội việc làm tại quý công ty. Với kinh nghiệm
-                  trong lập trình khả năng lập trình java, tôi tự tin có thể đóng
-                  góp vào sự phát triển của quý vị. Tôi mong muốn được thảo luận
-                  thêm về cách kinh nghiệm của mình phù hợp với nhu cầu của công
-                  ty trong buổi phỏng vấn. <br></br>
+                  trong lập trình khả năng lập trình java, tôi tự tin có thể
+                  đóng góp vào sự phát triển của quý vị. Tôi mong muốn được thảo
+                  luận thêm về cách kinh nghiệm của mình phù hợp với nhu cầu của
+                  công ty trong buổi phỏng vấn. <br></br>
                   Trân trọng,<br></br>
                   Nguyễn Ngọc Vũ
                 </div>
@@ -228,22 +229,22 @@ function CreateCV() {
           </Col>
           <Col className={styles.rightSide} span={10}>
             <div className={styles.rightTitle}>
-            CÔNG CỤ TẠO THƯ XIN VIỆC TRỰC TUYẾN MIỄN PHÍ
+              CÔNG CỤ TẠO THƯ XIN VIỆC TRỰC TUYẾN MIỄN PHÍ
             </div>
             <div className={styles.rightHeader}>
-            Khai thác tối đa nền tảng độc đáo của bạn.
+              Khai thác tối đa nền tảng độc đáo của bạn.
             </div>
             <div className={styles.rightDescription}>
-            Khi bạn xây dựng thư xin việc với RevampCV, hãy khuếch đại thêm hồ sơ ứng tuyển của bạn với các mẫu dễ đọc, phù hợp với thiết kế sơ yếu lý lịch của bạn.
+              Khi bạn xây dựng thư xin việc với RevampCV, hãy khuếch đại thêm hồ
+              sơ ứng tuyển của bạn với các mẫu dễ đọc, phù hợp với thiết kế sơ
+              yếu lý lịch của bạn.
             </div>
             <ul className={styles.featureList}>
               <li className={styles.featureItem}>
                 <div className={`${styles.featureDot} ${styles.featureRed}`}>
                   <CheckOutlined />
                 </div>
-                <span className={styles.featureText}>
-                  Mẫu thư được đọc kỹ
-                </span>
+                <span className={styles.featureText}>Mẫu thư được đọc kỹ</span>
               </li>
               <li className={styles.featureItem}>
                 <div className={`${styles.featureDot} ${styles.featureBlue}`}>
@@ -257,9 +258,7 @@ function CreateCV() {
                 <div className={`${styles.featureDot} ${styles.featureOrange}`}>
                   <CheckOutlined />
                 </div>
-                <span className={styles.featureText}>
-                  Tùy chỉnh trực quan
-                </span>
+                <span className={styles.featureText}>Tùy chỉnh trực quan</span>
               </li>
             </ul>
 
@@ -273,7 +272,9 @@ function CreateCV() {
       {/* END OF SECTION ONE  */}
       {/* START OF SECTION TWO */}
       <div className={styles.sectionTwo}>
-        <div className={styles.sectionTwoTitle}>Tạo CV của bạn trong vài phút</div>
+        <div className={styles.sectionTwoTitle}>
+          Tạo CV của bạn trong vài phút
+        </div>
         <div className="container">
           <div className={styles.boxList}>
             <div className={styles.boxItemLeft}>
@@ -288,7 +289,8 @@ function CreateCV() {
                   Mẫu trang web cho mọi ngành công nghiệp
                 </div>
                 <div className={styles.boxDescription}>
-                  Tôi sẽ cho bạn thấy loại ngôn ngữ được sử dụng trong lĩnh vực của bạn.
+                  Tôi sẽ cho bạn thấy loại ngôn ngữ được sử dụng trong lĩnh vực
+                  của bạn.
                 </div>
               </div>
             </div>
@@ -304,7 +306,8 @@ function CreateCV() {
                   Ví dụ tiêu đề cho trang web
                 </div>
                 <div className={styles.boxDescription}>
-                  Hãy gửi nó cho chúng tôi và để các chuyên gia của chúng tôi xem xét và hoàn thiện nó! Minh họa bằng các ví dụ thực tế.
+                  Hãy gửi nó cho chúng tôi và để các chuyên gia của chúng tôi
+                  xem xét và hoàn thiện nó! Minh họa bằng các ví dụ thực tế.
                 </div>
               </div>
             </div>
@@ -500,6 +503,7 @@ function CreateCV() {
       </div>
       {/* END OF SECTION FIVE */}
       <Footer />
+      <ChatButton />
     </>
   );
 }
