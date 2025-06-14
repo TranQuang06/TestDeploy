@@ -49,7 +49,7 @@ function Footer() {
             <div className={styles.column}>
               <h3>LIÊN HỆ & PHÁP LÝ</h3>
               <ul>
-                <li><Link href="/divi">Divipodcast@support.com</Link></li>
+                <li><Link href="/divi">SuperStars123@gmail.com</Link></li>
                 <li><Link href="/privacy">Chính sách bảo mật</Link></li>
                 <li><Link href="/terms">Điều khoản và điều kiện</Link></li>
                 <li><Link href="/contact">Chính sách hỗ trợ người khuyết tật</Link></li>
