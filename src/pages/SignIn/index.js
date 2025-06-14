@@ -137,17 +137,13 @@ function SignIn() {
     <>
       <div className={styles.signinWrapper}>
         <div className={styles.signinLeft} ref={leftRef}>
-          <div className={styles.brand}>
-            <img src="/logo.png" alt="logo" />
-            <h2>SuperStars</h2>
-          </div>{" "}
-          <h2>Đăng Nhập</h2>
+          <h2>Sign in</h2>
           {/* Form đăng nhập, có thể bổ sung validate ở bước sau */}
           <form
             className={`${styles.signinForm} signin-form`}
             onSubmit={handleSubmit}
           >
-            <label>Email</label>
+            <label>Email Address</label>
             <input
               type="email"
               placeholder="johndoe@gmail.com"
@@ -155,7 +151,7 @@ function SignIn() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <label>Mật khẩu</label>
+            <label>Password</label>
             <div className={styles.passwordWrapper}>
               <input
                 type={showPassword ? "text" : "password"}
@@ -172,9 +168,9 @@ function SignIn() {
             {error && <div className={styles.errorMessage}>{error}</div>}
             <div className={styles.signinOptions}>
               <label>
-                <input type="checkbox" /> Lưu thông tin đăng nhập
+                <input type="checkbox" /> Remember me
               </label>
-              <Link href="#">Quên mật khẩu</Link>
+              <Link href="#">Forgot Password?</Link>
             </div>
             <button
               ref={btnRef}
@@ -182,13 +178,13 @@ function SignIn() {
               className={`${styles.signinButton} signinButton`}
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Đăng nhập"}
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
             <div className={styles.signinBottom}>
               <p>
-                Không có tài khoản?{" "}
+                Don’t have an account?{" "}
                 <Link href="/Register" className={styles.link}>
-                  Đăng Kí tại đây
+                  Register
                 </Link>
               </p>
 
@@ -210,27 +206,24 @@ function SignIn() {
         {/* Panel bên phải - trang trí, giới thiệu sản phẩm */}
         <div className={styles.signinRight} ref={rightRef}>
           <div className={styles.signinPanel}>
-            <h4>Chào mừng đến SuperStars</h4>
+            <h4>Welcome to SuperStars</h4>
             <p>
-              SuperStars giúp các nhà phát triển xây dựng các bảng điều khiển
-              được tổ chức và mã hóa tốt với giao diện người dùng đẹp mắt và các
-              mô-đun phong phú. Hãy tham gia cùng chúng tôi và bắt đầu xây dựng
-              ứng dụng của bạn ngay hôm nay.
+              SuperStars helps developers to build organized and well coded
+              dashboards full of beautiful UI and rich modules. Join us and
+              start building your application today.
             </p>
-            <p>
-              Hơn 17 nghìn người đã tham gia cùng chúng tôi, đến lượt bạn rồi
-            </p>
+            <p>More than 17k people joined us, it’s your turn</p>
             <div className={styles.signinCta}>
               <h5>
-                Có được công việc phù hợp và đúng đắn
+                Get your right job and right
                 <br />
-                địa điểm nộp đơn ngay bây giờ
+                place apply now
               </h5>
 
               <div className={styles.ctaRow}>
                 <p>
-                  Hãy là một trong những người sáng lập đầu tiên trải nghiệm
-                  cách dễ nhất để bắt đầu điều hành một doanh nghiệp.
+                  Be among the first founders to experience the easiest way to
+                  start run a business.
                 </p>
                 <div className={styles.avatars}>
                   <img src="/avatar1.jpg" alt="avatar1" />

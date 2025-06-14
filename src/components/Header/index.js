@@ -231,11 +231,16 @@ function Header() {
                 </div>
               </Dropdown>
             </li>
+            <li className={styles.navItem}>
+              <Link href="/Course" className={styles.navLink}>
+                Khóa học
+              </Link>
+            </li>
 
             {/* Về chúng tôi - không có dropdown */}
             <li className={styles.navItem}>
               <Link href="/Blog" className={styles.navLink}>
-                Về chúng tôi
+                Blog
               </Link>
             </li>
 
@@ -243,11 +248,6 @@ function Header() {
             <li className={styles.navItem}>
               <Link href="/Social" className={styles.navLink}>
                 Social
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/Course" className={styles.navLink}>
-                Khóa học
               </Link>
             </li>
           </ul>
