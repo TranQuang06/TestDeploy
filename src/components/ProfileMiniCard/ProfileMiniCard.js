@@ -47,9 +47,7 @@ const ProfileMiniCard = ({ userId, position, onClose }) => {
     if (userId) {
       fetchUserProfile();
     }
-  }, [userId, user]);
-
-  // Auto-adjust position to prevent card from going off-screen
+  }, [userId, user]);  // Auto-adjust position to prevent card from going off-screen
   const getAdjustedPosition = () => {
     const cardWidth = 320;
     const cardHeight = 400;
@@ -61,15 +59,21 @@ const ProfileMiniCard = ({ userId, position, onClose }) => {
 
     // Adjust horizontal position if card goes off screen
     if (adjustedLeft + cardWidth > viewportWidth) {
-      adjustedLeft = viewportWidth - cardWidth - 10;
+      adjustedLeft = viewportWidth - cardWidth - 20; // More margin from edge
     }
-    if (adjustedLeft < 10) {
-      adjustedLeft = 10;
+    if (adjustedLeft < 20) {
+      adjustedLeft = 20;
     }
 
     // Adjust vertical position if card goes off screen
-    if (adjustedTop + cardHeight > viewportHeight + window.scrollY) {
-      adjustedTop = position.top - cardHeight - 16; // Show above avatar instead
+    // For fixed positioning, we check against viewport height directly
+    if (adjustedTop + cardHeight > viewportHeight) {
+      adjustedTop = Math.max(20, position.top - cardHeight - 20); // Show above avatar if possible
+    }
+
+    // Ensure card doesn't go above viewport
+    if (adjustedTop < 20) {
+      adjustedTop = 20;
     }
 
     return {
@@ -95,17 +99,16 @@ const ProfileMiniCard = ({ userId, position, onClose }) => {
   const handleMessage = () => {
     // TODO: Implement messaging functionality
     console.log("Message user:", userId);
-  };
-  if (loading) {
+  };  if (loading) {
     const adjustedPosition = getAdjustedPosition();
     return (
       <div
         className={styles.miniCard}
         style={{
-          position: "absolute",
+          position: "fixed",
           top: adjustedPosition.top,
           left: adjustedPosition.left,
-          zIndex: 1000,
+          zIndex: 9999,
         }}
       >
         <div className={styles.loading}>
@@ -124,17 +127,16 @@ const ProfileMiniCard = ({ userId, position, onClose }) => {
     "Người dùng ẩn danh";
 
   const adjustedPosition = getAdjustedPosition();
-
   return (
     <div
       className={styles.miniCard}
       style={{
-        position: "absolute",
+        position: "fixed",
         top: adjustedPosition.top,
         left: adjustedPosition.left,
-        zIndex: 1000,
+        zIndex: 9999,
       }}
-      onMouseEnter={() => {}} // Prevent card from disappearing
+      onMouseEnter={() => {}} // Prevent card from disappearing when hovering over it
       onMouseLeave={onClose}
     >
       {/* Cover Photo */}

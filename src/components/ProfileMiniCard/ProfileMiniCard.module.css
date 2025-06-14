@@ -6,6 +6,11 @@
   border: 1px solid #e5e7eb;
   overflow: hidden;
   animation: fadeInUp 0.2s ease-out;
+  position: fixed; /* Use fixed positioning for better control */
+  z-index: 9999; /* Higher z-index to ensure it appears above other elements */
+  max-height: 90vh; /* Prevent card from being too tall */
+  overflow-y: auto; /* Allow scrolling if content is too long */
+  pointer-events: auto; /* Ensure card can receive mouse events */
 }
 
 @keyframes fadeInUp {
