@@ -1,17 +1,69 @@
+import React, { memo, useMemo } from "react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import SearchSection from "../../components/SearchSection/SearchSection";
-import JobsSection from "../../components/JobsSection/JobsSection";
-import FashionSection from "../../components/FashionSection/FashionSection";
-import ImpressiveNumbersSection from "../../components/ImpressiveNumbersSection/ImpressiveNumbersSection";
-import ThiTruongHomNay from "../../components/ThiTruongHomNay/ThiTruong";
+import ChatButton from "../../components/ChatButton/ChatButton";
+import Loading from "../../components/ui/Loading";
+import { withIntersectionObserver } from "../../lib/hoc";
 import styles from "../HomePage/HomePages.module.css";
 import { FaStar } from "react-icons/fa";
-import { FiArrowUpRight } from "react-icons/fi";
-import ChatButton from "../../components/ChatButton/ChatButton";
 
-function HomePage() {
+// Lazy load heavy components
+const SearchSection = dynamic(
+  () => import("../../components/SearchSection/SearchSection"),
+  {
+    loading: () => <Loading.Card height="300px" />,
+    ssr: false,
+  }
+);
+
+const JobsSection = dynamic(
+  () => import("../../components/JobsSection/JobsSection"),
+  {
+    loading: () => <Loading.Card height="400px" />,
+    ssr: false,
+  }
+);
+
+const FashionSection = dynamic(
+  () => import("../../components/FashionSection/FashionSection"),
+  {
+    loading: () => <Loading.Card height="300px" />,
+    ssr: false,
+  }
+);
+
+const ImpressiveNumbersSection = dynamic(
+  () =>
+    import(
+      "../../components/ImpressiveNumbersSection/ImpressiveNumbersSection"
+    ),
+  {
+    loading: () => <Loading.Card height="200px" />,
+    ssr: false,
+  }
+);
+
+const ThiTruongHomNay = dynamic(
+  () => import("../../components/ThiTruongHomNay/ThiTruong"),
+  {
+    loading: () => <Loading.Card height="300px" />,
+    ssr: false,
+  }
+);
+
+// Optimize with intersection observer for below-fold content
+const LazySearchSection = withIntersectionObserver(SearchSection);
+const LazyJobsSection = withIntersectionObserver(JobsSection);
+const LazyFashionSection = withIntersectionObserver(FashionSection);
+const LazyImpressiveNumbersSection = withIntersectionObserver(
+  ImpressiveNumbersSection
+);
+const LazyThiTruongHomNay = withIntersectionObserver(ThiTruongHomNay);
+
+const HomePage = memo(() => {
   return (
     <>
       <Header />
@@ -53,7 +105,15 @@ function HomePage() {
         {/* RIGHT */}
         <div className={styles.right}>
           <div className={styles.imageContainer}>
-            <img src="../assets/img/HomePage/img_01.avif" alt="Happy user" />
+            <Image
+              src="/assets/img/HomePage/img_01.avif"
+              alt="Happy user"
+              width={500}
+              height={400}
+              priority
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            />
             <div className={styles.uptimeCard}>
               <div className={styles.upHeader}>
                 <span>Mức độ hài lòng</span>
@@ -69,12 +129,42 @@ function HomePage() {
 
         {/* PARTNERS */}
         <div className={styles.partners}>
-          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Coinbase" />
-          <img src="../assets/img/HomePage/logo_02.png" alt="Spotify" />
-          <img src="../assets/img/HomePage/logo_03.png" alt="Slack" />
-          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Dropbox" />
-          <img src="../assets/img/HomePage/logo_04.png" alt="Webflow" />
-          <img src="../assets/img/HomePage/logo_01_vku.png" alt="Zoom" />
+          <Image
+            src="/assets/img/HomePage/logo_01_vku.png"
+            alt="VKU"
+            width={120}
+            height={40}
+          />
+          <Image
+            src="/assets/img/HomePage/logo_02.png"
+            alt="Partner 2"
+            width={120}
+            height={40}
+          />
+          <Image
+            src="/assets/img/HomePage/logo_03.png"
+            alt="Partner 3"
+            width={120}
+            height={40}
+          />
+          <Image
+            src="/assets/img/HomePage/logo_01_vku.png"
+            alt="VKU"
+            width={120}
+            height={40}
+          />
+          <Image
+            src="/assets/img/HomePage/logo_04.png"
+            alt="Partner 4"
+            width={120}
+            height={40}
+          />
+          <Image
+            src="/assets/img/HomePage/logo_01_vku.png"
+            alt="VKU"
+            width={120}
+            height={40}
+          />
         </div>
       </section>
       {/* End hero */}
@@ -123,28 +213,19 @@ function HomePage() {
       </section>
       {/* End Experience with Number */}
 
-      {/* SearchSection */}
-      <SearchSection />
-      {/* End SearchSection */}
+      {/* Lazy loaded sections */}
+      <LazySearchSection />
+      <LazyJobsSection />
+      <LazyFashionSection />
+      <LazyImpressiveNumbersSection />
+      <LazyThiTruongHomNay />
 
-      {/* JobsSection */}
-      <JobsSection />
-      {/* End JobsSection */}
-
-      {/* FashionSection */}
-      <FashionSection />
-      {/* End FashionSection */}
-
-      {/* ImpressiveNumbersSection */}
-      <ImpressiveNumbersSection />
-      {/* end ImpressiveNumbersSection */}
-
-      {/* ThiTruongHomNay */}
-      <ThiTruongHomNay />
-      {/* end ThiTruongHomNay */}
       <Footer />
       <ChatButton />
     </>
   );
-}
+});
+
+HomePage.displayName = "HomePage";
+
 export default HomePage;

@@ -67,7 +67,7 @@
 .popup {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   gap: 4px;
   min-width: 200px;
 }

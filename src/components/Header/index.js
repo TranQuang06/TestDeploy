@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo, memo } from "react";
 import {
   RiseOutlined,
   UserOutlined,
@@ -13,14 +13,15 @@ import {
 import { Avatar, Space, Button, Dropdown } from "antd";
 import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
+import { performanceUtils } from "../../lib/utils";
 import styles from "../Header/Header.module.css";
 
-function Header() {
+const Header = memo(() => {
   const [scrolled, setScrolled] = useState(false);
   const { user, userProfile, loading, logout, isAuthenticated } = useAuth();
 
-  // Helper functions for user data
-  const getUserDisplayName = () => {
+  // Memoized helper functions for user data
+  const getUserDisplayName = useMemo(() => {
     if (userProfile?.firstName && userProfile?.lastName) {
       return `${userProfile.firstName} ${userProfile.lastName}`;
     }
@@ -34,146 +35,148 @@ function Header() {
       return user.email.split("@")[0];
     }
     return "User";
-  };
+  }, [
+    userProfile?.firstName,
+    userProfile?.lastName,
+    userProfile?.displayName,
+    user?.displayName,
+    user?.email,
+  ]);
 
-  const getUserAvatar = () => {
+  const getUserAvatar = useMemo(() => {
     return userProfile?.avatar || user?.photoURL || null;
-  };
+  }, [userProfile?.avatar, user?.photoURL]);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       await logout();
     } catch (error) {
       console.error("Logout error:", error);
     }
-  };
+  }, [logout]);
+
+  // Optimized scroll handler with throttle
+  const handleScroll = useCallback(
+    performanceUtils.throttle(() => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+    }, 16), // 60fps
+    []
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Đơn giản hóa logic kiểm tra scroll
-      const isScrolled = window.scrollY > 50;
-
-      // Chỉ cập nhật state khi có thay đổi để tránh re-render không cần thiết
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    // Thêm debounce để tránh gọi hàm quá nhiều lần
-    let scrollTimeout;
-    const debouncedHandleScroll = () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      scrollTimeout = setTimeout(handleScroll, 10);
-    };
-
-    // Đăng ký sự kiện với hàm debounced
-    window.addEventListener("scroll", debouncedHandleScroll, { passive: true });
-
-    // Gọi ngay lập tức một lần để thiết lập trạng thái ban đầu
+    // Initial scroll check
     handleScroll();
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
-      // Dọn dẹp sự kiện
-      window.removeEventListener("scroll", debouncedHandleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [scrolled]); // Chỉ phụ thuộc vào scrolled
+  }, [handleScroll]);
 
-  // User dropdown menu items
-  const userMenuItems = [
-    {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: "Profile",
-      onClick: () => {
-        window.location.href = "/profile";
+  // Memoized user dropdown menu items
+  const userMenuItems = useMemo(
+    () => [
+      {
+        key: "profile",
+        icon: <UserOutlined />,
+        label: "Profile",
+        onClick: () => {
+          window.location.href = "/profile";
+        },
       },
-    },
-    {
-      key: "settings",
-      icon: <SettingOutlined />,
-      label: "Settings",
-      onClick: () => {
-        window.location.href = "/settings";
+      {
+        key: "settings",
+        icon: <SettingOutlined />,
+        label: "Settings",
+        onClick: () => {
+          window.location.href = "/settings";
+        },
       },
-    },
-    // Add admin link for admin users
-    ...(userProfile?.role === "admin"
-      ? [
-          {
-            key: "admin",
-            icon: <RiseOutlined />,
-            label: "Admin Panel",
-            onClick: () => {
-              window.location.href = "/Admin";
+      // Add admin link for admin users
+      ...(userProfile?.role === "admin"
+        ? [
+            {
+              key: "admin",
+              icon: <RiseOutlined />,
+              label: "Admin Panel",
+              onClick: () => {
+                window.location.href = "/Admin";
+              },
             },
-          },
-        ]
-      : []),
-    {
-      type: "divider",
-    },
-    {
-      key: "logout",
-      icon: <LogoutOutlined />,
-      label: "Logout",
-      onClick: handleLogout,
-    },
-  ];
+          ]
+        : []),
+      {
+        type: "divider",
+      },
+      {
+        key: "logout",
+        icon: <LogoutOutlined />,
+        label: "Logout",
+        onClick: handleLogout,
+      },
+    ],
+    [userProfile?.role, handleLogout]
+  );
 
-  // Dropdown menu cho "Việc làm" với icons
-  const jobsMenuItems = [
-    {
-      key: "find-job",
-      icon: <SearchOutlined />,
-      label: <Link href="/FindJob">Tìm việc làm ngay</Link>,
-      description: "Khám phá cơ hội việc làm phù hợp với bạn",
-    },
-    {
-      key: "jobs-map",
-      icon: <EnvironmentOutlined />,
-      label: <Link href="/JobsMapPage">Bản đồ việc làm</Link>,
-      description: "Xem việc làm theo vị trí địa lý",
-    },
-  ];
+  // Memoized dropdown menu items
+  const jobsMenuItems = useMemo(
+    () => [
+      {
+        key: "find-job",
+        icon: <SearchOutlined />,
+        label: <Link href="/FindJob">Tìm việc làm ngay</Link>,
+        description: "Khám phá cơ hội việc làm phù hợp với bạn",
+      },
+      {
+        key: "jobs-map",
+        icon: <EnvironmentOutlined />,
+        label: <Link href="/JobsMapPage">Bản đồ việc làm</Link>,
+        description: "Xem việc làm theo vị trí địa lý",
+      },
+    ],
+    []
+  );
 
-  // Dropdown menu cho "Công cụ" với icons
-  const toolsMenuItems = [
-    {
-      key: "create-cv",
-      icon: <FileTextOutlined />,
-      label: <Link href="/CreateCV">Tạo CV</Link>,
-      description: "Tạo CV chuyên nghiệp trong vài phút",
-    },
-    {
-      key: "text-to-speech",
-      icon: <AudioOutlined />,
-      label: <Link href="/TextToSpeech">Chuyển văn bản thành giọng nói</Link>,
-      description: "Chuyển đổi văn bản thành âm thanh tự nhiên",
-    },
-  ];
+  const toolsMenuItems = useMemo(
+    () => [
+      {
+        key: "create-cv",
+        icon: <FileTextOutlined />,
+        label: <Link href="/CreateCV">Tạo CV</Link>,
+        description: "Tạo CV chuyên nghiệp trong vài phút",
+      },
+      {
+        key: "text-to-speech",
+        icon: <AudioOutlined />,
+        label: <Link href="/TextToSpeech">Chuyển văn bản thành giọng nói</Link>,
+        description: "Chuyển đổi văn bản thành âm thanh tự nhiên",
+      },
+    ],
+    []
+  );
 
-  // Custom dropdown render để hiển thị menu hiện đại hơn
-  const renderDropdownMenu = (items) => ({
-    items: items.map((item) => ({
-      key: item.key,
-      label: (
-        <div className={styles.customDropdownItem}>
-          <div className={styles.dropdownItemIcon}>{item.icon}</div>
-          <div className={styles.dropdownItemContent}>
-            <div className={styles.dropdownItemLabel}>{item.label}</div>
-            <div className={styles.dropdownItemDescription}>
-              {item.description}
+  // Memoized dropdown render function
+  const renderDropdownMenu = useCallback(
+    (items) => ({
+      items: items.map((item) => ({
+        key: item.key,
+        label: (
+          <div className={styles.customDropdownItem}>
+            <div className={styles.dropdownItemIcon}>{item.icon}</div>
+            <div className={styles.dropdownItemContent}>
+              <div className={styles.dropdownItemLabel}>{item.label}</div>
+              <div className={styles.dropdownItemDescription}>
+                {item.description}
+              </div>
             </div>
           </div>
-        </div>
-      ),
-    })),
-  });
+        ),
+      })),
+    }),
+    []
+  );
 
   return (
     <header
@@ -299,6 +302,8 @@ function Header() {
       </div>
     </header>
   );
-}
+});
+
+Header.displayName = "Header";
 
 export default Header;
