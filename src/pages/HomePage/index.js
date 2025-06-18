@@ -72,7 +72,7 @@ const HomePage = memo(() => {
         {/* LEFT */}
         <div className={styles.left}>
           <h1>
-            Tìm việc làm phù hợp
+            Tìm việc làm phù
             <br />
             dễ dàng và nhanh chóng{" "}
           </h1>
